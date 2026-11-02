@@ -38,7 +38,41 @@
 
 **Push result:** Succeeded (`main` → `main` on `https://github.com/innouguru/CrackSight-AI`).
 
-**Outstanding issues:** None from publication; application implementation (Milestone 1: Backend Foundation) remains the next milestone.
+**Outstanding issues:** None from publication; application implementation (Milestone 2: Backend Foundation) was the next milestone.
+
+### 2026-11-02 — Milestone 2: Backend Foundation (`0c8c091`)
+
+**Summary:** Implemented the FastAPI backend foundation for CrackSight AI.
+
+**Files created:**
+- `.env.example` — environment configuration template with placeholders only
+- `requirements.txt` — added FastAPI, uvicorn, python-dotenv, psycopg2-binary, boto3, httpx, python-jose[cryptography] (not installed locally per AGENTS.md)
+- `src/crack_detection/backend/__init__.py` — backend package init
+- `src/crack_detection/backend/main.py` — FastAPI app entry point with health root endpoint
+- `src/crack_detection/backend/config.py` — environment-based configuration (pydantic-settings)
+- `src/crack_detection/backend/database.py` — Neon PostgreSQL connection + schema initialization
+- `src/crack_detection/backend/storage.py` — Cloudflare R2 object storage wrapper
+- `src/crack_detection/backend/exceptions.py` — centralized exception handling
+- `src/crack_detection/backend/middleware.py` — Clerk JWT verification middleware skeleton
+- `src/crack_detection/backend/dependencies.py` — shared dependencies (DB, storage, user identity)
+- `src/crack_detection/backend/schemas.py` — Pydantic request/response models
+- `src/crack_detection/backend/routers/__init__.py` — router package
+- `src/crack_detection/backend/routers/health.py` — `/health/live`, `/health/ready`
+- `src/crack_detection/backend/routers/auth.py` — Clerk sign-in URL, callback, token verify
+- `src/crack_detection/backend/routers/inspections.py` — CRUD for inspections (draft/completed lifecycle)
+- `src/crack_detection/backend/routers/photographs.py` — CRUD for photographs + reanalysis versioning
+- `src/crack_detection/backend/routers/reports.py` — PDF report generation endpoints skeleton
+- `tests/unit/test_backend.py` — unit tests for config, exceptions, schemas, storage, middleware
+
+**Tests executed:** None (backend dependencies not installed per AGENTS.md preservation rules)
+
+**Commit message:** `feat: implement Milestone 2 backend foundation`
+
+**Commit hash:** `0c8c091`
+
+**Push result:** Not pushed (AGENTS.md: never push unless explicitly requested).
+
+**Outstanding issues:** Backend dependencies not installed locally; Clerk JWT verification is a skeleton (full integration in Milestone 3); PDF report generation library unresolved (ReportLab vs WeasyPrint).
 
 ## Prior Context
 

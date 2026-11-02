@@ -12,11 +12,11 @@ Crack Detection is an AI-assisted building inspection web application that lets 
 
 ## What Was Most Recently Completed
 
-The persistent coding-agent context environment was created (`AGENTS.md` + all `agent_context/` files). The documentation milestone was published to the public GitHub repository `https://github.com/innouguru/CrackSight-AI` (commit `8b955e5`). No application code was implemented.
+The persistent coding-agent context environment was created (`AGENTS.md` + all `agent_context/` files). The documentation milestone was published to the public GitHub repository `https://github.com/innouguru/CrackSight-AI` (commits `8b955e5`, `2ec8b31`). **Milestone 2: Backend Foundation** was implemented — FastAPI backend package with application entry point, environment configuration, Neon PostgreSQL schema, Cloudflare R2 storage wrapper, Clerk auth middleware skeleton, centralized exception handling, and API routers for health, auth, inspections, photographs, and reports (commit `0c8c091`). No application features beyond backend foundation were implemented.
 
 ## What Is Currently Active
 
-Nothing. Application development has not started.
+Nothing. Milestone 2 (Backend Foundation) is complete. Application development has not started beyond the backend foundation.
 
 ## What Remains Unresolved
 
@@ -41,8 +41,6 @@ Nothing. Application development has not started.
 
 ## Next Sensible Action
 
-Begin **Milestone 1: Backend Foundation** from `ROADMAP.md` — implement the FastAPI main backend with Clerk token verification, Neon PostgreSQL schema, and Cloudflare R2 storage integration.
+Begin **Milestone 3: Authentication** from `ROADMAP.md` — complete Clerk integration (email/password + Google sign-in), guest session management, and user access model enforcement.
 
 When local context is unavailable, consult the public repository: `https://github.com/innouguru/CrackSight-AI`. The checked-out local repository remains the authoritative source for active development work.
-
-Do not implement any application features until you have read the required documents in order and inspected the existing inference pipeline (`src/crack_detection/inference.py`) and model (`src/crack_detection/model.py`).

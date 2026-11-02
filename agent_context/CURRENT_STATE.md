@@ -35,26 +35,32 @@
 
 ## What Is Planned (Not Implemented)
 
-### Application (not started)
-- React + TypeScript frontend
-- FastAPI main backend
-- Clerk authentication (email/password + Google)
-- Neon PostgreSQL database schema
-- Cloudflare R2 object storage
-- Private inference service wrapping existing pipeline
-- Guest analysis workflow (3-analyses-per-session limit)
-- Registered-user inspections (draft/completed lifecycle)
-- Dashboard and history with filtering
-- PDF report generation
-- Batch processing with independent per-photo handling
-- Prediction versioning for reanalysis
+### Application (completed foundation)
+- FastAPI backend package: `src/crack_detection/backend/`
+  - `main.py` — application entry point with health root endpoint
+  - `config.py` — environment-based configuration (pydantic-settings)
+  - `database.py` — Neon PostgreSQL connection + schema initialization
+  - `storage.py` — Cloudflare R2 object storage wrapper
+  - `exceptions.py` — centralized exception handling
+  - `middleware.py` — Clerk JWT verification middleware skeleton
+  - `dependencies.py` — shared dependencies (DB, storage, user identity)
+  - `schemas.py` — Pydantic request/response models
+  - `routers/health.py` — `/health/live`, `/health/ready`
+  - `routers/auth.py` — Clerk sign-in URL, callback, token verify
+  - `routers/inspections.py` — CRUD for inspections (draft/completed)
+  - `routers/photographs.py` — CRUD for photographs + reanalysis
+  - `routers/reports.py` — PDF report generation skeleton
+- Backend dependencies added to `requirements.txt` (not installed locally)
+- `.env.example` with placeholder configuration
+- Unit tests: `tests/unit/test_backend.py` (written, not runnable until deps installed)
 
 ## Current Development Milestone
 
-**Documentation and context infrastructure (this milestone)** — complete.
-**Documentation publication to GitHub** — complete (`8b955e5`).
+**Documentation and context infrastructure — complete.**
+**Documentation publication to GitHub — complete** (`8b955e5`, `2ec8b31`).
+**Milestone 2: Backend Foundation — complete** (`0c8c091`).
 
-**Next milestone:** Milestone 1 of ROADMAP.md — Backend Foundation (FastAPI backend with Clerk integration, PostgreSQL schema, R2 storage).
+**Next milestone:** Milestone 3 of ROADMAP.md — Authentication (Clerk integration, guest + registered user access model).
 
 ## Known Issues and Blockers
 

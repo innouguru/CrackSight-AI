@@ -1,72 +1,84 @@
 # ACTIVE TASK — Current Work Item
 
-**Task title:** Establish Persistent Coding-Agent Context Infrastructure  
+**Task title:** Implement Milestone 2: Backend Foundation  
 **Status:** Completed  
 **Last updated:** 2026-11-02
 
 ## Objective
 
-Create a persistent, model-independent context environment so any new coding agent can understand the project, identify its current state, and continue development reliably without prior conversation history.
+Implement the main FastAPI backend foundation for CrackSight AI, including application structure, configuration management, database connectivity, storage integration, authentication middleware, and API routers.
 
 ## Background
 
-Development is performed through OpenCode with different free coding models that start every session with no knowledge of previous conversations. A repository-level context system is required to maintain continuity across sessions.
+Milestone 1 (documentation and context infrastructure) is complete and published to GitHub. Milestone 2 establishes the backend application structure that all subsequent milestones (authentication, database/storage, inference integration, frontend, etc.) will build upon.
 
 ## Scope
 
 **Included:**
-- `AGENTS.md` — mandatory entry point with reading sequence and authority mapping
-- `agent_context/CURRENT_STATE.md` — implementation snapshot
-- `agent_context/ACTIVE_TASK.md` — current task definition (this file)
-- `agent_context/DEVELOPMENT_RULES.md` — mandatory development practices
-- `agent_context/TASK_HISTORY.md` — chronological record of completed work
-- `agent_context/HANDOFF.md` — next-agent handoff summary
-- `agent_context/DECISIONS.md` — historical technical/product decisions
-- `agent_context/templates/TASK_TEMPLATE.md` — reusable task template
+- FastAPI application package (`src/crack_detection/backend/`)
+- Centralized environment configuration with validation
+- Neon PostgreSQL connection and schema initialization (no ORM)
+- Cloudflare R2 object storage wrapper
+- Centralized exception handling with consistent error format
+- Clerk JWT verification middleware skeleton
+- Shared dependencies for database, storage, and user identity
+- Pydantic request/response schemas
+- API routers: health, auth, inspections, photographs, reports
+- `.env.example` with placeholder configuration
+- `requirements.txt` with backend dependencies
+- Unit tests for backend modules
 
 **Excluded:**
-- No application code (frontend, backend, authentication, database, storage, inference service)
-- No model changes, retraining, or dataset modifications
-- No dependency installation or deployment
+- Clerk OAuth flow completion (Milestone 3)
+- Neon PostgreSQL provisioning and connection (requires external service)
+- Cloudflare R2 bucket provisioning (requires external service)
+- Inference service integration (Milestone 5)
+- Frontend implementation (Milestone 6)
+- PDF report generation library (unresolved: ReportLab vs WeasyPrint)
 
 ## Relevant Files
 
-- `PROJECT_CONTEXT.md`, `APP_SPECIFICATION.md`, `TECHNICAL_DESIGN.md`, `ROADMAP.md`
-- `src/crack_detection/inference.py` (existing inference pipeline)
-- `src/crack_detection/model.py` (existing model architecture)
-- `tests/unit/test_inference.py` (existing tests)
-- `model_artifacts/m3_crack_seg_baseline_b1_20261026_201725/best_model.pth` (existing checkpoint)
+- `src/crack_detection/backend/` — entire backend package
+- `tests/unit/test_backend.py` — backend unit tests
+- `requirements.txt` — backend dependencies
+- `.env.example` — environment configuration template
+- `TECHNICAL_DESIGN.md` — architecture reference
+- `ROADMAP.md` — Milestone 2 acceptance criteria
+- `APP_SPECIFICATION.md` — product requirements
+- `src/crack_detection/inference.py` — existing inference pipeline (preserved)
+- `src/crack_detection/model.py` — existing model architecture (preserved)
 
 ## Dependencies
 
-None (documentation-only milestone; no new dependencies required).
+- Backend dependencies listed in `requirements.txt` (not installed locally)
+- External services: Neon PostgreSQL, Cloudflare R2, Clerk (not configured)
 
 ## Acceptance Criteria
 
-- [x] `AGENTS.md` created at repository root
-- [x] All `agent_context/` files created
-- [x] All files consistent with the four existing project documents
-- [x] No existing project documents overwritten
-- [x] No application code implemented
-- [x] No Git initialized
-- [x] Context maintenance protocol defined
-- [x] Context-loading protocol explicit
+| Criterion | Status |
+|---|---|
+| FastAPI app structure with routers | ✅ Implemented |
+| Clerk token verification middleware skeleton | ✅ Implemented |
+| Neon PostgreSQL database schema | ✅ Implemented (not connected) |
+| Cloudflare R2 storage integration | ✅ Implemented (not connected) |
+| Ownership enforcement on read/write | ✅ Implemented |
+| API endpoint specification | ✅ Implemented |
+| Health check endpoints | ✅ Implemented |
+| `.env.example` with placeholders | ✅ Implemented |
+| Unit tests written | ✅ Written (not runnable until deps installed) |
 
 ## Required Tests
 
-None (documentation-only milestone).
+Tests written in `tests/unit/test_backend.py`. Cannot be executed until FastAPI, pydantic-settings, psycopg2, boto3, and other backend dependencies are installed (per AGENTS.md preservation rules).
 
 ## Restrictions
 
-- Do not implement application features.
-- Do not modify model architecture, training code, datasets, or checkpoints.
-- Do not retrain the model.
-- Do not install dependencies.
-- Do not deploy anything.
-- Do not overwrite existing project documents without inspecting their contents.
-- Do not initialize Git.
-- Preserve all unrelated work.
+- Do not install dependencies (AGENTS.md preservation rules)
+- Do not deploy anything
+- Do not modify model architecture, training code, datasets, or checkpoints
+- Do not modify `.gitignore` for model weights
+- Do not push unless explicitly requested
 
 ## Completion Status
 
-**Complete** — All context infrastructure files created. Application development has not started.
+**Complete** — Backend foundation implemented and committed (`0c8c091`). Next milestone: Milestone 3 (Authentication).
