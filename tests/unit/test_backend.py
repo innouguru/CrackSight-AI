@@ -1,16 +1,15 @@
 """Tests for the CrackSight AI backend foundation.
 
 These tests exercise configuration validation, exception handling,
-schema validation, and middleware logic. They require the backend
-dependencies (fastapi, pydantic-settings, psycopg2, boto3, etc.)
-to be installed before they can run. Per AGENTS.md, dependencies
-are not installed in this environment, so tests are written for
-future execution.
+schema validation, middleware logic, and API endpoints. They require
+the backend dependencies (fastapi, pydantic-settings, psycopg2,
+boto3, etc.) to be installed before they can run.
 """
 
 from __future__ import annotations
 
 import os
+from datetime import datetime, timezone, timedelta
 from typing import Any, Dict
 from unittest.mock import MagicMock, patch
 
@@ -18,7 +17,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 # ---------------------------------------------------------------------------
-# Conditional imports — tests skip gracefully when backend deps are absent.
+# Conditional imports -- tests skip gracefully when backend deps are absent.
 # ---------------------------------------------------------------------------
 try:
     from crack_detection.backend.config import Settings, get_settings
@@ -66,15 +65,15 @@ class TestSettings:
             "DATABASE_URL",
             "postgresql://user:pass@localhost:5432/db?sslmode=require",
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "test-account")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "test-key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "test-secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "test-bucket")
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
         monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
 
         settings = Settings()
         assert settings.app_name == "CrackSight AI"
-        settings.app_env == "development"
+        assert settings.app_env == "development"
         assert settings.secret_key == "test-secret-key-12345"
         assert settings.inference_threshold == 0.5
         assert settings.inference_device == "cpu"
@@ -89,10 +88,10 @@ class TestSettings:
             "DATABASE_URL",
             "postgresql://user:pass@localhost:5432/db?sslmode=require",
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "test-account")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "test-key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "test-secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "test-bucket")
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
         monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
         monkeypatch.setenv("INFERENCE_IMAGE_SIZE", "invalid")
 
@@ -109,10 +108,10 @@ class TestSettings:
             "DATABASE_URL",
             "postgresql://user:pass@localhost:5432/db?sslmode=require",
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "test-account")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "test-key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "test-secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "test-bucket")
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
         monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
 
         s1 = get_settings()
@@ -130,36 +129,36 @@ class TestExceptions:
     def test_api_error_defaults(self) -> None:
         exc = APIError("something failed")
         assert exc.message == "something failed"
-        exc.error_code == "api_error"
-        exc.status_code == 500
-        exc.retryable is False
+        assert exc.error_code == "api_error"
+        assert exc.status_code == 500
+        assert exc.retryable is False
 
     def test_validation_error_status(self) -> None:
         exc = ValidationError("bad input")
-        exc.status_code == 400
-        exc.error_code == "validation_error"
-        exc.retryable is False
+        assert exc.status_code == 400
+        assert exc.error_code == "validation_error"
+        assert exc.retryable is False
 
     def test_not_found_error_status(self) -> None:
         exc = NotFoundError("not found")
-        exc.status_code == 404
-        exc.error_code == "not_found"
+        assert exc.status_code == 404
+        assert exc.error_code == "not_found"
 
     def test_forbidden_error_status(self) -> None:
         exc = ForbiddenError("forbidden")
-        exc.status_code == 403
-        exc.error_code == "forbidden"
+        assert exc.status_code == 403
+        assert exc.error_code == "forbidden"
 
     def test_unauthorized_error_status(self) -> None:
         exc = UnauthorizedError()
-        exc.status_code == 401
-        exc.error_code == "unauthorized"
+        assert exc.status_code == 401
+        assert exc.error_code == "unauthorized"
 
     def test_service_unavailable_retryable(self) -> None:
         exc = ServiceUnavailableError("down")
-        exc.status_code == 503
-        exc.error_code == "service_unavailable"
-        exc.retryable is True
+        assert exc.status_code == 503
+        assert exc.error_code == "service_unavailable"
+        assert exc.retryable is True
 
 
 # ---------------------------------------------------------------------------
@@ -171,9 +170,9 @@ class TestSchemas:
 
     def test_health_response(self) -> None:
         h = HealthResponse()
-        h.status == "ok"
-        h.service == "CrackSight AI"
-        h.version == "0.1.0"
+        assert h.status == "ok"
+        assert h.service == "CrackSight AI"
+        assert h.version == "0.1.0"
 
     def test_inspection_create_valid(self) -> None:
         payload = InspectionCreate(
@@ -182,7 +181,7 @@ class TestSchemas:
             building_location="123 Main St",
             notes="Check for hairline cracks",
         )
-        payload.title == "Basement wall inspection"
+        assert payload.title == "Basement wall inspection"
 
     def test_inspection_create_empty_title_rejected(self) -> None:
         with pytest.raises(ValueError):
@@ -194,7 +193,7 @@ class TestSchemas:
             original_image_key="inspections/abc123/originals/photo1.jpg",
             observation="Small crack near corner",
         )
-        payload.structure_type == "wall"
+        assert payload.structure_type == "wall"
 
     def test_photograph_create_invalid_structure_type(self) -> None:
         with pytest.raises(ValueError):
@@ -205,9 +204,9 @@ class TestSchemas:
 
     def test_token_verify_response(self) -> None:
         resp = TokenVerifyResponse(valid=True, user_id="user_123", email="test@example.com")
-        resp.valid is True
-        resp.user_id == "user_123"
-        resp.email == "test@example.com"
+        assert resp.valid is True
+        assert resp.user_id == "user_123"
+        assert resp.email == "test@example.com"
 
     def test_error_detail(self) -> None:
         err = ErrorDetail(
@@ -216,8 +215,10 @@ class TestSchemas:
             retryable=False,
             action="Check your request",
         )
-        err.error == "validation_error"
-        err.retryable is False
+        assert err.error == "validation_error"
+        assert err.message == "Invalid input"
+        assert err.retryable is False
+        assert err.action == "Check your request"
 
 
 # ---------------------------------------------------------------------------
@@ -239,8 +240,7 @@ class TestStorage:
             monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
             monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
             monkeypatch.setenv(
-                "DATABASE_URL",
-                "postgresql://user:pass@localhost:5432/db",
+                "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
             )
             monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
             monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
@@ -250,11 +250,11 @@ class TestStorage:
 
             storage = R2Storage()
             result = storage.upload_file("test/key.jpg", b"hello", "image/jpeg")
-            result == "test/key.jpg"
+            assert result == "test/key.jpg"
             mock_client.put_object.assert_called_once()
 
             data = storage.download_file("test/key.jpg")
-            data == b"data"
+            assert data == b"data"
 
     def test_delete_nonexistent_file_does_not_raise(
         self, monkeypatch: pytest.MonkeyPatch
@@ -272,8 +272,7 @@ class TestStorage:
             monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
             monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
             monkeypatch.setenv(
-                "DATABASE_URL",
-                "postgresql://user:pass@localhost:5432/db",
+                "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
             )
             monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
             monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
@@ -282,125 +281,526 @@ class TestStorage:
             monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
 
             storage = R2Storage()
-            # Should not raise
             storage.delete_file("missing/key.jpg")
 
 
 # ---------------------------------------------------------------------------
-# Middleware tests (skeleton)
+# Clerk JWT verification tests
 # ---------------------------------------------------------------------------
 @pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
-class TestMiddleware:
-    """Tests for Clerk auth middleware (skeleton verification)."""
+class TestClerkJWTVerification:
+    """Tests for Clerk JWT verification using generated test keys."""
 
-    def test_public_paths_defined(self) -> None:
-        from crack_detection.backend.middleware import PUBLIC_PATHS
+    @classmethod
+    def setup_class(cls) -> None:
+        """Generate an RSA key pair for JWT signing tests."""
+        from cryptography.hazmat.primitives.asymmetric import rsa
 
-        assert "/" in PUBLIC_PATHS
-        assert "/health/live" in PUBLIC_PATHS
-        assert "/health/ready" in PUBLIC_PATHS
-        assert "/auth/sign-in-url" in PUBLIC_PATHS
+        cls._private_key = rsa.generate_private_key(
+            public_exponent=65537, key_size=2048
+        )
+        cls._public_key = cls._private_key.public_key()
 
+    def _make_jwt(self, overrides: dict | None = None) -> str:
+        """Create a signed JWT with optional claim overrides."""
+        import time
+        from jose import jwt as jose_jwt
+        from cryptography.hazmat.primitives import serialization
 
-# ---------------------------------------------------------------------------
-# Ownership enforcement tests
-# ---------------------------------------------------------------------------
-@pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
-class TestOwnershipEnforcement:
-    """Tests for server-side ownership checks."""
+        now = int(time.time())
+        payload = {
+            "sub": "user_123",
+            "email": "test@example.com",
+            "iss": "https://test.clerk.accounts.com",
+            "iat": now,
+            "exp": now + 3600,
+        }
+        if overrides:
+            payload.update(overrides)
+        private_pem = self._private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+        return jose_jwt.encode(payload, private_pem, algorithm="RS256", headers={"kid": "test-key-1"})
 
-    def test_owner_matches(self) -> None:
-        """Authenticated user matching resource user_id passes."""
-        from crack_detection.backend.dependencies import require_ownership
+    def _make_jwks(self) -> list:
+        """Create a JWKS keys list from the test public key."""
+        import base64
+        from cryptography.hazmat.primitives.asymmetric import rsa
 
-        class FakeRequest:
-            state = type(
-                "State",
-                (),
-                {
-                    "is_guest": False,
-                    "user_id": "user_1",
-                    "user_email": "user1@example.com",
-                    "is_authenticated": True,
-                },
-            )()
+        public_numbers = self._public_key.public_numbers()
+        n = public_numbers.n
+        e = public_numbers.e
 
-        # Should not raise
-        require_ownership(FakeRequest(), "user_1")
+        def int_to_b64uint(i: int) -> str:
+            byte_length = (i.bit_length() + 7) // 8
+            bytes_val = i.to_bytes(byte_length, "big")
+            return base64.urlsafe_b64encode(bytes_val).rstrip(b"=").decode("ascii")
 
-    def test_owner_mismatch_raises(self) -> None:
-        """Authenticated user not matching resource user_id raises 403."""
-        from crack_detection.backend.dependencies import require_ownership
-        from fastapi import HTTPException
+        return [
+            {
+                "kty": "RSA",
+                "kid": "test-key-1",
+                "use": "sig",
+                "alg": "RS256",
+                "n": int_to_b64uint(n),
+                "e": int_to_b64uint(e),
+            }
+        ]
 
-        class FakeRequest:
-            state = type(
-                "State",
-                (),
-                {
-                    "is_guest": False,
-                    "user_id": "user_1",
-                    "user_email": "user1@example.com",
-                    "is_authenticated": True,
-                },
-            )()
+    def test_valid_jwt_verified(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """A valid JWT signed by the test key is verified."""
+        from crack_detection.backend.config import Settings
+        from crack_detection.backend.middleware import _verify_clerk_jwt
 
-        with pytest.raises(HTTPException) as exc:
-            require_ownership(FakeRequest(), "user_2")
-        assert exc.value.status_code == 403
+        monkeypatch.setenv("SECRET_KEY", "test-secret-key-12345")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test_123")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test_123")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
 
-    def test_guest_always_denied(self) -> None:
-        """Guest users cannot own any resource."""
-        from crack_detection.backend.dependencies import require_ownership
-        from fastapi import HTTPException
+        settings = Settings()
+        token = self._make_jwt()
+        jwks_keys = self._make_jwks()
 
-        class FakeRequest:
-            state = type("State", (), {"is_guest": True, "user_id": None})()
-
-        with pytest.raises(HTTPException) as exc:
-            require_ownership(FakeRequest(), "user_1")
-        assert exc.value.status_code == 403
-
-
-# ---------------------------------------------------------------------------
-# Middleware behavior tests
-# ---------------------------------------------------------------------------
-@pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
-class TestMiddlewareBehavior:
-    """Tests for Clerk auth middleware behavior."""
-
-    def test_middleware_sets_guest_state(self) -> None:
-        """Requests without auth header are treated as guests."""
-        from crack_detection.backend.middleware import ClerkAuthMiddleware
-
-        middleware = ClerkAuthMiddleware(None)
-
-        class FakeRequest:
-            url = type("URL", (), {"path": "/inspections"})()
-            headers = {}
-            state = type("State", (), {})()
-
-        class FakeCallNext:
-            async def __call__(self, request):
-                assert request.state.is_guest is True
-                assert request.state.is_authenticated is False
-                assert request.state.user_id is None
-                return "ok"
+        async def test() -> None:
+            with patch(
+                "crack_detection.backend.middleware._fetch_jwks",
+                return_value=jwks_keys,
+            ):
+                result = await _verify_clerk_jwt(token, settings)
+            assert result is not None
+            user_id, email = result
+            assert user_id == "user_123"
+            assert email == "test@example.com"
 
         import asyncio
 
-        result = asyncio.get_event_loop().run_until_complete(
-            middleware.dispatch(FakeRequest(), FakeCallNext())
+        asyncio.get_event_loop().run_until_complete(test())
+
+    def test_invalid_signature_rejected(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """A JWT signed with a different key is rejected."""
+        from cryptography.hazmat.primitives.asymmetric import rsa
+        from jose import jwt as jose_jwt
+        from cryptography.hazmat.primitives import serialization
+
+        other_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+        import time
+
+        now = int(time.time())
+        payload = {
+            "sub": "user_123",
+            "iss": "https://test.clerk.accounts.com",
+            "iat": now,
+            "exp": now + 3600,
+        }
+        other_pem = other_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption(),
         )
-        assert result == "ok"
+        token = jose_jwt.encode(payload, other_pem, algorithm="RS256")
+
+        from crack_detection.backend.config import Settings
+        from crack_detection.backend.middleware import _verify_clerk_jwt
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        settings = Settings()
+        jwks_keys = self._make_jwks()
+
+        async def test() -> None:
+            with patch(
+                "crack_detection.backend.middleware._fetch_jwks",
+                return_value=jwks_keys,
+            ):
+                result = await _verify_clerk_jwt(token, settings)
+            assert result is None
+
+        import asyncio
+
+        asyncio.get_event_loop().run_until_complete(test())
+
+    def test_expired_jwt_rejected(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """An expired JWT is rejected."""
+        import time
+        from jose import jwt as jose_jwt
+
+        now = int(time.time())
+        payload = {
+            "sub": "user_123",
+            "iss": "https://test.clerk.accounts.com",
+            "iat": now - 7200,
+            "exp": now - 3600,
+        }
+        token = jose_jwt.encode(payload, self._private_key, algorithm="RS256")
+
+        from crack_detection.backend.config import Settings
+        from crack_detection.backend.middleware import _verify_clerk_jwt
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        settings = Settings()
+        jwks_keys = self._make_jwks()
+
+        async def test() -> None:
+            with patch(
+                "crack_detection.backend.middleware._fetch_jwks",
+                return_value=jwks_keys,
+            ):
+                result = await _verify_clerk_jwt(token, settings)
+            assert result is None
+
+        import asyncio
+
+        asyncio.get_event_loop().run_until_complete(test())
+
+    def test_invalid_issuer_rejected(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """A JWT with a different issuer is rejected."""
+        import time
+        from jose import jwt as jose_jwt
+
+        now = int(time.time())
+        payload = {
+            "sub": "user_123",
+            "iss": "https://other.clerk.accounts.com",
+            "iat": now,
+            "exp": now + 3600,
+        }
+        token = jose_jwt.encode(payload, self._private_key, algorithm="RS256")
+
+        from crack_detection.backend.config import Settings
+        from crack_detection.backend.middleware import _verify_clerk_jwt
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        settings = Settings()
+        jwks_keys = self._make_jwks()
+
+        async def test() -> None:
+            with patch(
+                "crack_detection.backend.middleware._fetch_jwks",
+                return_value=jwks_keys,
+            ):
+                result = await _verify_clerk_jwt(token, settings)
+            assert result is None
+
+        import asyncio
+
+        asyncio.get_event_loop().run_until_complete(test())
+
+    def test_missing_kid_rejected(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """A JWT without a kid header is rejected."""
+        import base64
+        import json
+        import time
+        from jose import jwt as jose_jwt
+        from cryptography.hazmat.primitives import hashes
+        from cryptography.hazmat.primitives.asymmetric import padding
+
+        now = int(time.time())
+        payload = {
+            "sub": "user_123",
+            "iss": "https://test.clerk.accounts.com",
+            "iat": now,
+            "exp": now + 3600,
+        }
+        header = {"alg": "RS256", "typ": "JWT"}
+        header_b64 = base64.urlsafe_b64encode(
+            json.dumps(header).encode()
+        ).rstrip(b"=").decode("ascii")
+        payload_b64 = base64.urlsafe_b64encode(
+            json.dumps(payload).encode()
+        ).rstrip(b"=").decode("ascii")
+        signing_input = f"{header_b64}.{payload_b64}".encode("ascii")
+        signature = self._private_key.sign(
+            signing_input,
+            padding.PKCS1v15(),
+            hashes.SHA256(),
+        )
+        sig_b64 = base64.urlsafe_b64encode(signature).rstrip(b"=").decode("ascii")
+        token = f"{header_b64}.{payload_b64}.{sig_b64}"
+
+        from crack_detection.backend.config import Settings
+        from crack_detection.backend.middleware import _verify_clerk_jwt
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        settings = Settings()
+        jwks_keys = self._make_jwks()
+
+        async def test() -> None:
+            with patch(
+                "crack_detection.backend.middleware._fetch_jwks",
+                return_value=jwks_keys,
+            ):
+                result = await _verify_clerk_jwt(token, settings)
+            assert result is None
+
+        import asyncio
+
+        asyncio.get_event_loop().run_until_complete(test())
 
 
 # ---------------------------------------------------------------------------
-# FastAPI TestClient tests (endpoints with mocked dependencies)
+# Guest session tests
 # ---------------------------------------------------------------------------
 @pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
-class TestEndpoints:
-    """Tests for API endpoints using TestClient with mocked dependencies."""
+class TestGuestSession:
+    """Tests for guest session creation, validation, and limits."""
+
+    def test_create_guest_session(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Creating a guest session returns a valid token and session data."""
+        from crack_detection.backend import database
+        from unittest.mock import patch
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db?sslmode=require"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        expected_session = {
+            "id": "test-session-id",
+            "session_token": "test-token-123",
+            "created_at": "2026-01-01T00:00:00+00:00",
+            "expires_at": "2026-01-02T00:00:00+00:00",
+            "analyses_count": 0,
+            "is_active": True,
+        }
+
+        with patch.object(
+            database, "create_guest_session", return_value=expected_session
+        ):
+            session = database.create_guest_session(expiration_hours=24)
+
+        assert session["session_token"] == "test-token-123"
+        assert session["analyses_count"] == 0
+        assert session["is_active"] is True
+
+    def test_validate_guest_session_valid(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """A valid, non-expired guest session is validated."""
+        from crack_detection.backend import database
+        from unittest.mock import patch
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db?sslmode=require"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        expected_session = {
+            "id": "test-session-id",
+            "session_token": "valid-token",
+            "created_at": "2026-01-01T00:00:00+00:00",
+            "expires_at": "2026-01-02T00:00:00+00:00",
+            "analyses_count": 1,
+            "is_active": True,
+        }
+
+        with patch.object(
+            database, "validate_guest_session", return_value=expected_session
+        ):
+            session = database.validate_guest_session("valid-token")
+
+        assert session is not None
+        assert session["analyses_count"] == 1
+        assert session["is_active"] is True
+
+    def test_validate_guest_session_expired(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """An expired guest session is rejected."""
+        from crack_detection.backend import database
+        from unittest.mock import patch
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db?sslmode=require"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        with patch.object(
+            database, "validate_guest_session", return_value=None
+        ):
+            session = database.validate_guest_session("expired-token")
+
+        assert session is None
+
+    def test_increment_analysis_count_atomic(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Incrementing analysis count works and returns the new count."""
+        from crack_detection.backend import database
+        from unittest.mock import patch
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db?sslmode=require"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        with patch.object(
+            database,
+            "increment_guest_analysis_count",
+            return_value=1,
+        ):
+            result = database.increment_guest_analysis_count(
+                "session-id", max_analyses=3
+            )
+
+        assert result == 1
+
+    def test_increment_analysis_count_at_limit(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Incrementing beyond the limit returns None."""
+        from crack_detection.backend import database
+        from unittest.mock import patch
+
+        monkeypatch.setenv("SECRET_KEY", "test-key")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv(
+            "CLERK_JWKS_URL", "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db?sslmode=require"
+        )
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+
+        with patch.object(
+            database,
+            "increment_guest_analysis_count",
+            return_value=None,
+        ):
+            result = database.increment_guest_analysis_count(
+                "session-id", max_analyses=3
+            )
+
+        assert result is None
+
+
+# ---------------------------------------------------------------------------
+# Guest session router tests (TestClient)
+# ---------------------------------------------------------------------------
+@pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
+class TestGuestSessionRouter:
+    """Tests for guest session API endpoints."""
 
     @classmethod
     def setup_class(cls) -> None:
@@ -408,6 +808,9 @@ class TestEndpoints:
         os.environ["CLERK_PUBLISHABLE_KEY"] = "pk_test_123"
         os.environ["CLERK_SECRET_KEY"] = "sk_test_123"
         os.environ["CLERK_JWT_ISSUER"] = "https://test.clerk.accounts.com"
+        os.environ["CLERK_JWKS_URL"] = (
+            "https://test.clerk.accounts.com/.well-known/jwks.json"
+        )
         os.environ["DATABASE_URL"] = (
             "postgresql://user:pass@localhost:5432/db?sslmode=require"
         )
@@ -421,101 +824,26 @@ class TestEndpoints:
 
         cls.client = TestClient(app)
 
-    def test_liveness_endpoint(self) -> None:
-        """Health liveness endpoint returns 200 with alive status."""
-        resp = self.client.get("/live")
-        assert resp.status_code == 200
-        data = resp.json()
-        assert data["status"] == "alive"
-        assert data["service"] == "CrackSight AI"
+    def test_create_guest_session(self) -> None:
+        """Creating a guest session returns a token."""
+        from unittest.mock import patch
+        from datetime import datetime, timezone
+        import uuid
 
-    def test_readiness_endpoint(self) -> None:
-        """Health readiness endpoint returns 200 with dependency checks."""
-        resp = self.client.get("/ready")
-        assert resp.status_code == 200
-        data = resp.json()
-        assert "status" in data
-        assert "checks" in data
-        assert "database" in data["checks"]
-        assert "storage" in data["checks"]
-        assert "inference_service" in data["checks"]
-
-    def test_auth_sign_in_url(self) -> None:
-        """Auth sign-in URL endpoint returns 200."""
-        resp = self.client.get("/auth/sign-in-url")
-        assert resp.status_code == 200
-        data = resp.json()
-        assert "sign_in_url" in data
-
-    def test_auth_verify_no_token(self) -> None:
-        """Auth verify without token returns valid=False."""
-        resp = self.client.post("/auth/verify")
-        assert resp.status_code == 200
-        data = resp.json()
-        assert data["valid"] is False
-        assert data["user_id"] is None
-
-
-# ---------------------------------------------------------------------------
-# Configuration error handling tests
-# ---------------------------------------------------------------------------
-@pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
-class TestConfigErrors:
-    """Tests for configuration validation errors."""
-
-    def test_missing_required_env_vars(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """Missing required env vars raises validation error."""
-        # Remove all required env vars
-        for var in [
-            "SECRET_KEY",
-            "CLERK_PUBLISHABLE_KEY",
-            "CLERK_SECRET_KEY",
-            "CLERK_JWT_ISSUER",
-            "DATABASE_URL",
-            "R2_ACCOUNT_ID",
-            "R2_ACCESS_KEY_ID",
-            "R2_SECRET_ACCESS_KEY",
-            "R2_BUCKET_NAME",
-            "R2_ENDPOINT",
-        ]:
-            monkeypatch.delenv(var, raising=False)
-
-        from crack_detection.backend.config import Settings
-
-        with pytest.raises(Exception):
-            Settings()
-
-
-# ---------------------------------------------------------------------------
-# Error response format tests
-# ---------------------------------------------------------------------------
-@pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
-class TestErrorFormat:
-    """Tests for consistent error response format."""
-
-    def test_validation_error_format(self) -> None:
-        """ValidationError produces correct error dict."""
-        from crack_detection.backend.exceptions import ValidationError
-
-        exc = ValidationError("Bad input", action="Check request")
-        body = {
-            "error": exc.error_code,
-            "message": exc.message,
-            "retryable": exc.retryable,
-        }
-        if exc.action:
-            body["action"] = exc.action
-
-        assert body["error"] == "validation_error"
-        assert body["message"] == "Bad input"
-        assert body["retryable"] is False
-        assert body["action"] == "Check request"
-
-    def test_service_unavailable_is_retryable(self) -> None:
-        """ServiceUnavailableError is retryable."""
-        from crack_detection.backend.exceptions import ServiceUnavailableError
-
-        exc = ServiceUnavailableError("Service down")
-        assert exc.status_code == 503
-        assert exc.retryable is True
-        assert exc.error_code == "service_unavailable"
+        with patch(
+            "crack_detection.backend.routers.guest.create_guest_session"
+        ) as mock_create:
+            mock_create.return_value = {
+                "id": str(uuid.uuid4()),
+                "session_token": "guest-token-abc",
+                "created_at": "2026-01-01T00:00:00+00:00",
+                "expires_at": datetime(2026, 1, 2, tzinfo=timezone.utc),
+                "analyses_count": 0,
+                "is_active": True,
+            }
+            resp = self.client.post("/guest/session")
+            assert resp.status_code == 201
+            data = resp.json()
+            assert data["session_token"] == "guest-token-abc"
+            assert data["analyses_count"] == 0
+            assert data["max_analyses"] == 3

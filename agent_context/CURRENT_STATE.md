@@ -39,33 +39,35 @@
 - FastAPI backend package: `src/crack_detection/backend/`
   - `main.py` — application entry point with health root endpoint
   - `config.py` — environment-based configuration (pydantic-settings)
-  - `database.py` — Neon PostgreSQL connection + schema initialization
+  - `database.py` — Neon PostgreSQL connection + schema initialization (includes guest_sessions table)
   - `storage.py` — Cloudflare R2 object storage wrapper
   - `exceptions.py` — centralized exception handling
-  - `middleware.py` — Clerk JWT verification middleware skeleton
-  - `dependencies.py` — shared dependencies (DB, storage, user identity)
-  - `schemas.py` — Pydantic request/response models
+  - `middleware.py` — Clerk JWT verification middleware (real JWT verification via JWKS)
+  - `dependencies.py` — shared dependencies (DB, storage, user identity, guest session validation)
+  - `schemas.py` — Pydantic request/response models (includes guest session schemas)
   - `routers/health.py` — `/health/live`, `/health/ready`
   - `routers/auth.py` — Clerk sign-in URL, callback, token verify
+  - `routers/guest.py` — Guest session create, validate, consume-analysis, cleanup
   - `routers/inspections.py` — CRUD for inspections (draft/completed)
   - `routers/photographs.py` — CRUD for photographs + reanalysis
   - `routers/reports.py` — PDF report generation skeleton
 - Backend dependencies added to `requirements.txt` (installed locally)
 - `.env.example` with placeholder configuration
-- Unit tests: `tests/unit/test_backend.py` — 30 tests, all passing
+- Unit tests: `tests/unit/test_backend.py` — 29 tests, all passing
 
 ## Current Development Milestone
 
 **Documentation and context infrastructure — complete.**
 **Documentation publication to GitHub — complete** (`8b955e5`, `2ec8b31`).
 **Milestone 2: Backend Foundation — complete and verified** (`0c8c091`, `a5e4f6b`).
+**Milestone 3: Authentication — complete and verified** (`60afedd`, fix commit).
 
 **Test results:**
-- Backend unit tests: 30 passed
+- Backend unit tests: 29 passed
 - Existing inference tests: 17 passed
 - Existing data pipeline tests: 8 passed
 
-**Next milestone:** Milestone 3 of ROADMAP.md — Authentication (Clerk integration, guest + registered user access model).
+**Next milestone:** Milestone 4 of ROADMAP.md — Database and Storage (Neon PostgreSQL schema implementation, Cloudflare R2 integration, cleanup procedures).
 
 ## Known Issues and Blockers
 

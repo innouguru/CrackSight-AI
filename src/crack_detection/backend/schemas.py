@@ -134,3 +134,28 @@ class ErrorDetail(BaseModel):
     retryable: bool
     action: Optional[str] = None
     details: Optional[Dict[str, Any]] = None
+
+
+# ------------------------------------------------------------------ guest sessions
+class GuestSessionCreateResponse(BaseModel):
+    session_token: str
+    session_id: UUID
+    expires_at: datetime
+    max_analyses: int = 3
+    analyses_count: int = 0
+
+
+class GuestSessionValidateResponse(BaseModel):
+    valid: bool
+    session_id: Optional[UUID] = None
+    analyses_count: int = 0
+    max_analyses: int = 3
+    analyses_remaining: int = 3
+    expires_at: Optional[datetime] = None
+
+
+class GuestAnalysisConsumeResponse(BaseModel):
+    consumed: bool
+    analyses_count: int
+    max_analyses: int
+    analyses_remaining: int

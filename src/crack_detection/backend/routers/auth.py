@@ -1,9 +1,15 @@
 """Authentication endpoints (Clerk integration).
 
 Provides sign-in URL generation, OAuth callback handling, and token
-verification. Full Clerk integration (email/password + Google) is
-completed in Milestone 3; this milestone establishes the endpoint
-structure and token verification middleware skeleton.
+verification. Clerk owns registered-user sign-in, account creation,
+password handling, Google OAuth, and its hosted authentication flow.
+The FastAPI backend verifies Clerk-issued JWT tokens and provides a
+token verification endpoint for the frontend.
+
+Registered-user sign-in flows (email/password + Google) are handled by
+Clerk's frontend SDK and hosted pages. This backend does not implement
+custom password storage, password verification, or Google OAuth
+credentials.
 """
 
 from __future__ import annotations
@@ -11,9 +17,11 @@ from __future__ import annotations
 from fastapi import APIRouter, Request
 
 from crack_detection.backend.config import get_settings
+from crack_detection.backend.middleware import _verify_clerk_jwt
 from crack_detection.backend.schemas import SignInUrlResponse, TokenVerifyResponse
 
 router = APIRouter()
+_settings = get_settings()
 
 
 @router.get("/sign-in-url", response_model=SignInUrlResponse, summary="Get Clerk sign-in URL")
@@ -37,23 +45,27 @@ async def auth_callback(request: Request) -> dict:
     """
     return {
         "message": "Clerk OAuth callback endpoint",
-        "note": "Full Clerk integration completed in Milestone 3.",
+        "note": "Clerk handles sign-in, account creation, password handling, "
+        "and Google OAuth via its hosted pages and frontend SDK.",
     }
 
 
 @router.post("/verify", response_model=TokenVerifyResponse, summary="Verify Clerk token")
 async def verify_token(request: Request) -> TokenVerifyResponse:
-    """Verify a Clerk JWT token from the request state.
+    """Verify a Clerk JWT token from the Authorization header.
 
-    Returns the authenticated user identity if a valid token was provided
-    via the middleware.
+    Extracts the Bearer token, verifies it against Clerk's JWKS, and
+    returns the authenticated user identity if valid.
     """
-    user_id = getattr(request.state, "user_id", None)
-    email = getattr(request.state, "user_email", None)
-    is_authenticated = getattr(request.state, "is_authenticated", False)
+    auth_header = request.headers.get("authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return TokenVerifyResponse(valid=False, user_id=None, email=None)
 
-    return TokenVerifyResponse(
-        valid=is_authenticated,
-        user_id=user_id,
-        email=email,
-    )
+    token = auth_header.split(" ", 1)[1]
+    settings = get_settings()
+    result = await _verify_clerk_jwt(token, settings)
+    if result:
+        user_id, email = result
+        return TokenVerifyResponse(valid=True, user_id=user_id, email=email)
+
+    return TokenVerifyResponse(valid=False, user_id=None, email=None)

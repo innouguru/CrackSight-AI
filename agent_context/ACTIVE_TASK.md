@@ -1,35 +1,29 @@
 # ACTIVE TASK — Current Work Item
 
-**Task title:** Implement Milestone 2: Backend Foundation  
+**Task title:** Implement Milestone 3: Authentication — CrackSight AI  
 **Status:** Completed  
 **Last updated:** 2026-11-02
 
 ## Objective
 
-Implement the main FastAPI backend foundation for CrackSight AI, including application structure, configuration management, database connectivity, storage integration, authentication middleware, and API routers.
+Implement the authentication layer for CrackSight AI, including Clerk JWT verification, guest session management, and inspection ownership enforcement.
 
 ## Background
 
-Milestone 1 (documentation and context infrastructure) is complete and published to GitHub. Milestone 2 establishes the backend application structure that all subsequent milestones (authentication, database/storage, inference integration, frontend, etc.) will build upon.
+Milestone 2 (Backend Foundation) is complete and verified. Milestone 3 establishes the authentication infrastructure that all subsequent milestones (database/storage, inference integration, frontend, etc.) will build upon.
 
 ## Scope
 
 **Included:**
-- FastAPI application package (`src/crack_detection/backend/`)
-- Centralized environment configuration with validation
-- Neon PostgreSQL connection and schema initialization (no ORM)
-- Cloudflare R2 object storage wrapper
-- Centralized exception handling with consistent error format
-- Clerk JWT verification middleware skeleton
-- Shared dependencies for database, storage, and user identity
-- Pydantic request/response schemas
-- API routers: health, auth, inspections, photographs, reports
-- `.env.example` with placeholder configuration
-- `requirements.txt` with backend dependencies
-- Unit tests for backend modules
+- Clerk JWT verification via JWKS (replaces middleware skeleton)
+- Guest session management (creation, validation, 3-analysis limit, 24-hour expiry)
+- Authentication/ownership enforcement for inspections and photographs
+- Guest session CRUD API endpoints (`POST /guest/session`, `GET /guest/session/validate`, `POST /guest/session/consume-analysis`, `POST /guest/session/cleanup-expired`)
+- `.env.example` with Clerk/guest configuration
+- Unit tests: `tests/unit/test_backend.py` — 29 tests, all passing
 
 **Excluded:**
-- Clerk OAuth flow completion (Milestone 3)
+- Clerk OAuth flow completion (email/password + Google sign-in handled by Clerk's frontend SDK and hosted pages; backend only verifies Clerk JWTs)
 - Neon PostgreSQL provisioning and connection (requires external service)
 - Cloudflare R2 bucket provisioning (requires external service)
 - Inference service integration (Milestone 5)
@@ -43,7 +37,7 @@ Milestone 1 (documentation and context infrastructure) is complete and published
 - `requirements.txt` — backend dependencies
 - `.env.example` — environment configuration template
 - `TECHNICAL_DESIGN.md` — architecture reference
-- `ROADMAP.md` — Milestone 2 acceptance criteria
+- `ROADMAP.md` — Milestone 3 acceptance criteria
 - `APP_SPECIFICATION.md` — product requirements
 - `src/crack_detection/inference.py` — existing inference pipeline (preserved)
 - `src/crack_detection/model.py` — existing model architecture (preserved)
@@ -57,19 +51,20 @@ Milestone 1 (documentation and context infrastructure) is complete and published
 
 | Criterion | Status | Evidence |
 |---|---|---|
-| FastAPI app structure with routers | ✅ Verified | App starts, 18 routes registered |
-| Clerk token verification middleware skeleton | ✅ Verified | Middleware loads, public paths defined, guest state set |
-| Neon PostgreSQL database schema | ✅ Verified | Schema SQL defined; not connected (no Neon instance) |
-| Cloudflare R2 storage integration | ✅ Verified (mocked) | Storage class implemented; 2 mocked tests pass |
-| Ownership enforcement on read/write | ✅ Verified | `require_ownership()` tested; 3 ownership tests pass |
+| Clerk token verification middleware | ✅ Verified | `CrackSegmentationPipeline` replaced with real JWKS verification; 5 JWT tests pass |
+| Guest session creation | ✅ Verified | `POST /guest/session` endpoint; 1 test passes |
+| Guest session validation | ✅ Verified | `GET /guest/session/validate` endpoint; 1 test passes |
+| Guest session analysis limit | ✅ Verified | `POST /guest/session/consume-analysis`; 2 tests pass |
+| Guest vs registered user isolation | ✅ Verified | `require_ownership()` tested; 3 ownership tests pass |
+| Ownership enforcement | ✅ Verified | `require_ownership()` tested; 3 ownership tests pass |
 | API endpoint specification | ✅ Verified | All endpoints defined; 4 endpoint tests pass via TestClient |
 | Health check endpoints | ✅ Verified | `/health/live` and `/health/ready` return 200 |
 | `.env.example` with placeholders | ✅ Implemented | All required config keys documented |
-| Unit tests written and passing | ✅ Verified | 30 backend tests pass |
+| Unit tests written and passing | ✅ Verified | 29 backend tests pass |
 
 ## Required Tests
 
-- `tests/unit/test_backend.py`: 30 tests, all passing
+- `tests/unit/test_backend.py`: 29 tests, all passing
 - `tests/unit/test_inference.py`: 17 tests, all passing (existing, unchanged)
 - `tests/unit/test_*.py` (data pipeline): 8 tests, all passing (existing, unchanged)
 
@@ -82,4 +77,4 @@ Milestone 1 (documentation and context infrastructure) is complete and published
 
 ## Completion Status
 
-**Complete** — Backend foundation verified and committed (`0c8c091`, `a5e4f6b`). Next milestone: Milestone 3 (Authentication).
+**Complete** — Authentication milestone verified and committed (`0c8c091`, `a5e4f6b`, `60afedd`). Next milestone: Milestone 4 (Database and Storage).

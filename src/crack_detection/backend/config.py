@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     clerk_publishable_key: str = Field(..., validation_alias="CLERK_PUBLISHABLE_KEY")
     clerk_secret_key: str = Field(..., validation_alias="CLERK_SECRET_KEY")
     clerk_jwt_issuer: str = Field(..., validation_alias="CLERK_JWT_ISSUER")
+    clerk_jwks_url: Optional[str] = Field(
+        None, validation_alias="CLERK_JWKS_URL"
+    )
 
     # ------------------------------------------------------------------ database — Neon PostgreSQL
     database_url: str = Field(..., validation_alias="DATABASE_URL")
@@ -101,6 +104,17 @@ class Settings(BaseSettings):
                 raise ValueError(
                     f"Extension '{ext}' not allowed. Allowed: {sorted(allowed)}"
                 )
+        return value
+
+    @field_validator("clerk_jwks_url", mode="after")
+    @classmethod
+    def _derive_jwks_url(cls, value: Optional[str], info) -> Optional[str]:
+        """Derive JWKS URL from issuer if not explicitly set."""
+        if value is not None:
+            return value
+        issuer = info.data.get("clerk_jwt_issuer")
+        if issuer and "CHANGE_ME" not in issuer:
+            return f"{issuer}/.well-known/jwks.json"
         return value
 
     model_config = {

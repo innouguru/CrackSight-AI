@@ -15,6 +15,7 @@ from crack_detection.backend.exceptions import register_exception_handlers
 from crack_detection.backend.middleware import ClerkAuthMiddleware
 from crack_detection.backend.routers import (
     auth_router,
+    guest_router,
     health_router,
     inspections_router,
     photographs_router,
@@ -53,6 +54,7 @@ def create_app() -> FastAPI:
     # ------------------------------------------------------------------ routers
     app.include_router(health_router, tags=["health"])
     app.include_router(auth_router, prefix="/auth", tags=["authentication"])
+    app.include_router(guest_router, prefix="/guest/session", tags=["guest"])
     app.include_router(
         inspections_router, prefix="/inspections", tags=["inspections"]
     )

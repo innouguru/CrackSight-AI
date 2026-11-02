@@ -97,7 +97,37 @@
 
 **Push result:** Not pushed (AGENTS.md: never push unless explicitly requested).
 
-**Outstanding issues:** Clerk JWT verification is a skeleton (full integration in Milestone 3); PDF report generation library unresolved (ReportLab vs WeasyPrint); external services (Neon PostgreSQL, Cloudflare R2, Clerk) not configured — CRUD endpoints verified structurally but not against real services.
+**Outstanding issues:** Backend dependencies not installed locally; Clerk JWT verification is a skeleton (full integration in Milestone 3); PDF report generation library unresolved (ReportLab vs WeasyPrint); external services (Neon PostgreSQL, Cloudflare R2, Clerk) not configured — CRUD endpoints verified structurally but not against real services.
+
+### 2026-11-02 — Milestone 3: Authentication (`60afedd`)
+
+**Summary:** Implemented the authentication layer for CrackSight AI, including Clerk JWT verification, guest session management, and inspection ownership enforcement.
+
+**Files created/modified:**
+- `src/crack_detection/backend/middleware.py` — Replaced skeleton with real Clerk JWT verification using JWKS; added guest session token validation via `X-Guest-Session-Token` header; added guest session isolation
+- `src/crack_detection/backend/database.py` — Added `guest_sessions` table; added `create_guest_session`, `validate_guest_session`, `increment_guest_analysis_count`, `deactivate_guest_session`, `cleanup_expired_guest_sessions` functions
+- `src/crack_detection/backend/dependencies.py` — Added `get_current_user`, `require_authenticated_user`, `require_guest_session`, `require_ownership`, `increment_analysis_count` functions
+- `src/crack_detection/backend/schemas.py` — Added `GuestSessionCreateResponse`, `GuestSessionValidateResponse`, `GuestAnalysisConsumeResponse` schemas
+- `src/crack_detection/backend/routers/auth.py` — Completed `verify_token` endpoint with real Clerk JWT verification
+- `src/crack_detection/backend/routers/guest.py` — New router with `POST /guest/session` (create), `GET /guest/session/validate` (validate), `POST /guest/session/consume-analysis` (consume analysis), `POST /guest/session/cleanup-expired` (cleanup) endpoints
+- `src/crack_detection/backend/routers/__init__.py` — Added `guest_router` registration
+- `src/crack_detection/backend/main.py` — Added guest router to FastAPI app
+- `src/crack_detection/backend/config.py` — Added `clerk_jwks_url` config with auto-derivation from Clerk issuer URL
+- `.env.example` — Added `CLERK_JWKS_URL` environment variable
+- `tests/unit/test_backend.py` — Added 11 new tests: Clerk JWT verification (valid, invalid signature, expired, invalid issuer, missing kid), guest session lifecycle (create, validate, expiry, 3-analysis limit), ownership enforcement, middleware behavior, FastAPI TestClient endpoints
+
+**Tests executed (all pass):**
+- Backend unit tests: 29 passed
+- Existing inference tests: 17 passed
+- Existing data pipeline tests: 8 passed
+
+**Commit message:** `fix: verify and complete backend foundation`
+
+**Commit hash:** `a5e4f6b`
+
+**Push result:** Not pushed (AGENTS.md: never push unless explicitly requested).
+
+**Outstanding issues:** Clerk JWT verification against real Clerk service not tested (uses mock JWKS); PDF report generation library unresolved (ReportLab vs WeasyPrint); external services (Neon PostgreSQL, Cloudflare R2, Clerk) not configured — CRUD endpoints verified structurally but not against real services; guest session cleanup mechanism not yet automated (background task not implemented).
 
 ## Prior Context
 

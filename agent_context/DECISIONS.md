@@ -25,6 +25,11 @@
 14. **Frontend:** React + TypeScript, responsive.
 15. **Inference hosting:** Unresolved — requires research and benchmarking before selection.
 
+### Authentication Decisions
+16. **Clerk JWT verification via JWKS:** Backend verifies Clerk JWTs by fetching Clerk's JWKS endpoint (`https://<issuer>/.well-known/jwks.json`) and validating signatures using `python-jose[cryptography]`. Keys are cached with a 1-hour TTL to handle key rotation.
+17. **Guest session management:** Guest sessions are stored in PostgreSQL (`guest_sessions` table) with unique session tokens, 24-hour expiration, and per-session analysis counters. Guest sessions are isolated from registered users and cannot access registered-user resources.
+18. **Guest analysis limit:** Maximum 3 photo analyses per guest session, enforced atomically at the database level using `UPDATE ... SET analyses_count = analyses_count + 1 WHERE ... analyses_count < 3` to prevent race conditions.
+
 ## Product Decisions
 
 16. **Hybrid access model:** Guests (3 analyses/session, 24-hour expiry) + Registered users (inspections, PDF reports, monthly allowance).
