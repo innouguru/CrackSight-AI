@@ -168,6 +168,20 @@ This roadmap starts from the actual existing project state: a model development 
 
 ---
 
+### Pre-Milestone 6: UI/UX Direction and Browser Prototype
+
+**Status**: Complete — visual prototype built and reviewed locally; formal backend/auth integration remains pending.
+
+**Objective**: Establish a coherent inspection-product design direction and make the main product screens available for stakeholder browser review before production frontend integration.
+
+**Deliverables**:
+- Responsive React + TypeScript prototype in `frontend/`
+- Public landing, auth placeholders, dashboard, guest analysis/results, inspection history/create/detail, report preview, and supporting states
+- Reusable design tokens, app shell, status/notice, image comparison, and inspection-card components
+- Design rationale, mock boundaries, and transition notes in `docs/ui_ux_design.md`
+
+**Boundary**: Prototype data and interactions are in-memory/local only. No live upload, authentication, report generation, database persistence, API calls, or inference are implemented by this pre-work. Do not treat it as completion of Milestone 6 acceptance criteria.
+
 ### Milestone 6: Frontend Foundation
 
 **Objective**: Implement React + TypeScript frontend with responsive interface.
@@ -187,13 +201,15 @@ This roadmap starts from the actual existing project state: a model development 
 - Clerk authentication integration
 
 **Acceptance Criteria**:
-- ✅ Application loads and responds on desktop, tablet, mobile
-- ✅ Photograph upload works (JPEG, PNG, WebP)
-- ✅ Smartphone camera capture supported
-- ✅ Preview before analysis with retake option
-- ✅ Multiple-photo batch submission supported
-- ✅ Per-photograph processing with independent results
-- ✅ Analysis results display correctly
+- [ ] Production application loads and responds on desktop, tablet, and mobile
+- [ ] Photograph upload is connected to the backend for JPEG, PNG, and WebP
+- [ ] Smartphone camera capture is connected to the upload flow
+- [ ] Preview and retake work with the real upload flow
+- [ ] Multiple-photo batch submission is supported
+- [ ] Each photograph is processed independently with real results
+- [ ] Analysis results are rendered from backend responses
+
+The pre-Milestone 6 browser prototype provides mock screens and local image preview only; it does not satisfy these production acceptance criteria.
 
 ---
 
@@ -215,12 +231,12 @@ This roadmap starts from the actual existing project state: a model development 
 - R2 guest session storage (Milestone 4) complete
 
 **Acceptance Criteria**:
-- ✅ Guest can upload photograph and run analysis without registering
-- ✅ Guest limited to 3 analyses per session
-- ✅ Guest can view original, mask, overlay, measurements
-- ✅ Guest can download individual results (original, mask, overlay, summary)
-- ✅ After 3 analyses or 24 hours, session expires
-- ✅ Guest results cannot be transferred to registered account
+- [ ] Guest can upload photograph and run analysis without registering
+- [ ] Guest is limited to 3 analyses per backend session
+- [ ] Guest can view original, mask, overlay, and measurements from backend results
+- [ ] Guest can download individual results (original, mask, overlay, summary)
+- [ ] Guest session expires after 3 analyses or 24 hours
+- [ ] Guest results cannot be transferred to a registered account
 
 ---
 
@@ -245,16 +261,16 @@ This roadmap starts from the actual existing project state: a model development 
 - PDF report generation capability
 
 **Acceptance Criteria**:
-- ✅ Registered user can create inspection with title
-- ✅ User can add photographs with structure type (wall/beam/column)
-- ✅ Inspection saves and persists beyond guest session
-- ✅ Dashboard shows total inspections, total photographs, recent inspections
-- ✅ New Inspection button visible
-- ✅ PDF report generates with all required content (branding, ID, date, photos, measurements, model version, observations, verification statuses, disclaimer, page numbers)
-- ✅ PDF downloadable file only (no public shareable links)
-- ✅ History supports list and card views
-- ✅ Search by title, date filtering, structure-type filtering, verification-status filtering
-- ✅ Monthly allowance with fair-use protection
+- [ ] Registered user can create inspection with title
+- [ ] User can add photographs with structure type (wall/beam/column)
+- [ ] Inspection saves and persists beyond guest session
+- [ ] Dashboard shows total inspections, total photographs, and recent inspections from saved data
+- [ ] New Inspection button is available in the integrated application
+- [ ] PDF report generates with required content (branding, ID, date, photos, measurements, model version, observations, verification statuses, disclaimer, page numbers)
+- [ ] PDF is a downloadable file only (no public shareable links)
+- [ ] History supports list and card views backed by saved inspections
+- [ ] Search by title, date, structure type, and verification status works against saved data
+- [ ] Monthly allowance with fair-use protection is connected to backend enforcement
 
 ---
 
@@ -274,14 +290,14 @@ This roadmap starts from the actual existing project state: a model development 
 - Registered-user inspections (Milestone 8) partially complete
 
 **Acceptance Criteria**:
-- ✅ Dashboard displays correct counts
-- ✅ Recent inspections list shows latest inspections
-- ✅ New Inspection button navigates to create flow
-- ✅ History supports toggle between list and card views
-- ✅ Search filters results by title
-- ✅ Date filter works (from-to range or preset ranges)
-- ✅ Structure-type filter limits to selected component
-- ✅ Verification-status filter limits to selected status
+- [ ] Dashboard displays correct counts from saved inspections and photographs
+- [ ] Recent inspections list shows latest saved inspections
+- [ ] New Inspection button navigates to the integrated create flow
+- [ ] History supports toggle between list and card views using saved data
+- [ ] Search filters saved results by title
+- [ ] Date filter works (from-to range or preset ranges)
+- [ ] Structure-type filter limits to the selected component
+- [ ] Verification-status filter limits to the selected status
 
 ---
 
@@ -310,17 +326,17 @@ This roadmap starts from the actual existing project state: a model development 
 - R2 storage for report PDFs
 
 **Acceptance Criteria**:
-- ✅ PDF generates with all required sections
-- ✅ Branding visible (logo/color scheme)
-- ✅ Report ID and generation date present
-- ✅ Photographs and overlays rendered at appropriate quality
-- ✅ Pixel measurements reported (image-space pixels only)
-- ✅ Model version identified
-- ✅ Observations distinguished from AI predictions
-- ✅ Safety disclaimer included and clear
-- ✅ Page numbers on each page
-- ✅ PDF downloadable (not public shareable link)
-- ✅ Individual photograph results also downloadable (original, mask, overlay, summary)
+- [ ] PDF generates with all required sections
+- [ ] Branding is visible (logo/color scheme)
+- [ ] Report ID and generation date are present
+- [ ] Photographs and overlays render at appropriate quality
+- [ ] Pixel measurements are reported (image-space pixels only)
+- [ ] Model version is identified
+- [ ] Observations are distinguished from AI predictions
+- [ ] Safety disclaimer is included and clear
+- [ ] Page numbers appear on each page
+- [ ] PDF is downloadable (not a public shareable link)
+- [ ] Individual photograph results are downloadable (original, mask, overlay, summary)
 
 ---
 
@@ -341,13 +357,13 @@ This roadmap starts from the actual existing project state: a model development 
 - All previous milestones complete enough for testing
 
 **Acceptance Criteria**:
-- ✅ Existing unit tests pass (inference pipeline, data pipeline)
-- ✅ New unit tests for FastAPI endpoints
-- ✅ Authentication flows tested (guest + registered)
-- ✅ Ownership checks prevent unauthorized access
-- ✅ R2 storage access restricted by user/session
-- ✅ Error handling tested for all API endpoints
-- ✅ PDF report content validated against specification
+- [ ] Existing unit tests pass (inference pipeline, data pipeline)
+- [ ] New unit tests cover FastAPI endpoints
+- [ ] Authentication flows are tested (guest + registered)
+- [ ] Ownership checks prevent unauthorized access
+- [ ] R2 storage access is restricted by user/session
+- [ ] Error handling is tested for all API endpoints
+- [ ] PDF report content is validated against specification
 
 ---
 
@@ -370,12 +386,12 @@ This roadmap starts from the actual existing project state: a model development 
 - Domain and SSL configuration
 
 **Acceptance Criteria**:
-- ✅ Application accessible via URL
-- ✅ All user flows work in production
-- ✅ Inference service operational (CPU)
-- ✅ Database persistent and accessible
-- ✅ R2 storage persistent and accessible
-- ✅ Basic monitoring in place (error logging, uptime)
+- [ ] Application is accessible via a production URL
+- [ ] All user flows work in production
+- [ ] Inference service is operational (CPU)
+- [ ] Database is persistent and accessible
+- [ ] R2 storage is persistent and accessible
+- [ ] Basic monitoring is in place (error logging, uptime)
 
 ---
 
@@ -395,18 +411,18 @@ This roadmap starts from the actual existing project state: a model development 
 - Real building photographs available
 
 **Acceptance Criteria**:
-- ✅ Application works with real photographs (JPEG, PNG, WebP)
-- ✅ Inference produces reasonable crack masks on real images
-- ✅ Pixel measurements displayed where available
-- ✅ User feedback collected on inspection workflow
-- ✅ Limitations acknowledged (no structural safety claims)
-- ✅ Any necessary adjustments documented for future versions
+- [ ] Application works with real photographs (JPEG, PNG, WebP)
+- [ ] Inference produces reasonable crack masks on real images
+- [ ] Pixel measurements are displayed where available
+- [ ] User feedback is collected on inspection workflow
+- [ ] Limitations are acknowledged (no structural safety claims)
+- [ ] Necessary adjustments are documented for future versions
 
 ## Roadmap Summary
 
 **Total Milestones**: 13
 
-**Progress**: Starting from completed model/inference work + documentation
+**Progress**: Milestones 1–5 complete; pre-Milestone 6 design prototype complete; formal Milestone 6 and later milestones remain pending.
 
 **Critical Path**:
 1. Documentation (Milestone 1) → Backend foundation (Milestone 2) → Auth (Milestone 3) → Database/storage (Milestone 4) → Inference integration (Milestone 5) → Frontend (Milestone 6) → Guest workflow (Milestone 7) → Registered inspections (Milestone 8) → Dashboard/history (Milestone 9) → PDF reports (Milestone 10) → Testing/security (Milestone 11) → Deployment (Milestone 12) → Validation (Milestone 13)

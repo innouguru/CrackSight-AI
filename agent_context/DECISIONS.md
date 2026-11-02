@@ -37,3 +37,11 @@
 18. **No public shareable report links:** Reports are downloadable files only.
 19. **No organization-level collaboration:** Initial scope is single-user.
 20. **Structural components:** Walls, beams, columns only.
+
+## UI/UX Prototype Decisions
+
+1. **Inspection-first visual language:** Use a light, neutral workspace with structural navy and restrained teal accents; avoid generic AI-dashboard decoration and gradients.
+2. **System typography:** Use the local system font stack so local review does not depend on a remote font service.
+3. **Explicit prediction/observation distinction:** Label model outputs as AI predictions and manual notes as inspector observations; keep image-space pixel units visible.
+4. **Persistent safety boundary:** Keep the inspection-aid limitation in the landing, results, and workspace contexts; do not introduce severity ratings or structural safety conclusions.
+5. **Isolated visual prototype:** Keep routes and reusable components in `frontend/`; hold mock records and interactions in local React state, make their non-persistent nature explicit, and do not call production APIs until formal Milestone 6 integration.

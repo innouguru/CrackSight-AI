@@ -1,6 +1,6 @@
 # CrackSight AI — AI-Assisted Building Inspection
 
-**Status:** Context and documentation milestone complete. Application development has not yet started.
+**Status:** Model/inference work, backend Milestones 2–5, and the persistent project context are documented as complete. A browser-review frontend prototype is implemented; production frontend integration remains the next formal milestone.
 
 CrackSight AI is an AI-assisted building inspection platform that helps users detect visible cracks in photographs of structural components. It is designed as an inspection aid for ordinary users — not a replacement for professional structural engineering assessment.
 
@@ -8,7 +8,7 @@ CrackSight AI is an AI-assisted building inspection platform that helps users de
 
 Building inspectors and maintenance professionals regularly need to document visible cracks in walls, beams, and columns. CrackSight AI provides AI-powered crack segmentation from photographs, producing original images, predicted crack masks, visual overlays, and pixel-level measurements to assist inspection workflows.
 
-## Capabilities (Planned)
+## Product Capabilities
 
 - Upload or capture photographs of walls, beams, and columns
 - AI-assisted crack detection using a U-Net with ResNet-34 encoder
@@ -18,6 +18,8 @@ Building inspectors and maintenance professionals regularly need to document vis
 - Professional PDF inspection reports (branded, with disclaimers, page numbers, and clear AI vs inspector observation distinctions)
 - Guest analysis (limited per-session) and registered-user saved inspection history
 - Responsive interface for desktop, tablet, and mobile
+
+The current frontend is a visual prototype with mock inspection data and interactions; the production UI is not yet integrated with the backend.
 
 ## Existing Implementation (Verified)
 
@@ -29,14 +31,14 @@ Building inspectors and maintenance professionals regularly need to document vis
 - **Unit tests:** `tests/unit/test_inference.py` and dataset pipeline tests verified passing
 - **Documentation:** `APP_SPECIFICATION.md`, `TECHNICAL_DESIGN.md`, `ROADMAP.md`, `PROJECT_CONTEXT.md`, `AGENTS.md`
 
-## Planned Architecture (Not Yet Implemented)
+## Architecture and Implementation Status
 
-- **Frontend:** React + TypeScript (responsive)
+- **Frontend prototype:** React + TypeScript in `frontend/`; no live API/authentication integration yet
 - **Main backend:** Python FastAPI (inspection management, authentication, PDF generation)
-- **Private inference service:** Loads existing `UNetResNet34` checkpoint, performs CPU-only segmentation
-- **Database:** Neon PostgreSQL
-- **Object storage:** Cloudflare R2
-- **Authentication:** Clerk (email/password + Google sign-in)
+- **Inference integration:** Existing inference pipeline connected through the backend; CPU-first
+- **Database:** Neon PostgreSQL backend integration
+- **Object storage:** Cloudflare R2 backend integration
+- **Authentication:** Clerk JWT verification in the backend; frontend authentication integration remains pending
 
 ## Supported Components
 
@@ -53,7 +55,7 @@ No manual segmentation mask editing is provided. No structural severity classifi
 - Limited budget; free-tier services preferred where practical
 - CPU inference initially; GPU not assumed
 - Existing model checkpoint preserved; no retraining as part of this milestone
-- No Git repository initialized (project deliberately not initialized yet)
+- Git repository already exists; preserve pre-existing untracked files and stage only scoped task files
 
 ## Repository Structure
 
@@ -68,7 +70,7 @@ No manual segmentation mask editing is provided. No structural severity classifi
 
 ## Development Milestones
 
-See `ROADMAP.md` for the full milestone plan. The documentation and persistent context infrastructure is complete. Application implementation (backend, authentication, database, storage, frontend, PDF reports) has not started.
+See `ROADMAP.md` for the full milestone plan. Milestones 2–5 are implemented per `agent_context/CURRENT_STATE.md`. The frontend prototype is available for local design review; live frontend integration (formal Milestone 6), remaining application workflows, and deployment are still pending. Follow [frontend/README.md](frontend/README.md) to start the prototype and [docs/ui_ux_design.md](docs/ui_ux_design.md) for the design system and mock boundaries.
 
 ## References
 

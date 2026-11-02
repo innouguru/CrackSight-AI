@@ -131,6 +131,31 @@
 
 **Outstanding issues:** Integration tests time out when run together due to shared session-scoped database connection; real PostgreSQL/R2 integration not yet verified with production credentials; guest session cleanup mechanism (automatic background cleanup not yet implemented - manual deactivation only);
 
+### 2026-11-02 — UI/UX Direction and Frontend Browser Prototype
+
+**Summary:** Established a restrained engineering-inspection design system and implemented a responsive React + TypeScript prototype for stakeholder review before formal Milestone 6 API/auth integration.
+
+**Files created:**
+- `frontend/` — Vite React/TypeScript app, routes, reusable UI/layout components, sample data provider, responsive styles, npm manifest/lock, and local instructions
+- `frontend/public/demo/` — copies of an existing validation photo, mask, overlay, and probability output
+- `docs/ui_ux_design.md` — design rationale, tokens, screen inventory, architecture, mock boundaries, and Milestone 6 transition
+
+**Files updated:**
+- `README.md`, `ROADMAP.md`
+- `agent_context/CURRENT_STATE.md`, `agent_context/ACTIVE_TASK.md`, `agent_context/HANDOFF.md`, `agent_context/DECISIONS.md`
+
+**Validation executed:**
+- `npm run build` in `frontend/` — passed; TypeScript check and Vite production build completed
+- `npm run lint` in `frontend/` — passed
+- `npm install --dry-run --no-audit --no-fund` in `frontend/` — passed
+- Browser visual review — landing page and registered dashboard reviewed at desktop size; inspection history reviewed at 390 px
+- Browser smoke checks — major routes, guest 3-analysis limit, result tabs, create inspection, empty photo state, add sample photo, and Completed/read-only/reopen behavior verified
+- Local dev server served the app at `http://127.0.0.1:5173/`
+
+**Mock boundary:** No API, Clerk, storage, inference, or PDF service is called. Uploaded images remain browser-local; displayed sample output is explicitly identified as unrelated to a custom upload.
+
+**Outstanding:** Formal Milestone 6 frontend integration remains next. Production API/auth/persistence, real guest session expiry, real uploads/inference, and report generation are not implemented. No deployment or push performed.
+
 ## Prior Context
 
 The following milestones were completed before this context infrastructure was created:
