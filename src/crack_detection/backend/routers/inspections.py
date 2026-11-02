@@ -16,6 +16,7 @@ from psycopg2.extras import RealDictCursor
 from crack_detection.backend.dependencies import (
     get_current_user,
     get_db,
+    get_r2_storage,
     require_authenticated_user,
     require_ownership,
 )
@@ -225,6 +226,7 @@ async def delete_inspection(
     request: Request,
     inspection_id: UUID = Path(...),
     conn=Depends(get_db),
+    storage=Depends(get_r2_storage),
     user=Depends(get_current_user),
 ) -> None:
     """Delete an inspection and all associated data (cascade delete)."""
@@ -234,6 +236,9 @@ async def delete_inspection(
     if not row:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Inspection not found")
     require_ownership(request, row["user_id"])
+
+    # Delete R2 objects for all photographs in this inspection
+    storage.delete_objects_by_prefix(f"inspections/{inspection_id}/")
 
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
         cur.execute("DELETE FROM inspections WHERE id = %s", (inspection_id,))

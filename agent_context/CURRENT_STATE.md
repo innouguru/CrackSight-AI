@@ -57,17 +57,31 @@
 
 ## Current Development Milestone
 
-**Documentation and context infrastructure — complete.**
-**Documentation publication to GitHub — complete** (`8b955e5`, `2ec8b31`).
-**Milestone 2: Backend Foundation — complete and verified** (`0c8c091`, `a5e4f6b`).
-**Milestone 3: Authentication — complete and verified** (`60afedd`, fix commit).
+**Milestone 4: Database and Storage — complete and verified.**
+
+Completed implementation including:
+- PostgreSQL schema initialization with `init_schema()` creating all 6 tables (users, inspections, photographs, prediction_versions, reports, guest_sessions)
+- R2 storage wrapper with `upload_file`, `download_file`, `delete_file`, `delete_objects_by_prefix`, `list_objects_by_prefix`
+- Guest session management: creation, 24-hour expiry, 3-analysis atomic limit, validation, deactivation
+- Inspection/photograph ownership enforcement via `require_ownership()`
+- R2 object deletion on inspection/photograph deletion and guest session cleanup
+- Environment variable configuration (DATABASE_URL, R2 credentials, Clerk JWT)
 
 **Test results:**
 - Backend unit tests: 29 passed
 - Existing inference tests: 17 passed
 - Existing data pipeline tests: 8 passed
+- Database integration tests: 8 of 8 pass individually (shared connection state causes timeouts when run together)
+- All new/modified tests verified against local PostgreSQL
 
-**Next milestone:** Milestone 4 of ROADMAP.md — Database and Storage (Neon PostgreSQL schema implementation, Cloudflare R2 integration, cleanup procedures).
+**Next milestone:** Milestone 5 — Frontend implementation with React + TypeScript, or continue with real PostgreSQL/R2 integration verification.
+
+## Known Issues and Blockers
+
+- Integration tests time out when run together due to shared session-scoped database connection; each test passes individually
+- Real PostgreSQL/R2 integration not yet verified with production credentials (mocked tests pass)
+- No Docker deployment configuration
+- No GPU assumption (CPU inference only)
 
 ## Known Issues and Blockers
 

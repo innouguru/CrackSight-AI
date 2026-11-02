@@ -7,7 +7,7 @@ and delete operations with the key structure defined in TECHNICAL_DESIGN.md.
 from __future__ import annotations
 
 import logging
-from typing import Optional
+from typing import List, Optional
 
 import boto3
 from botocore.config import Config
@@ -86,6 +86,34 @@ class R2Storage:
     def generate_key(self, prefix: str, filename: str) -> str:
         """Generate a namespaced R2 object key."""
         return f"{prefix}/{filename}"
+
+    def delete_objects_by_prefix(self, prefix: str) -> int:
+        """Delete all objects with the given prefix. Returns count deleted."""
+        deleted_count = 0
+        paginator = self._client.get_paginator("list_objects_v2")
+        for page in paginator.paginate(Bucket=self._bucket, Prefix=prefix):
+            objects = page.get("Contents", [])
+            if not objects:
+                continue
+            delete_keys = {"Objects": [{"Key": obj["Key"]} for obj in objects]}
+            try:
+                self._client.delete_objects(Bucket=self._bucket, Delete=delete_keys)
+                deleted_count += len(delete_keys["Objects"])
+                for obj in delete_keys["Objects"]:
+                    logger.debug("Deleted object from R2: %s", obj["Key"])
+            except ClientError as exc:
+                logger.error("R2 batch delete failed for prefix %s: %s", prefix, exc)
+                raise StorageError(str(exc)) from exc
+        return deleted_count
+
+    def list_objects_by_prefix(self, prefix: str) -> List[str]:
+        """List object keys with the given prefix."""
+        keys: List[str] = []
+        paginator = self._client.get_paginator("list_objects_v2")
+        for page in paginator.paginate(Bucket=self._bucket, Prefix=prefix):
+            for obj in page.get("Contents", []):
+                keys.append(obj["Key"])
+        return keys
 
 
 def get_storage() -> R2Storage:

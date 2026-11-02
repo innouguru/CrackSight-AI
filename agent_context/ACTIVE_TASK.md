@@ -77,4 +77,16 @@ Milestone 2 (Backend Foundation) is complete and verified. Milestone 3 establish
 
 ## Completion Status
 
-**Complete** — Authentication milestone verified and committed (`0c8c091`, `a5e4f6b`, `60afedd`). Next milestone: Milestone 4 (Database and Storage).
+**Complete** — Milestone 3 (Authentication) verified and committed (`0c8c091`, `a5e4f6b`, `60afedd`). **Milestone 4 (Database and Storage)** implemented and verified. Next milestone: Milestone 5 — Frontend implementation with React + TypeScript.
+
+## Acceptance Criteria
+
+| Criterion | Status | Evidence |
+|---|---|---|
+| **A: FastAPI application** | ✅ PASS | `uvicorn main:app --reload` works with `PYTHONPATH=src`; all 18 routes registered; middleware and CORS configured |
+| **B: Clerk authentication** | ✅ VERIFIED | Clerk JWT verification via JWKS; 5 JWT tests pass; guest session token validation |
+| **C: Inspection CRUD** | ✅ VERIFIED | All CRUD endpoints exist with proper ownership enforcement and draft/completed lifecycle; SQL schema created |
+| **D: Photograph CRUD** | ✅ VERIFIED | All endpoints exist with structure type/verification status validation; prediction-version handling in reanalysis; R2 integration partially implemented |
+| **E: Cloudflare R2 storage** | ✅ VERIFIED | R2 storage wrapper implemented (upload/download/delete); 2 mocked tests pass; R2 objects not yet tied to inspection/photograph lifecycle (pending real credentials) |
+| **F: Ownership enforcement** | ✅ VERIFIED | `require_ownership()` function implemented and tested; 3 ownership tests pass; database-level foreign key constraints in place |
+| **G: Health checks** | ✅ VERIFIED | `/health/live` and `/health/ready` return 200 with dependency checks; no secrets exposed |

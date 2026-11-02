@@ -13,7 +13,7 @@ from uuid import UUID, uuid4
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 from psycopg2.extras import RealDictCursor
 
-from crack_detection.backend.dependencies import get_current_user, get_db, require_ownership
+from crack_detection.backend.dependencies import get_current_user, get_db, get_r2_storage, require_ownership
 from crack_detection.backend.schemas import (
     PhotographCreate,
     PhotographResponse,
@@ -159,13 +159,16 @@ async def remove_photograph(
     request: Request,
     photo_id: UUID = Path(...),
     conn=Depends(get_db),
+    storage=Depends(get_r2_storage),
     user=Depends(get_current_user),
 ) -> None:
     """Remove a photograph from a draft inspection."""
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
         cur.execute(
             """
-            SELECT p.id, i.user_id, i.status FROM photographs p
+            SELECT p.id, i.user_id, i.status, p.original_image_key,
+                   p.prediction_mask_key, p.prediction_overlay_key
+            FROM photographs p
             JOIN inspections i ON p.inspection_id = i.id
             WHERE p.id = %s
             """,
@@ -180,6 +183,13 @@ async def remove_photograph(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Photographs can only be removed from draft inspections",
         )
+
+    # Delete R2 objects for this photograph
+    photo_id_str = str(photo_id)
+    inspection_id = row["inspection_id"]
+    storage.delete_objects_by_prefix(f"inspections/{inspection_id}/originals/{photo_id_str}")
+    storage.delete_objects_by_prefix(f"inspections/{inspection_id}/masks/{photo_id_str}_")
+    storage.delete_objects_by_prefix(f"inspections/{inspection_id}/overlays/{photo_id_str}_")
 
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
         cur.execute("DELETE FROM photographs WHERE id = %s", (photo_id,))

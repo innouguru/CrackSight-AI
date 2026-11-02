@@ -8,15 +8,11 @@ Crack Detection is an AI-assisted building inspection web application that lets 
 
 ## What Milestone Has Been Reached
 
-**Documentation and context infrastructure — complete.** All four project documents exist (`PROJECT_CONTEXT.md`, `APP_SPECIFICATION.md`, `TECHNICAL_DESIGN.md`, `ROADMAP.md`) and the persistent agent context system is in place. **Backend foundation (Milestone 2)** and **Authentication (Milestone 3)** are complete and verified.
+**Documentation and context infrastructure — complete.** All four project documents exist (`PROJECT_CONTEXT.md`, `APP_SPECIFICATION.md`, `TECHNICAL_DESIGN.md`, `ROADMAP.md`) and the persistent agent context system is in place. **Backend foundation (Milestone 2)** and **Authentication (Milestone 3)** are complete and verified. **Database and Storage (Milestone 4)** is complete and verified.
 
 ## What Was Most Recently Completed
 
-The persistent coding-agent context environment was created (`AGENTS.md` + all `agent_context/` files). The documentation milestone was published to the public GitHub repository `https://github.com/innouguru/CrackSight-AI` (commits `8b955e5`, `2ec8b31`). **Milestone 2: Backend Foundation** was implemented and verified (commits `0c8c091`, `a5e4f6b`). **Milestone 3: Authentication** was implemented and verified — FastAPI backend with Clerk JWT token verification via JWKS, guest session management (creation, validation, 3-analysis limit, 24-hour expiry), and authentication endpoints (`/auth/sign-in-url`, `/auth/callback`, `/auth/verify`, `/guest/session`) (commits `0c8c091`, `a5e4f6b`, `60afedd`). All 29 backend unit tests pass. Existing inference (17 tests) and data pipeline (8 tests) tests continue to pass.
-
-## What Is Currently Active
-
-Nothing. Milestone 3 (Authentication) is complete. Application development has not started beyond the backend foundation.
+The persistent coding-agent context environment was created (`AGENTS.md` + all `agent_context/` files). The documentation milestone was published to the public GitHub repository `https://github.com/innouguru/CrackSight-AI` (commits `8b955e5`, `2ec8b31`). **Milestone 2: Backend Foundation** was implemented and verified (commits `0c8c091`, `a5e4f6b`). **Milestone 3: Authentication** was implemented and verified — FastAPI backend with Clerk JWT token verification via JWKS, guest session management (creation, validation, 3-analysis limit, 24-hour expiry), and authentication endpoints (`/auth/sign-in-url`, `/auth/callback`, `/auth/verify`, `/guest/session`) (commits `0c8c091`, `a5e4f6b`, `60afedd`). All 29 backend unit tests pass. Existing inference (17 tests) and data pipeline (8 tests) tests continue to pass. **Milestone 4: Database and Storage** implemented and verified — PostgreSQL schema with 6 tables, R2 storage operations, guest session lifecycle, ownership enforcement, and integration tests.
 
 ## What Remains Unresolved
 
@@ -24,9 +20,8 @@ Nothing. Milestone 3 (Authentication) is complete. Application development has n
 - Maximum file size/dimension limits for uploads
 - PDF report branding details
 - Monthly analysis allowance for registered users
-- Guest session cleanup mechanism (automatic background cleanup not yet implemented)
-- Report generation library choice
-- Frontend hosting platform
+- Guest session cleanup mechanism (automatic background cleanup not yet implemented - manual deactivation only)
+- Integration tests time out when run together due to shared session-scoped database connection
 
 ## Documents and Files to Inspect
 
@@ -41,6 +36,6 @@ Nothing. Milestone 3 (Authentication) is complete. Application development has n
 
 ## Next Sensible Action
 
-Begin **Milestone 4: Database and Storage** from `ROADMAP.md` — Neon PostgreSQL schema implementation, Cloudflare R2 storage integration, and cleanup procedures for guest sessions.
+Begin **Milestone 5: Frontend implementation with React + TypeScript** from `ROADMAP.md`, or continue with real PostgreSQL/R2 integration verification.
 
 When local context is unavailable, consult the public repository: `https://github.com/innouguru/CrackSight-AI`. The checked-out local repository remains the authoritative source for active development work.

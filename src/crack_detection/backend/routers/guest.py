@@ -52,6 +52,10 @@ async def create_guest_session_endpoint() -> GuestSessionCreateResponse:
     """
     session = create_guest_session()
     expires_at = session["expires_at"]
+    if isinstance(expires_at, str):
+        from datetime import datetime as _dt, timezone as _tz
+
+        expires_at = _dt.fromisoformat(expires_at)
     if expires_at.tzinfo is None:
         from datetime import timezone as _tz
 
@@ -103,6 +107,10 @@ async def validate_guest_session_endpoint(
         )
 
     expires_at = session["expires_at"]
+    if isinstance(expires_at, str):
+        from datetime import datetime as _dt
+
+        expires_at = _dt.fromisoformat(expires_at)
     if expires_at.tzinfo is None:
         expires_at = expires_at.replace(tzinfo=timezone.utc)
 
