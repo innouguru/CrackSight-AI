@@ -1,0 +1,42 @@
+# Minimal dependency set for the dataset-integrity and annotation-audit milestone.
+# Interpreter: CPython 3.12.5 (64-bit, Windows)
+# Install:
+#   .\.venv\Scripts\Activate.ps1
+#   python -m pip install -r requirements.txt
+# Resolved and verified on 2026-10-25.
+
+# --- Direct dependencies ---
+Pillow==13.0.0
+numpy==2.5.4
+matplotlib==3.11.2
+pytest==9.1.1
+PyYAML==6.0.3
+# PyTorch/torchvision are required for model training but not pinned to a specific CUDA version.
+# Install the CPU-compatible versions locally; Colab provides its own GPU-enabled build.
+torch>=2.3.0,<2.7.0
+torchvision>=0.18.0,<0.22.0
+
+# --- Backend dependencies (Milestone 2) ---
+# Not installed locally per AGENTS.md preservation rules; install before running backend.
+fastapi>=0.104.0,<0.116.0
+uvicorn[standard]>=0.24.0,<0.30.0
+python-dotenv>=1.0.0,<1.1.0
+psycopg2-binary>=2.9.0,<3.0.0
+boto3>=1.28.0,<1.35.0
+httpx>=0.24.0,<0.28.0
+python-jose[cryptography]>=3.3.0,<4.0.0
+
+# --- Transitive dependencies (pinned for reproducibility) ---
+colorama==0.4.6
+contourpy==1.4.0
+cycler==0.12.1
+fonttools==4.67.0
+iniconfig==2.3.1
+kiwisolver==1.5.1
+packaging==26.3
+pluggy==1.7.0
+Pygments==2.21.0
+pyparsing==3.3.3
+python-dateutil==3.0.0
+six==1.17.0
+tzdata==2026.5
