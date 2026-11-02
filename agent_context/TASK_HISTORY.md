@@ -74,6 +74,31 @@
 
 **Outstanding issues:** Backend dependencies not installed locally; Clerk JWT verification is a skeleton (full integration in Milestone 3); PDF report generation library unresolved (ReportLab vs WeasyPrint).
 
+### 2026-11-02 — Milestone 2 Verification and Gap Closure (`a5e4f6b`)
+
+**Summary:** Verified Milestone 2 backend foundation and fixed genuine defects.
+
+**Fixes applied:**
+- `exceptions.py`, `storage.py`, `database.py`, `routers/health.py`, `routers/auth.py`: Removed module-level `get_settings()` calls that prevented import without all env vars set; settings now loaded lazily
+- `routers/inspections.py`, `routers/photographs.py`: Added `response_model=None` to DELETE routes (204 No Content must not have a response body)
+- `requirements.txt`: Added missing `pydantic-settings` dependency; fixed `python-dateutil` version constraint (`>=2.1,<3.0.0`) to be compatible with boto3
+- `tests/unit/test_backend.py`: Fixed `pytest.MagicMock()` → `MagicMock()` (imported from `unittest.mock`); added 11 new tests for ownership enforcement, middleware behavior, FastAPI TestClient endpoints, config errors, and error response format
+
+**Tests executed (all pass):**
+- Backend unit tests: 30 passed
+- Existing inference tests: 17 passed
+- Existing data pipeline tests: 8 passed
+
+**Application startup:** Verified `create_app()` works with env vars set; all 18 routes registered; `/health/live` and `/health/ready` return 200
+
+**Commit message:** `fix: verify and complete backend foundation`
+
+**Commit hash:** `a5e4f6b`
+
+**Push result:** Not pushed (AGENTS.md: never push unless explicitly requested).
+
+**Outstanding issues:** Clerk JWT verification is a skeleton (full integration in Milestone 3); PDF report generation library unresolved (ReportLab vs WeasyPrint); external services (Neon PostgreSQL, Cloudflare R2, Clerk) not configured — CRUD endpoints verified structurally but not against real services.
+
 ## Prior Context
 
 The following milestones were completed before this context infrastructure was created:

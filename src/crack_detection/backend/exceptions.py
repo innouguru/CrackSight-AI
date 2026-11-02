@@ -14,7 +14,10 @@ from fastapi.responses import JSONResponse
 
 from crack_detection.backend.config import get_settings
 
-_settings = get_settings()
+
+def _get_settings():
+    """Return settings lazily to avoid import-time failures."""
+    return get_settings()
 
 
 class APIError(Exception):
@@ -168,7 +171,8 @@ def register_exception_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(Exception)
     async def handle_unexpected_error(_: Request, exc: Exception) -> JSONResponse:
-        if _settings.debug:
+        settings = _get_settings()
+        if settings.debug:
             import traceback
 
             return JSONResponse(

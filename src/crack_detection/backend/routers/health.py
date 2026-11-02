@@ -12,7 +12,6 @@ from fastapi import APIRouter
 from crack_detection.backend.config import get_settings
 
 router = APIRouter()
-_settings = get_settings()
 
 
 @router.get("/live", response_model=dict, summary="Liveness probe")
@@ -21,9 +20,10 @@ async def liveness() -> dict:
 
     Does not check external dependencies (database, storage, inference).
     """
+    settings = get_settings()
     return {
         "status": "alive",
-        "service": _settings.app_name,
+        "service": settings.app_name,
         "version": "0.1.0",
     }
 
@@ -36,6 +36,7 @@ async def readiness() -> dict:
     Unknown/unconfigured services are reported as ``not_configured``,
     never as healthy.
     """
+    settings = get_settings()
     checks: dict = {
         "database": "not_configured",
         "storage": "not_configured",
@@ -44,21 +45,21 @@ async def readiness() -> dict:
     all_ready = True
 
     # Database — check if URL is configured (placeholder, not a real connection)
-    if _settings.database_url and "CHANGE_ME" not in _settings.database_url:
+    if settings.database_url and "CHANGE_ME" not in settings.database_url:
         checks["database"] = "configured"
     else:
         all_ready = False
 
     # Storage — check if R2 is configured
-    if _settings.r2_bucket_name and "CHANGE_ME" not in _settings.r2_bucket_name:
+    if settings.r2_bucket_name and "CHANGE_ME" not in settings.r2_bucket_name:
         checks["storage"] = "configured"
     else:
         all_ready = False
 
     # Inference service — check if URL is configured
-    if _settings.inference_service_url and "localhost" in _settings.inference_service_url:
+    if settings.inference_service_url and "localhost" in settings.inference_service_url:
         checks["inference_service"] = "local"
-    elif _settings.inference_service_url and "CHANGE_ME" not in _settings.inference_service_url:
+    elif settings.inference_service_url and "CHANGE_ME" not in settings.inference_service_url:
         checks["inference_service"] = "configured"
     else:
         all_ready = False
@@ -66,6 +67,6 @@ async def readiness() -> dict:
     return {
         "status": "ready" if all_ready else "not_ready",
         "checks": checks,
-        "service": _settings.app_name,
+        "service": settings.app_name,
         "version": "0.1.0",
     }

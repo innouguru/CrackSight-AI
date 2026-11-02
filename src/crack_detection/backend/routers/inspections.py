@@ -220,7 +220,7 @@ async def complete_inspection(
     return InspectionResponse(**dict(row), photograph_count=0)
 
 
-@router.delete("/{inspection_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Delete inspection")
+@router.delete("/{inspection_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Delete inspection", response_model=None)
 async def delete_inspection(
     request: Request,
     inspection_id: UUID = Path(...),

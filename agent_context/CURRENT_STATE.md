@@ -50,15 +50,20 @@
   - `routers/inspections.py` — CRUD for inspections (draft/completed)
   - `routers/photographs.py` — CRUD for photographs + reanalysis
   - `routers/reports.py` — PDF report generation skeleton
-- Backend dependencies added to `requirements.txt` (not installed locally)
+- Backend dependencies added to `requirements.txt` (installed locally)
 - `.env.example` with placeholder configuration
-- Unit tests: `tests/unit/test_backend.py` (written, not runnable until deps installed)
+- Unit tests: `tests/unit/test_backend.py` — 30 tests, all passing
 
 ## Current Development Milestone
 
 **Documentation and context infrastructure — complete.**
 **Documentation publication to GitHub — complete** (`8b955e5`, `2ec8b31`).
-**Milestone 2: Backend Foundation — complete** (`0c8c091`).
+**Milestone 2: Backend Foundation — complete and verified** (`0c8c091`, `a5e4f6b`).
+
+**Test results:**
+- Backend unit tests: 30 passed
+- Existing inference tests: 17 passed
+- Existing data pipeline tests: 8 passed
 
 **Next milestone:** Milestone 3 of ROADMAP.md — Authentication (Clerk integration, guest + registered user access model).
 

@@ -18,8 +18,6 @@ from crack_detection.backend.config import get_settings
 
 logger = logging.getLogger(__name__)
 
-_settings = get_settings()
-
 
 class DatabaseError(Exception):
     """Raised when a database operation fails."""
@@ -28,9 +26,10 @@ class DatabaseError(Exception):
 @contextlib.contextmanager
 def get_db_connection() -> Generator[psycopg2.extensions.connection, None, None]:
     """Yield a PostgreSQL connection, rolling back on exception and closing after use."""
+    settings = get_settings()
     conn: Optional[psycopg2.extensions.connection] = None
     try:
-        conn = psycopg2.connect(_settings.database_url)
+        conn = psycopg2.connect(settings.database_url)
         yield conn
     except Exception as exc:
         if conn is not None:

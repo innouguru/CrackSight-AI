@@ -154,7 +154,7 @@ async def update_photograph(
     return PhotographResponse(**dict(row))
 
 
-@router.delete("/{photo_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Remove photograph from inspection")
+@router.delete("/{photo_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Remove photograph from inspection", response_model=None)
 async def remove_photograph(
     request: Request,
     photo_id: UUID = Path(...),

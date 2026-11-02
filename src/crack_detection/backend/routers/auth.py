@@ -14,15 +14,15 @@ from crack_detection.backend.config import get_settings
 from crack_detection.backend.schemas import SignInUrlResponse, TokenVerifyResponse
 
 router = APIRouter()
-_settings = get_settings()
 
 
 @router.get("/sign-in-url", response_model=SignInUrlResponse, summary="Get Clerk sign-in URL")
 async def sign_in_url() -> SignInUrlResponse:
     """Return the Clerk sign-in URL for the configured instance."""
+    settings = get_settings()
     return SignInUrlResponse(
-        sign_in_url=f"https://{_settings.clerk_jwt_issuer.replace('https://', '')}/sign-in"
-        if _settings.clerk_jwt_issuer and "CHANGE_ME" not in _settings.clerk_jwt_issuer
+        sign_in_url=f"https://{settings.clerk_jwt_issuer.replace('https://', '')}/sign-in"
+        if settings.clerk_jwt_issuer and "CHANGE_ME" not in settings.clerk_jwt_issuer
         else "https://clerk.accounts.com/sign-in"
     )
 
