@@ -7,11 +7,17 @@ middleware, and exception handlers. This is the module referenced by
 
 from __future__ import annotations
 
+import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from crack_detection.backend.config import get_settings
 from crack_detection.backend.exceptions import register_exception_handlers
+from crack_detection.backend.inference_service import (
+    reset_pipeline_for_testing,
+    get_pipeline,
+    analyze_image,
+)
 from crack_detection.backend.middleware import ClerkAuthMiddleware
 from crack_detection.backend.routers import (
     auth_router,
@@ -23,6 +29,13 @@ from crack_detection.backend.routers import (
 )
 
 settings = get_settings()
+logger = logging.getLogger(__name__)
+
+# ------------------------------------------------------------------
+# Global pipeline instance — loaded once at application startup.
+# ------------------------------------------------------------------
+
+_pipeline_loaded_at: Optional[float] = None
 
 
 def create_app() -> FastAPI:
@@ -66,7 +79,23 @@ def create_app() -> FastAPI:
     return app
 
 
-app = create_app()
+@app.on_event("startup")
+async def _startup_event() -> None:
+    """Load the inference pipeline once when the application starts."""
+    global _pipeline_loaded_at
+
+    from crack_detection.backend import inference_service
+
+    inference_service.reset_pipeline_for_testing()
+
+    start = __import__("time").time()
+    try:
+        inference_service._load_pipeline()  # type: ignore[attr-defined]
+        _pipeline_loaded_at = __import__("time").time() - start
+        logger.info("Inference pipeline loaded at startup")
+    except Exception as exc:  # pylint: disable=broad-except
+        logger.warning("Inference pipeline failed to load at startup: %s", exc)
+        _pipeline_loaded_at = None
 
 
 @app.get("/", include_in_schema=False)

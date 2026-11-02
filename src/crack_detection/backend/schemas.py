@@ -127,8 +127,25 @@ class ReportGenerateResponse(BaseModel):
     download_url: str
 
 
-# ------------------------------------------------------------------ error
-class ErrorDetail(BaseModel):
+# ------------------------------------------------------------------ analysis
+class AnalysisResponse(BaseModel):
+    photograph_id: UUID
+    prediction_mask_key: str
+    prediction_overlay_key: str
+    model_version: str
+    prediction_timestamp: datetime
+    inference_duration_ms: float
+    processing_status: str
+    original_image_size: tuple[int, int]
+    analyses_remaining: Optional[int] = None
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class AnalysisStatusResponse(BaseModel):
+    status: str = "analysis_queued"  # or "completed", "failed", "rate_limited"
+    message: str
+    photograph_id: UUID
     error: str
     message: str
     retryable: bool

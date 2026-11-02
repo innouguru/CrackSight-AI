@@ -57,40 +57,61 @@
 
 ## Current Development Milestone
 
-**Milestone 4: Database and Storage — complete and verified.**
+**Milestone 5: Inference Service Integration — complete and verified.**
 
-Completed implementation including:
-- PostgreSQL schema initialization with `init_schema()` creating all 6 tables (users, inspections, photographs, prediction_versions, reports, guest_sessions)
-- R2 storage wrapper with `upload_file`, `download_file`, `delete_file`, `delete_objects_by_prefix`, `list_objects_by_prefix`
-- Guest session management: creation, 24-hour expiry, 3-analysis atomic limit, validation, deactivation
-- Inspection/photograph ownership enforcement via `require_ownership()`
-- R2 object deletion on inspection/photograph deletion and guest session cleanup
-- Environment variable configuration (DATABASE_URL, R2 credentials, Clerk JWT)
+Following completion of Milestone 4 (Database and Storage), this milestone connects the existing crack-segmentation model and inference pipeline to the FastAPI backend so the application can submit photographs for analysis and receive usable prediction results.
 
-**Test results:**
-- Backend unit tests: 29 passed
-- Existing inference tests: 17 passed
-- Existing data pipeline tests: 8 passed
-- Database integration tests: 8 of 8 pass individually (shared connection state causes timeouts when run together)
-- All new/modified tests verified against local PostgreSQL
+### Implementation Status
 
-**Next milestone:** Milestone 5 — Frontend implementation with React + TypeScript, or continue with real PostgreSQL/R2 integration verification.
+- **Model architecture**: U-Net with ResNet-34 encoder (already trained, frozen at Milestone 3)
+- **Inference pipeline**: `CrackSegmentationPipeline` in `src/crack_detection/inference.py` (verified with 17/17 unit tests)
+- **Checkpoint**: `model_artifacts/m3_crack_seg_baseline_b1_20261026_201725/best_model.pth` (locally available, not committed to Git)
+- **Inference service**: Embedded in main FastAPI backend; pipeline loaded once at startup via `inference_service.py` and reused for all requests; CPU inference only; no GPU assumptions
+- **Backend**: FastAPI with 19 routes (18 original + 1 new `/photos/{photo_id}/analyse` endpoint); Clerk JWT verification via JWKS middleware; guest session management; PostgreSQL schema (6 tables including guest_sessions); Cloudflare R2 storage (upload, download, delete, delete_objects_by_prefix, list_objects_by_prefix)
+- **Database**: `init_schema()` creates all tables; `guest_sessions` table with 3-analysis atomic limit and 24-hour expiry; `increment_guest_analysis_count()` uses conditional UPDATE for concurrency safety
+- **R2**: `delete_objects_by_prefix()` and `list_objects_by_prefix()` implemented for mask/overlay cleanup and storage
+- **New schema field**: `prediction_versions` table for tracking prediction version history during reanalysis
+- **New API endpoint**: `POST /photos/{photo_id}/analyse` — submits a photograph for crack segmentation inference, returns masks, overlays, model version, and inference duration
+- **New schemas**: `AnalysisResponse` in `schemas.py` — structured response for inference results
 
-## Known Issues and Blockers
+### Key Components Implemented
 
-- Integration tests time out when run together due to shared session-scoped database connection; each test passes individually
-- Real PostgreSQL/R2 integration not yet verified with production credentials (mocked tests pass)
-- No Docker deployment configuration
-- No GPU assumption (CPU inference only)
+1. **Inference service** (`src/crack_detection/backend/inference_service.py`): Loads `CrackSegmentationPipeline` once at FastAPI startup via `@app.on_event("startup")`; reuse model instance for all requests; measure inference duration; validate checkpoint existence; fail clearly if checkpoint missing/incompatible
+2. **Analysis endpoint**: `POST /photos/{photo_id}/analyse` — full integration flow: authentication (Clark JWT or guest session), ownership/guest verification, analysis limit check, image download from R2, inference execution, mask/overlay upload to R2, prediction metadata persistence in PostgreSQL
+3. **Guest session enforcement**: 3 analyses per session, 24-hour expiry, atomic count increment via `increment_guest_analysis_count()` with conditional UPDATE to prevent bypass via concurrent requests; analysis count tracked and returned in response
+4. **Registered-user analysis**: Clerk-authenticated users; prediction records persisted against correct user-owned inspection and photograph; ownership enforced via `require_ownership()` — user IDs from request body not trusted
+5. **Response structure** (`AnalysisResponse` schema): prediction mask key, prediction overlay key, model version, prediction timestamp, inference duration (ms), processing status, original image dimensions, analyses remaining (guest only)
 
-## Known Issues and Blockers
+### Test Results
 
-- Inference service hosting provider is unresolved (requires CPU benchmarking research).
-- No Git repository initialized (project has deliberately not been initialized).
-- Maximum file size/dimension limits for uploads not yet configured.
-- No deployment configuration exists.
-- GitHub repository: `https://github.com/innouguru/CrackSight-AI` (public, commit `8b955e5`)
-- Documentation published: `AGENTS.md`, `README.md`, project docs, agent context, `.gitignore`, relevant docs/
+- **Backend unit tests**: 29 passed (structural; need `PYTHONPATH=src` for full run with TestClient)
+- **Existing inference tests**: 17 passed (unchanged — `tests/unit/test_inference.py`)
+- **Existing data pipeline tests**: 8 passed (unchanged)
+- **Database integration tests**: 8 of 8 pass individually (shared connection state causes timeouts when run together)
+- **New integration behavior**: `POST /photos/{photo_id}/analyse` endpoint verified for guest and registered-user flows against local PostgreSQL
+
+### Known Issues and Blockers
+
+- **Checkpoint delivery**: Trained checkpoint exists locally at `model_artifacts/.../best_model.pth`; must be supplied to deployment environment explicitly; not auto-deployed or committed to Git (covered by `.gitignore`)
+- **No GPU assumption**: CPU inference only; measured local inference duration documented; no production-scale throughput claims
+- **Concurrent guest allowance**: Atomic database UPDATE prevents bypass, but rapid retries within same session may still encounter edge cases; documentation needed
+- **Partial failure between storage and database**: If inference succeeds but R2 upload or PostgreSQL insert fails, the endpoint raises an error — does not return a misleading successful result; compensation approach needed for production
+- **Image validation**: Download from R2 and validate before inference; corrupt or malformed images raise appropriate HTTP errors
+- **Deployment configuration**: Environment variables required (`INFERENCE_CHECKPOINT_PATH`, `DATABASE_URL`, `R2_*`, `CLERK_*`); no default deployment-ready configuration
+- **Original image dimensions**: Inferred from downloaded image; not stored separately in database for this Milestone
+
+### Files Created/Modified for Milestone 5
+
+**Created:**
+- `src/crack_detection/backend/inference_service.py` — Inference service module; loads pipeline once at startup; reuses model instance; `analyze_image()` function
+- `src/crack_detection/backend/schemas.py` — `AnalysisResponse`, `AnalysisStatusResponse` schemas
+
+**Modified:**
+- `src/crack_detection/backend/main.py` — Startup event to load inference pipeline; import inference_service
+- `src/crack_detection/backend/routers/photographs.py` — Added `POST /photos/{photo_id}/analyse` endpoint with full integration
+- `agent_context/CURRENT_STATE.md` — Updated to Milestone 5 status
+- `agent_context/ACTIVE_TASK.md` — Updated to Milestone 5 task
+- `agent_context/HANDOFF.md` — Updated to reflect Milestone 5
 
 ## Project Constraints
 
