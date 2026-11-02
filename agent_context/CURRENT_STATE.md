@@ -52,6 +52,7 @@
 ## Current Development Milestone
 
 **Documentation and context infrastructure (this milestone)** — complete.
+**Documentation publication to GitHub** — complete (`8b955e5`).
 
 **Next milestone:** Milestone 1 of ROADMAP.md — Backend Foundation (FastAPI backend with Clerk integration, PostgreSQL schema, R2 storage).
 
@@ -61,6 +62,8 @@
 - No Git repository initialized (project has deliberately not been initialized).
 - Maximum file size/dimension limits for uploads not yet configured.
 - No deployment configuration exists.
+- GitHub repository: `https://github.com/innouguru/CrackSight-AI` (public, commit `8b955e5`)
+- Documentation published: `AGENTS.md`, `README.md`, project docs, agent context, `.gitignore`, relevant docs/
 
 ## Project Constraints
 

@@ -22,6 +22,24 @@
 
 **Outstanding issues:** Inference service hosting provider unresolved; no Git repository initialized.
 
+### 2026-11-02 — Publish Documentation to GitHub (`8b955e5`)
+
+**Summary:** Published the project documentation and persistent agent context to the public GitHub repository `https://github.com/innouguru/CrackSight-AI`.
+
+**Files published:** `AGENTS.md`, `README.md`, `PROJECT_CONTEXT.md`, `APP_SPECIFICATION.md`, `TECHNICAL_DESIGN.md`, `ROADMAP.md`, `agent_context/` (all files), `.gitignore`, `docs/` (relevant `.md` files). `data/`, `model_artifacts/`, `src/`, `tests/`, notebooks, outputs, scripts, and temporary audit files excluded.
+
+**Security audit:** No secrets, credentials, database connection strings, or model checkpoints staged. `.gitignore` already excludes `*.pth`, `.pt`, `.venv/`, caches, and build artifacts.
+
+**Tests executed:** None (publication milestone)
+
+**Commit message:** `docs: publish CrackSight AI project context and documentation`
+
+**Commit hash:** `8b955e5`
+
+**Push result:** Succeeded (`main` → `main` on `https://github.com/innouguru/CrackSight-AI`).
+
+**Outstanding issues:** None from publication; application implementation (Milestone 1: Backend Foundation) remains the next milestone.
+
 ## Prior Context
 
 The following milestones were completed before this context infrastructure was created:

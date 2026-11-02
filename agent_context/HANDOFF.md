@@ -12,7 +12,7 @@ Crack Detection is an AI-assisted building inspection web application that lets 
 
 ## What Was Most Recently Completed
 
-The persistent coding-agent context environment was created, including `AGENTS.md` and all `agent_context/` files. No application code was implemented.
+The persistent coding-agent context environment was created (`AGENTS.md` + all `agent_context/` files). The documentation milestone was published to the public GitHub repository `https://github.com/innouguru/CrackSight-AI` (commit `8b955e5`). No application code was implemented.
 
 ## What Is Currently Active
 
@@ -42,5 +42,7 @@ Nothing. Application development has not started.
 ## Next Sensible Action
 
 Begin **Milestone 1: Backend Foundation** from `ROADMAP.md` — implement the FastAPI main backend with Clerk token verification, Neon PostgreSQL schema, and Cloudflare R2 storage integration.
+
+When local context is unavailable, consult the public repository: `https://github.com/innouguru/CrackSight-AI`. The checked-out local repository remains the authoritative source for active development work.
 
 Do not implement any application features until you have read the required documents in order and inspected the existing inference pipeline (`src/crack_detection/inference.py`) and model (`src/crack_detection/model.py`).
