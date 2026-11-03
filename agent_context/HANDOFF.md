@@ -1,6 +1,6 @@
 # HANDOFF — Next Agent Summary
 
-**Last updated:** 2026-11-02
+**Last updated:** 2026-11-03
 
 ## Project
 
@@ -9,37 +9,43 @@ CrackSight AI is an AI-assisted building inspection application for visible crac
 ## Current State
 
 - Model, data pipeline, and backend Milestones 2–5 are implemented per `CURRENT_STATE.md`.
-- A responsive React + TypeScript + Vite visual prototype is in `frontend/`.
-- The prototype's build and lint pass; local browser review covered major routes, guest allowance, inspection lifecycle, and mobile navigation.
-- The prototype is not connected to FastAPI, Clerk, storage, inference, or PDF generation. All records/actions are sample or in-memory values.
-- The local development URL used for review is `http://127.0.0.1:5173/`; start it from `frontend/` using `npm run dev`.
+- **Milestone 6: Frontend Foundation is complete and verified.** The production React/TypeScript frontend is under `frontend/`.
+- The frontend builds, lints, and passes 18 tests. Local dev server at `http://localhost:5173/` (`cd frontend; npm run dev`).
+- Clerk React SDK integrated; guest session creation/validation connected to FastAPI backend.
+- All API contracts verified against backend Pydantic schemas.
 
 ## Most Recent Work
 
-Completed the pre-Milestone 6 UI/UX direction and browser prototype:
+Completed formal Milestone 6: Frontend Foundation:
 
-- Design tokens, rationale, screen inventory, responsive/accessibility notes, mock boundaries, and integration transition plan: `docs/ui_ux_design.md`.
-- Frontend run instructions: `frontend/README.md`.
-- Sample photo and paired mask/overlay copies are in `frontend/public/demo/`.
-- Updated `README.md`, `ROADMAP.md`, and agent context so the prototype is not mistaken for production frontend integration.
+- Fixed interrupted implementation (broken TypeScript, failing tests, incorrect Clerk SDK usage).
+- Integrated Clerk React SDK via `AppProviders` + auth context.
+- Typed API client with Clerk bearer token, guest session token, timeout, and structured error handling.
+- Routing: public, guest, and registered-user protected routes with auth guards and loading states.
+- Layouts: `PublicLayout`, `GuestLayout`, `AppShell` (responsive, mobile drawer).
+- Pages: Landing, Auth, GuestAnalysis, Results, Dashboard, History, NewInspection, InspectionDetail, Reports, AccessDenied, NotFound.
+- Reusable components, hooks, shared types aligned with backend schemas.
+- 18 Vitest tests passing; TypeScript strict + oxlint + Vite build all pass.
 
 ## Important Boundaries
 
 - Do not modify the trained model, checkpoint, datasets, or inference pipeline for frontend work.
-- The browser must call the FastAPI backend when live integration begins; it must never load the checkpoint or call the inference service directly.
+- The browser calls the FastAPI backend via the typed API client; it never loads the checkpoint or calls the inference service directly.
 - Continue to distinguish AI predictions from inspector observations.
 - Do not imply structural safety, introduce severity classifications, or report physical dimensions without calibration.
 - Preserve Draft/Completed workflow; Completed inspections are read-only until reopened.
+- Guest session creation/validation IS connected to the backend; upload/analysis/inspection/report workflows remain mock placeholders for Milestones 7–10.
 - Do not overwrite or stage unrelated existing untracked project files.
 
 ## Known Follow-up Work
 
-- Formal Milestone 6: typed API client and integration with existing FastAPI response contracts.
-- Integrate Clerk React SDK while retaining backend JWT verification.
-- Connect guest session validation, upload, photo analysis, ownership, loading/retry/error handling, and persistent inspection history to backend.
-- Replace report placeholders with the actual PDF generation workflow when available.
-- Resolve backend upload size/dimension configuration and production external-service setup separately.
+- Milestone 7: Connect guest photo upload, analysis, and results to FastAPI backend (`POST /photos/{id}/analyse`, `GET /photos/{id}`, etc.).
+- Milestone 8: Registered-user inspection management with persistence.
+- Milestone 9: Dashboard/history backed by real user data.
+- Milestone 10: PDF report generation/download.
+- Backend upload file-size/dimension limits need a configured source of truth.
+- External Neon, R2, and Clerk integrations not configured for production validation.
 
 ## Recommended Next Step
 
-Start formal Milestone 6 from `ROADMAP.md`. Read `docs/ui_ux_design.md` for design and mock boundaries, `TECHNICAL_DESIGN.md` for architecture/API context, and `agent_context/CURRENT_STATE.md` for implemented-versus-planned status.
+Begin **Milestone 7: Guest Analysis Workflow** from `ROADMAP.md`. Read `TECHNICAL_DESIGN.md` for backend API context and `agent_context/CURRENT_STATE.md` for implemented-versus-planned status.

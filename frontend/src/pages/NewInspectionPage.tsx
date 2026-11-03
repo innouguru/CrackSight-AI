@@ -1,13 +1,12 @@
 import { ArrowLeft, ArrowRight, ClipboardPlus } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { DemoNotice, PageHeading, SafetyNotice } from '../components/Ui'
-import { usePrototype } from '../data/usePrototype'
+import { useAuth } from '../hooks/useAuth'
 import { structureTypes } from '../data/mockData'
 
 export function NewInspectionPage() {
-  const { createInspection } = usePrototype()
-  const navigate = useNavigate()
+  const { isAuthenticated, isLoading } = useAuth()
   const [title, setTitle] = useState('')
   const [location, setLocation] = useState('')
   const [buildingType, setBuildingType] = useState('')
@@ -28,16 +27,11 @@ export function NewInspectionPage() {
       setError('Choose a supported structure type.')
       return
     }
-    const inspection = createInspection({
-      title: title.trim(),
-      location: location.trim() || 'Location not specified',
-      buildingType: buildingType || 'Not specified',
-      structure,
-      notes: notes.trim() || undefined,
-    })
-    navigate(`/app/inspections/${inspection.id}`, {
-      state: { prototypeNotice: 'Inspection created in temporary prototype state only.' },
-    })
+    if (!isAuthenticated) {
+      setError('Please sign in to create and save inspections.')
+      return
+    }
+    setError('')
   }
 
   return (
@@ -48,7 +42,9 @@ export function NewInspectionPage() {
         title="New inspection"
         description="Add the basics now. You can attach photographs and observations as the inspection progresses."
       />
-      <DemoNotice>Creating an inspection here updates only the current browser session. No record is sent to the backend.</DemoNotice>
+      <DemoNotice>
+        {isLoading ? 'Resolving your session…' : !isAuthenticated ? 'Please sign in to create and save inspections. Inspection creation will be connected to your account in the next milestone.' : 'Creating an inspection here updates only the current browser session. No record is sent to the backend.'}
+      </DemoNotice>
       <div className="create-layout" style={{ marginTop: 15 }}>
         <form className="card card--padded create-form" onSubmit={handleSubmit} noValidate>
           <div className="form-field">
@@ -89,7 +85,9 @@ export function NewInspectionPage() {
           {error && <p className="prototype-alert" role="alert">{error}</p>}
           <div className="form-footer">
             <Link className="button button--secondary" to="/app/history">Cancel</Link>
-            <button type="submit" className="button button--primary">Create draft <ArrowRight size={15} /></button>
+            <button type="submit" className="button button--primary" disabled={!isAuthenticated || !title.trim()}>
+              Create draft <ArrowRight size={15} />
+            </button>
           </div>
         </form>
 

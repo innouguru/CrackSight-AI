@@ -3,6 +3,7 @@ import {
   ChevronDown,
   ClipboardList,
   FileText,
+  LogOut,
   Menu,
   Plus,
   X,
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Brand } from '../components/Brand'
 import { SafetyNotice } from '../components/Ui'
+import { useAuth } from '../hooks/useAuth'
 
 const navigation = [
   { label: 'Overview', to: '/app', icon: BarChart3, end: true },
@@ -19,6 +21,7 @@ const navigation = [
 ]
 
 export function AppShell() {
+  const { user, isAuthenticated, isLoading, signOut } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const location = useLocation()
@@ -26,6 +29,15 @@ export function AppShell() {
     navigation.find((item) =>
       item.end ? location.pathname === item.to : location.pathname.startsWith(item.to),
     )?.label ?? (location.pathname.includes('/new') ? 'New inspection' : 'Inspection details')
+
+  const userName = user.user_id ? (user.email ? user.email.split('@')[0] : 'User') : 'Inspector'
+  const userInitials = user.user_id
+    ? user.user_id
+        .split('')
+        .filter((ch) => /[A-Z]/.test(ch))
+        .slice(0, 2)
+        .join('') || 'U'
+    : 'UI'
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 760px)')
@@ -37,6 +49,21 @@ export function AppShell() {
     mediaQuery.addEventListener('change', updateViewport)
     return () => mediaQuery.removeEventListener('change', updateViewport)
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className="app-frame" style={{ display: 'flex', height: '100vh' }}>
+        <div className="app-main" style={{ flex: 1 }}>
+          <div className="app-content" style={{ padding: 40 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+              <div style={{ width: 40, height: 40, border: '3px solid #e6ebe9', borderTopColor: '#167f78', borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginBottom: 12 }} />
+              <p style={{ color: '#718087', fontSize: 12 }}>Resolving session…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="app-frame">
@@ -63,10 +90,10 @@ export function AppShell() {
           </button>
         </div>
         <div className="workspace-switcher">
-          <span className="workspace-switcher__avatar">R</span>
+          <span className="workspace-switcher__avatar">{userInitials}</span>
           <span className="workspace-switcher__text">
-            <strong>Riverside Survey</strong>
-            <small>Personal workspace</small>
+            <strong>{isAuthenticated ? 'Your Workspace' : 'Workspace'}</strong>
+            <small>{isAuthenticated ? 'Signed in' : 'Guest access'}</small>
           </span>
           <ChevronDown size={15} />
         </div>
@@ -82,31 +109,29 @@ export function AppShell() {
             >
               <Icon size={18} strokeWidth={1.8} />
               <span>{label}</span>
-              {label === 'Inspections' && <span className="nav-count">12</span>}
+              {label === 'Inspections' && <span className="nav-count">0</span>}
             </NavLink>
           ))}
         </nav>
         <div className="sidebar__bottom">
-          <div className="allowance-card">
-            <div className="allowance-card__top">
-              <span>Monthly analyses</span>
-              <span className="allowance-card__count">18 / 100</span>
-            </div>
-            <div className="progress-track"><span style={{ width: '18%' }} /></div>
-            <p>Resets 1 Dec</p>
-          </div>
           <NavLink to="/app/inspections/new" className="sidebar-cta" onClick={() => setMobileOpen(false)}>
             <Plus size={17} /> New inspection
           </NavLink>
           <div className="account-row">
-            <div className="account-avatar">JM</div>
+            <div className="account-avatar">{userInitials}</div>
             <span className="account-row__text">
-              <strong>Jordan Miller</strong>
-              <small>Inspector</small>
+              <strong>{userName}</strong>
+              <small>{isAuthenticated ? 'Inspector' : 'Guest'}</small>
             </span>
-            <button className="icon-button account-row__menu" aria-label="Account options">
-              <ChevronDown size={16} />
-            </button>
+            {isAuthenticated && (
+              <button
+                className="icon-button account-row__menu"
+                onClick={() => void signOut()}
+                aria-label="Sign out"
+              >
+                <LogOut size={16} />
+              </button>
+            )}
           </div>
         </div>
       </aside>
@@ -126,15 +151,20 @@ export function AppShell() {
             </div>
           </div>
           <div className="topbar__right">
-            <span className="prototype-chip"><span /> Prototype workspace</span>
-            <button className="topbar__avatar" aria-label="Jordan Miller account">JM</button>
+            <span className="prototype-chip"><span /> {isAuthenticated ? 'Authenticated' : 'Guest session'}</span>
+            <button className="topbar__avatar" aria-label={userName} onClick={() => void signOut()}>
+              {userInitials}
+            </button>
           </div>
         </header>
         <main className="app-content">
           <Outlet />
           <footer className="workspace-footer">
             <SafetyNotice compact />
-            <span>CrackSight AI · Prototype data · <Link to="/app/access-denied">Access-state example</Link></span>
+            <span>
+              CrackSight AI · {isAuthenticated ? 'Signed-in workspace' : 'Guest session'} ·
+              <Link to="/app/access-denied">Access-state example</Link>
+            </span>
           </footer>
         </main>
       </div>

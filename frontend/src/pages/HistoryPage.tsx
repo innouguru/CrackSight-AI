@@ -3,8 +3,8 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { InspectionCard } from '../components/InspectionCard'
 import { DemoNotice, PageHeading, StatusPill } from '../components/Ui'
-import { usePrototype } from '../data/usePrototype'
-import type { Inspection } from '../data/mockData'
+import { useAuth } from '../hooks/useAuth'
+import { initialInspections, type Inspection } from '../data/mockData'
 
 type ViewMode = 'cards' | 'list'
 
@@ -38,7 +38,8 @@ function InspectionTable({ inspections }: { inspections: Inspection[] }) {
 }
 
 export function HistoryPage() {
-  const { inspections } = usePrototype()
+  const { isLoading } = useAuth()
+  const inspections = initialInspections
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState('All statuses')
   const [structure, setStructure] = useState('All components')
@@ -68,7 +69,9 @@ export function HistoryPage() {
         description="Search and review your saved building inspections."
         action={<Link className="button button--primary" to="/app/inspections/new"><Plus size={16} /> New inspection</Link>}
       />
-      <DemoNotice>History and filters are powered by sample data. Your changes are local to this prototype session.</DemoNotice>
+      <DemoNotice>
+        {isLoading ? 'Resolving your session…' : 'History is powered by sample data. Inspection records will be connected to your account in the next milestone.'}
+      </DemoNotice>
       <div className="history-toolbar" style={{ marginTop: 16 }}>
         <div className="history-toolbar__filters">
           <label className="search-control">

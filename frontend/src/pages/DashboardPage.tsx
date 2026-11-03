@@ -9,11 +9,13 @@ import {
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { DemoNotice, PageHeading, SafetyNotice, StatusPill } from '../components/Ui'
-import { usePrototype } from '../data/usePrototype'
+import { useAuth } from '../hooks/useAuth'
+import { initialInspections } from '../data/mockData'
 import { demoImages } from '../data/mockData'
 
 export function DashboardPage() {
-  const { inspections } = usePrototype()
+  const { isAuthenticated, isGuest, isLoading } = useAuth()
+  const inspections = initialInspections
   const recent = inspections.slice(0, 3)
 
   return (
@@ -24,9 +26,17 @@ export function DashboardPage() {
         description="Here’s an overview of your inspection workspace."
         action={<Link className="button button--primary" to="/app/inspections/new"><ClipboardPlus size={16} /> New inspection</Link>}
       />
-      <DemoNotice>
-        You’re viewing sample workspace data. Changes in this prototype stay in memory and aren’t saved to a server.
-      </DemoNotice>
+      {isLoading && <DemoNotice>Resolving your session…</DemoNotice>}
+      {!isAuthenticated && (
+        <DemoNotice>
+          You are browsing as a guest. Sign in to save inspections and access your dashboard history.
+        </DemoNotice>
+      )}
+      {isAuthenticated && !isGuest && (
+        <DemoNotice>
+          You’re viewing sample workspace data. Inspection records will be connected to your account in the next milestone.
+        </DemoNotice>
+      )}
       <div className="metrics-grid" style={{ marginTop: 15 }}>
         <article className="card metric-card">
           <div className="metric-card__top"><span>Total inspections</span><span className="metric-card__icon"><ClipboardPlus size={15} /></span></div>

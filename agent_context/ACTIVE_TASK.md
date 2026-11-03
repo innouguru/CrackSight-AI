@@ -1,36 +1,39 @@
 # ACTIVE TASK — Current Work Item
 
-**Task title:** Establish CrackSight AI UI/UX direction and browser prototype
+**Task title:** Implement Milestone 6: Frontend Foundation
 **Status:** Completed  
-**Completed:** 2026-11-02
+**Completed:** 2026-11-03
 
 ## Objective
 
-Create a complete visual direction and a locally reviewable React + TypeScript prototype before production Milestone 6 frontend integration.
+Transform the approved CrackSight AI UI/UX prototype into a production React/TypeScript frontend foundation integrated with the existing FastAPI backend and Clerk authentication.
 
 ## Completion Summary
 
-- Implemented the responsive React/Vite prototype under `frontend/`.
-- Added public landing and authentication placeholders, registered dashboard/history/inspection/report screens, guest upload/results, and supporting states.
-- Added reusable shell, image comparison, status, notice, inspection card, and in-memory sample-data patterns.
-- Documented visual tokens, screen inventory, design rationale, mock boundaries, and next integration steps in `docs/ui_ux_design.md`.
-- Updated `README.md`, `ROADMAP.md`, `agent_context/CURRENT_STATE.md`, `agent_context/HANDOFF.md`, `agent_context/DECISIONS.md`, and this file.
-- Preserved the FastAPI backend, inference/model code, datasets, and pre-existing unrelated untracked files.
+- Fixed and completed the interrupted Milestone 6 implementation (previous agent left broken TypeScript, failing tests, and incorrect Clerk SDK usage).
+- Integrated Clerk React SDK via `AppProviders` (`src/app/Providers.tsx`) wrapping the app with `ClerkProvider`.
+- Typed API client (`src/services/api.ts`) with Clerk bearer token, guest session token (`X-Guest-Session-Token`), 30s timeout, structured `ApiError` error handling.
+- Application routing with `react-router-dom`: public (`/`, `/sign-in`, `/sign-up`), guest (`/try`, `/try/results`), registered-user protected (`/app/*`) with `RequireAuth`/`RequireNoAuth` guards and session-resolving loading states.
+- Layouts: `PublicLayout`, `GuestLayout`, `AppShell` (responsive sidebar, mobile drawer, authenticated sign-out).
+- All prototype pages preserved and rewired: Landing, Auth, GuestAnalysis (backend guest session creation/validation), Results, Dashboard, History, NewInspection, InspectionDetail, Reports, AccessDenied, NotFound.
+- Reusable UI components, hooks (`useAuth`, `useGuestSession`, `useApiStatus`), shared types aligned with backend Pydantic schemas.
+- Vitest configured; 18 tests passing across 3 test files.
+- TypeScript strict check, oxlint, and Vite production build all pass.
+- Backend API contracts verified against `src/crack_detection/backend/schemas.py` — all paths, response types, and error formats match.
 
 ## Verification
 
-- `cd frontend; npm run build` — passed (TypeScript build and Vite production build).
-- `cd frontend; npm run lint` — passed.
-- `npm install --dry-run --no-audit --no-fund` from `frontend/` — passed.
-- Browser smoke checks — landing, auth, guest, dashboard, history, create/detail, reports, and access-denied routes rendered.
-- Browser interactions — guest limit reached 2/3, 1/3, then 0/3; result tabs worked; created inspection remained empty until sample photo was added; Completed disabled editing until reopened.
-- Responsive check at 390 px — no page-level horizontal overflow; mobile navigation drawer opened.
-- Development server was running at `http://127.0.0.1:5173/` during visual review.
+- `cd frontend; npm run build` — passed (TypeScript + Vite production build)
+- `cd frontend; npm run lint` — passed (warnings only, no errors)
+- `cd frontend; npm run test` — passed (18 tests, 3 test files, all passing)
+- Local dev server at `http://localhost:5173/` (`cd frontend; npm run dev`)
 
-## Prototype Boundary
+## Mock Boundaries
 
-No live API, Clerk session, database persistence, backend upload, model inference, or PDF generation is connected. Sample results, records, progress, and user actions are labeled as prototype-only. A user-uploaded image is browser-local and is not paired with the unrelated sample mask/overlay as if it were a prediction.
+- Guest session creation/validation IS connected to the FastAPI backend.
+- Upload, analysis, inspection CRUD, reports, and PDF generation remain as prototype/mock placeholders for Milestones 7–10.
+- `src/data/mockData.ts` holds isolated mock records; `DemoNotice` components mark non-functional areas.
 
 ## Next Task
 
-Begin formal **Milestone 6: Frontend Foundation** by mapping the existing backend response models into typed frontend API services, integrating Clerk, and replacing mock workflows incrementally. Keep the visual direction and preserve the backend/model boundaries documented in `docs/ui_ux_design.md`.
+Begin **Milestone 7: Guest Analysis Workflow** — connect guest photo upload, analysis, and results to the FastAPI backend endpoints.

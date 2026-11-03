@@ -30,9 +30,33 @@
 
 ## Current Milestone
 
-**Pre-Milestone 6 UI/UX direction and browser prototype: complete.**
+**Milestone 6: Frontend Foundation — implemented and verified.**
 
-The prototype is a design-review deliverable, not completion of formal Milestone 6. The next milestone is production frontend foundation and integration with the existing backend and Clerk architecture.
+The production React/TypeScript frontend foundation is implemented under `frontend/`:
+
+- Clerk React SDK integrated via `AppProviders` wrapping the app (ClerkProvider + auth context).
+- Typed API client (`src/services/api.ts`) with Clerk bearer token and guest session token support, timeout handling, and structured `ApiError` error responses.
+- Application routing with `react-router-dom`: public routes (`/`, `/sign-in`, `/sign-up`), guest routes (`/try`, `/try/results`), and registered-user protected routes (`/app/*`) with auth guards and loading states.
+- Layouts: `PublicLayout`, `GuestLayout`, `AppShell` (responsive sidebar with mobile drawer, sign-out for authenticated users).
+- Pages: Landing, Auth (email/password + Google via Clerk), GuestAnalysis (guest session creation/validation connected to backend), Results, Dashboard, History, NewInspection, InspectionDetail, Reports, AccessDenied, NotFound.
+- Reusable UI components: Button, PageHeading, StatusPill, DemoNotice, SafetyNotice, LinkArrow, ResultViewer, InspectionCard, Brand, LoadingState, ErrorState, EmptyState.
+- Hooks: `useAuth`, `useGuestSession`, `useApiStatus`.
+- Shared types in `src/types/index.ts` aligned with backend Pydantic schemas.
+- Vitest configured; 18 tests passing across 3 test files.
+- TypeScript strict check, oxlint, and Vite production build all pass.
+- Local dev server at `http://localhost:5173/` (start with `cd frontend; npm run dev`).
+
+### Frontend UX prototype — preserved
+- The approved visual prototype (commit `916f64f`) design tokens, colour palette, typography, and layouts are preserved.
+- Mock data remains isolated in `src/data/mockData.ts` for features not yet connected to the backend (Milestones 7–10).
+
+## Not Yet Implemented
+
+- Full guest image-upload and analysis workflow connected to backend (Milestone 7).
+- Full registered-user inspection management with persistence (Milestone 8).
+- Dashboard/history backed by real user data (Milestone 9).
+- PDF report generation/download (Milestone 10).
+- Deployment (Milestone 12).
 
 ## Not Yet Implemented
 

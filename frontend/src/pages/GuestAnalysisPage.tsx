@@ -1,9 +1,9 @@
 import { ArrowLeft, ArrowRight, Camera, Check, CloudUpload, FileImage, RotateCcw, X } from 'lucide-react'
-import { useRef, useState, type ChangeEvent, type DragEvent } from 'react'
+import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Brand } from '../components/Brand'
 import { DemoNotice, SafetyNotice } from '../components/Ui'
-import { usePrototype } from '../data/usePrototype'
+import { useGuestSession } from '../hooks/useGuestSession'
 
 const stages = [
   'Uploading photograph',
@@ -41,17 +41,23 @@ function getImageDimensions(source: string) {
 }
 
 export function GuestAnalysisPage() {
-  const { guestAnalysesRemaining, consumeGuestAnalysis } = usePrototype()
+  const { validation, isLoading, error: sessionError, createSession, clearSession } = useGuestSession()
   const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null)
   const [error, setError] = useState('')
   const [dragging, setDragging] = useState(false)
   const [activeStage, setActiveStage] = useState(-1)
   const [busy, setBusy] = useState(false)
   const [sessionExpired, setSessionExpired] = useState(false)
-  const [simulateNetworkFailure, setSimulateNetworkFailure] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const cameraRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
+
+  const analysesRemaining = validation?.analyses_remaining ?? 0
+  const isSessionValid = validation?.valid ?? false
+
+  useEffect(() => {
+    void createSession()
+  }, [createSession])
 
   async function chooseFile(file?: File) {
     setError('')
@@ -88,13 +94,17 @@ export function GuestAnalysisPage() {
     void chooseFile(event.dataTransfer.files[0])
   }
 
-  async function runMockAnalysis(useSample = false) {
+  async function runAnalysis(useSample = false) {
     if (busy) return
+    if (!isSessionValid) {
+      setError('Guest session is not available. Please refresh to start a new session.')
+      return
+    }
     if (sessionExpired) {
       setError('This guest session has expired. Start a new session to continue.')
       return
     }
-    if (guestAnalysesRemaining < 1) {
+    if (analysesRemaining < 1) {
       setError('This guest session has no analyses remaining. Create an account to explore the registered-user screens.')
       return
     }
@@ -103,18 +113,6 @@ export function GuestAnalysisPage() {
     for (let index = 0; index < stages.length; index += 1) {
       setActiveStage(index)
       await new Promise((resolve) => window.setTimeout(resolve, 420))
-      if (simulateNetworkFailure && index === 2) {
-        setBusy(false)
-        setActiveStage(-1)
-        setError('Sample analysis failed because the prototype is not connected to the inference service. Your guest allowance was not changed.')
-        return
-      }
-    }
-    if (!consumeGuestAnalysis()) {
-      setBusy(false)
-      setActiveStage(-1)
-      setError('No guest analyses remain in this session.')
-      return
     }
     setBusy(false)
     navigate('/try/results', {
@@ -128,15 +126,21 @@ export function GuestAnalysisPage() {
     })
   }
 
-  const usedAnalyses = 3 - guestAnalysesRemaining
+  const usedAnalyses = 3 - analysesRemaining
 
   return (
     <div className="upload-page">
       <header className="upload-header">
         <Link to="/"><Brand /></Link>
         <div className="upload-header__right">
-          <span>Guest session · expires in 24 hours</span>
-          <Link className="button button--secondary" to="/sign-in">Sign in</Link>
+          {isLoading ? (
+            <span>Establishing guest session…</span>
+          ) : (
+            <>
+              <span>Guest session · {isSessionValid ? 'active' : 'expired'} · {analysesRemaining} analyses remaining</span>
+              <Link className="button button--secondary" to="/sign-in">Sign in</Link>
+            </>
+          )}
         </div>
       </header>
       <main className="upload-main">
@@ -147,12 +151,14 @@ export function GuestAnalysisPage() {
           <p>Upload an image to explore the analysis flow, or open the included sample result.</p>
         </div>
 
+        {isLoading && <p className="prototype-alert" role="status">Establishing your guest session…</p>}
+        {sessionError && <p className="prototype-alert" role="alert">{sessionError}</p>}
         {sessionExpired && <p className="prototype-alert" role="alert">This guest session has expired. Its results are unavailable after 24 hours.</p>}
-        {guestAnalysesRemaining < 1 && !sessionExpired && (
+        {analysesRemaining < 1 && !sessionExpired && !isLoading && (
           <p className="prototype-alert" role="status">No guest analyses remain in this session. Create an account to explore the registered-user screens.</p>
         )}
         <DemoNotice>
-          This is a visual prototype. Uploaded photos are previewed in your browser and are not sent to CrackSight’s backend. Sample analysis outputs are illustrative, not generated from your upload.
+          This is a visual prototype foundation. Guest session creation is connected to the backend. Upload and analysis will be connected to the backend in the next milestone.
         </DemoNotice>
         <section className="card upload-card" style={{ marginTop: 14 }}>
           <div className={`dropzone${dragging ? ' is-dragging' : ''}`}
@@ -164,12 +170,12 @@ export function GuestAnalysisPage() {
             <h2>Drag a photograph here</h2>
             <p>or browse from your device</p>
             <div className="upload-preview__actions">
-              <button type="button" className="button button--secondary" onClick={() => inputRef.current?.click()}><FileImage size={15} /> Choose image</button>
-              <button type="button" className="button button--secondary" onClick={() => cameraRef.current?.click()}><Camera size={15} /> Use camera</button>
+              <button type="button" className="button button--secondary" disabled={!isSessionValid || isLoading || busy} onClick={() => inputRef.current?.click()}><FileImage size={15} /> Choose image</button>
+              <button type="button" className="button button--secondary" disabled={!isSessionValid || isLoading || busy} onClick={() => cameraRef.current?.click()}><Camera size={15} /> Use camera</button>
             </div>
             <span className="dropzone__hint">JPEG, PNG or WebP · up to 10 MB · one photograph</span>
-            <input ref={inputRef} className="sr-only" type="file" accept="image/jpeg,image/png,image/webp" onChange={onInputChange} aria-label="Choose photograph" />
-            <input ref={cameraRef} className="sr-only" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" onChange={onInputChange} aria-label="Capture photograph" />
+            <input ref={inputRef} className="sr-only" type="file" accept="image/jpeg,image/png,image/webp" onChange={onInputChange} aria-label="Choose photograph" disabled={!isSessionValid || isLoading || busy} />
+            <input ref={cameraRef} className="sr-only" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" onChange={onInputChange} aria-label="Capture photograph" disabled={!isSessionValid || isLoading || busy} />
           </div>
 
           {selectedImage && (
@@ -200,8 +206,8 @@ export function GuestAnalysisPage() {
 
           {error && <p className="prototype-alert" role="alert">{error}</p>}
           <div className="upload-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginTop: 16 }}>
-            <span className="guest-results__limit">Analyses remaining: <strong>{guestAnalysesRemaining} of 3</strong></span>
-            <button type="button" className="button button--primary" disabled={busy || sessionExpired || guestAnalysesRemaining < 1 || !selectedImage} onClick={() => void runMockAnalysis(false)}>
+            <span className="guest-results__limit">Analyses remaining: <strong>{analysesRemaining} of 3</strong></span>
+            <button type="button" className="button button--primary" disabled={busy || sessionExpired || analysesRemaining < 1 || !selectedImage || !isSessionValid || isLoading} onClick={() => void runAnalysis(false)}>
               {busy ? 'Preparing sample…' : selectedImage ? 'Preview sample result' : 'Select a photo to preview'}
               {busy ? null : <ArrowRight size={15} />}
             </button>
@@ -212,7 +218,7 @@ export function GuestAnalysisPage() {
           <SafetyNotice />
           <div className="card card--padded" style={{ marginTop: 12 }}>
             <div className="card-heading"><div><h2>Want to see the result view now?</h2><p>Open the bundled sample photograph and its matching model outputs.</p></div></div>
-            <button type="button" className="button button--secondary" disabled={busy || sessionExpired || guestAnalysesRemaining < 1} onClick={() => void runMockAnalysis(true)}>
+            <button type="button" className="button button--secondary" disabled={busy || sessionExpired || analysesRemaining < 1 || !isSessionValid || isLoading} onClick={() => void runAnalysis(true)}>
               {busy ? 'Preparing sample…' : 'Open sample analysis'} <ArrowRight size={14} />
             </button>
           </div>
@@ -227,8 +233,8 @@ export function GuestAnalysisPage() {
             <button className="button button--secondary" onClick={() => { setSessionExpired((expired) => !expired); setError('') }}>
               {sessionExpired ? 'Restore guest session' : 'Show expired session'}
             </button>
-            <button className="button button--secondary" onClick={() => { setSimulateNetworkFailure((failed) => !failed); setError('') }}>
-              {simulateNetworkFailure ? 'Disable analysis failure' : 'Simulate analysis failure'}
+            <button className="button button--secondary" onClick={clearSession}>
+              Reset guest session
             </button>
           </div>
         </details>

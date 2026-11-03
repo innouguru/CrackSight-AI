@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Brand } from '../components/Brand'
 import { ResultViewer } from '../components/ResultViewer'
 import { DemoNotice, SafetyNotice } from '../components/Ui'
-import { usePrototype } from '../data/usePrototype'
+import { useAuth } from '../hooks/useAuth'
 import { demoImages } from '../data/mockData'
 
 interface ResultLocationState {
@@ -15,22 +15,25 @@ interface ResultLocationState {
 export function ResultsPage() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { guestAnalysesRemaining } = usePrototype()
+  const { isGuest, isLoading } = useAuth()
   const state = (location.state as ResultLocationState | null) ?? null
   const uploaded = Boolean(state?.imageDataUrl)
+
+  const analysesRemaining = isGuest ? 3 : null
 
   return (
     <div className="upload-page">
       <header className="upload-header">
         <Link to="/"><Brand /></Link>
-        <div className="upload-header__right"><span>Guest session · {guestAnalysesRemaining} analyses remaining</span><Link className="button button--secondary" to="/sign-in">Sign in</Link></div>
+        <div className="upload-header__right"><span>Guest session · {analysesRemaining ?? 0} analyses remaining</span><Link className="button button--secondary" to="/sign-in">Sign in</Link></div>
       </header>
       <main className="guest-results">
         <Link className="upload-back" to="/try"><ArrowLeft size={14} /> Back to guest analysis</Link>
         <div className="guest-results__header">
           <div><p className="eyebrow">Sample result · wall</p><h1>Crack analysis review</h1><p className="page-heading__description">Compare the original photograph with the predicted mask and overlay.</p></div>
-          <span className="guest-results__limit">Guest session · <strong>{guestAnalysesRemaining} analyses left</strong></span>
+          <span className="guest-results__limit">Guest session · <strong>{analysesRemaining ?? 0} analyses left</strong></span>
         </div>
+        {isLoading && <p className="prototype-alert" role="status">Resolving session…</p>}
         {uploaded && (
           <div style={{ marginBottom: 13 }}>
             <DemoNotice>

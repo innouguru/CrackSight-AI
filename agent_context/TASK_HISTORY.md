@@ -1,8 +1,55 @@
 # TASK HISTORY
 
-**Last updated:** 2026-11-02
+**Last updated:** 2026-11-03
 
 ## Completed Tasks
+
+### 2026-11-03 — Milestone 6: Frontend Foundation
+
+**Summary:** Completed the production React/TypeScript frontend foundation for CrackSight AI, fixing and completing the interrupted implementation from the previous agent.
+
+**Files created:**
+- `frontend/src/app/Providers.tsx` — ClerkProvider wrapper + auth context
+- `frontend/src/hooks/useAuth.ts` — auth hook
+- `frontend/src/hooks/useGuestSession.ts` — guest session hook (backend-connected)
+- `frontend/src/hooks/useApiStatus.ts` — backend health check hook
+- `frontend/src/services/api.ts` — typed API client with Clerk bearer token, guest session token, timeout, structured error handling
+- `frontend/src/services/api.test.ts` — API client tests (8 tests)
+- `frontend/src/types/index.ts` — shared TypeScript types aligned with backend schemas
+- `frontend/src/components/AuthGuard.tsx` — auth/guest/public route guards
+- `frontend/src/components/EmptyState.tsx` — empty state component
+- `frontend/src/components/ErrorState.tsx` — error state component with retry
+- `frontend/src/components/LoadingState.tsx` — loading state component
+- `frontend/src/layouts/PublicLayout.tsx` — public layout
+- `frontend/src/layouts/GuestLayout.tsx` — guest layout
+- `frontend/src/test/setup.ts` — vitest setup
+- `frontend/src/App.test.tsx` — routing tests (4 tests)
+- `frontend/src/components/state.test.tsx` — component tests (6 tests)
+- `frontend/.env.example` — environment configuration template
+
+**Files modified:**
+- `frontend/package.json` — added `@clerk/clerk-react`, vitest, testing libraries
+- `frontend/src/App.tsx` — routing with auth guards, layouts, public/guest/protected route separation
+- `frontend/src/layout/AppShell.tsx` — integrated useAuth, session-resolving loading state
+- `frontend/src/main.tsx` — wrapped app with AppProviders
+- `frontend/src/pages/AuthPage.tsx` — Clerk sign-in/sign-up/Google integration
+- `frontend/src/pages/DashboardPage.tsx` — switched from usePrototype to useAuth
+- `frontend/src/pages/GuestAnalysisPage.tsx` — connected useGuestSession to backend
+- `frontend/src/pages/HistoryPage.tsx` — switched from usePrototype to useAuth
+- `frontend/src/pages/InspectionDetailPage.tsx` — switched from usePrototype to useAuth
+- `frontend/src/pages/NewInspectionPage.tsx` — switched from usePrototype to useAuth
+- `frontend/src/pages/ResultsPage.tsx` — switched from usePrototype to useAuth
+- `frontend/vite.config.ts` — added vitest configuration
+
+**Tests executed (all pass):**
+- Frontend TypeScript build: passed
+- Frontend lint (oxlint): passed (warnings only)
+- Frontend tests (vitest): 18 passed across 3 test files
+- Backend API contracts: verified against `src/crack_detection/backend/schemas.py`
+
+**Commit message:** `feat: implement Milestone 6 frontend foundation`
+
+**Outstanding issues:** Inference service hosting unresolved; external services (Neon, R2, Clerk) not configured for production validation.
 
 ### 2026-11-02 — Establish Persistent Coding-Agent Context Infrastructure
 

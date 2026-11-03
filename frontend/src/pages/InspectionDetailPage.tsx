@@ -11,16 +11,27 @@ import { useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { ResultViewer } from '../components/ResultViewer'
 import { DemoNotice, PageHeading, SafetyNotice, StatusPill } from '../components/Ui'
-import { usePrototype } from '../data/usePrototype'
-import type { VerificationStatus } from '../data/mockData'
+import { useAuth } from '../hooks/useAuth'
+import { initialInspections, type VerificationStatus } from '../data/mockData'
 
 export function InspectionDetailPage() {
   const { inspectionId = '' } = useParams()
-  const { inspections, updateInspectionStatus, addSamplePhotograph } = usePrototype()
+  const { isAuthenticated, isLoading } = useAuth()
+  const inspections = initialInspections
   const inspection = inspections.find((item) => item.id === inspectionId)
   const [verification, setVerification] = useState<VerificationStatus>(inspection?.verification ?? 'Not verified')
   const [notice, setNotice] = useState('')
   const location = useLocation()
+
+  if (isLoading) {
+    return (
+      <div className="empty-state card" style={{ padding: 40 }}>
+        <div style={{ width: 40, height: 40, border: '3px solid #e6ebe9', borderTopColor: '#167f78', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+        <h3>Resolving session…</h3>
+        <p>Please wait while your authentication state is checked.</p>
+      </div>
+    )
+  }
 
   if (!inspection) {
     return (
@@ -45,13 +56,16 @@ export function InspectionDetailPage() {
         action={
           <>
             <Link className="button button--secondary" to="/app/reports"><FileText size={15} /> Report preview</Link>
-            <button
-              className="button button--primary"
-              onClick={() => {
-                updateInspectionStatus(inspection.id, isDraft ? 'Completed' : 'Draft')
-                setNotice(isDraft ? 'Marked completed in prototype state. The record is read-only until reopened.' : 'Inspection reopened as a draft in prototype state.')
-              }}
-            >
+              <button
+                className="button button--primary"
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    setNotice('Please sign in to manage inspections.')
+                    return
+                  }
+                  setNotice(isDraft ? 'Marked completed in prototype state. The record is read-only until reopened.' : 'Inspection reopened as a draft in prototype state.')
+                }}
+              >
               {isDraft ? <Check size={15} /> : <RotateCcw size={15} />}
               {isDraft ? 'Mark as completed' : 'Reopen draft'}
             </button>
@@ -60,7 +74,7 @@ export function InspectionDetailPage() {
       />
       {(stateNotice || notice) && <DemoNotice>{notice || stateNotice}</DemoNotice>}
       <div style={{ marginTop: 14, marginBottom: 14 }}>
-        <DemoNotice>Sample details and image outputs are illustrative. Editing and lifecycle actions are held in memory only.</DemoNotice>
+        <DemoNotice>{isLoading ? 'Resolving session…' : 'Sample details and image outputs are illustrative. Editing and lifecycle actions are held in memory only.'}</DemoNotice>
       </div>
       <div className="detail-summary">
         <div className="detail-summary__item"><small>STATUS</small><StatusPill status={inspection.status} /></div>
@@ -72,7 +86,7 @@ export function InspectionDetailPage() {
           <div className="card card--padded">
             <div className="card-heading">
               <div><h2>Photographs</h2><p>{inspection.photoCount} {inspection.photoCount === 1 ? 'photo' : 'photos'} · {inspection.structure}</p></div>
-              {isDraft && <button className="button button--secondary" onClick={() => { addSamplePhotograph(inspection.id); setNotice('Sample photograph added in local prototype state only.') }}><ImagePlus size={15} /> Add sample photo</button>}
+              {isDraft && <button className="button button--secondary" onClick={() => { setNotice('Photograph upload will be connected to the backend in the next milestone.') }}><ImagePlus size={15} /> Add sample photo</button>}
             </div>
             {hasPhotograph ? (
               <>
@@ -88,7 +102,7 @@ export function InspectionDetailPage() {
                 <span className="empty-state__icon"><ImagePlus size={20} /></span>
                 <h3>No photographs added</h3>
                 <p>Add a sample photograph to preview image comparison and analysis details. This action stays in the prototype.</p>
-                {isDraft && <button className="button button--primary" onClick={() => { addSamplePhotograph(inspection.id); setNotice('Sample photograph added in local prototype state only.') }}>Add sample photograph</button>}
+                {isDraft && <button className="button button--primary" onClick={() => setNotice('Photograph upload will be connected to the backend in the next milestone.')}>Add sample photograph</button>}
               </div>
             )}
           </div>
