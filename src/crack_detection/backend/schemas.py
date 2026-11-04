@@ -132,11 +132,13 @@ class AnalysisResponse(BaseModel):
     photograph_id: UUID
     prediction_mask_key: str
     prediction_overlay_key: str
+    original_image_key: str
     model_version: str
     prediction_timestamp: datetime
     inference_duration_ms: float
     processing_status: str
     original_image_size: tuple[int, int]
+    pixel_measurements: Optional[PixelMeasurements] = None
     analyses_remaining: Optional[int] = None
 
     model_config = ConfigDict(from_attributes=True)
@@ -176,3 +178,29 @@ class GuestAnalysisConsumeResponse(BaseModel):
     analyses_count: int
     max_analyses: int
     analyses_remaining: int
+
+
+# ------------------------------------------------------------------ guest photograph upload
+class GuestPhotographUploadResponse(BaseModel):
+    photograph_id: UUID
+    session_id: UUID
+    structure_type: str
+    original_image_key: str
+    file_size: int
+    content_type: str
+    analyses_remaining: int
+
+
+class GuestPhotographDownloadResponse(BaseModel):
+    photograph_id: UUID
+    file_type: str
+    download_url: str
+    content_type: str
+
+
+# ------------------------------------------------------------------ pixel measurements
+class PixelMeasurements(BaseModel):
+    crack_pixel_count: int
+    crack_pixel_percentage: float
+    bounding_box: Optional[Dict[str, int]] = None
+    region_count: int = 0

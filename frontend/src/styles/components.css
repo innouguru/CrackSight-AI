@@ -364,16 +364,28 @@
   color: var(--muted);
 }
 
-.sr-only {
-  position: absolute;
-  overflow: hidden;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  clip-path: inset(50%);
+.structure-button {
+  min-height: 29px;
+  padding: 0 10px;
+  border: 1px solid #dfe7e4;
+  border-radius: 6px;
+  color: #4e6066;
+  background: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 130ms ease, border-color 130ms ease, color 130ms ease;
+}
+
+.structure-button:hover:not(.is-active) {
+  border-color: #cbd9d5;
+  background: #f8faf9;
+}
+
+.structure-button.is-active {
+  border-color: var(--teal-dark);
+  color: #fff;
+  background: var(--teal);
 }
 
 .inspection-location {
