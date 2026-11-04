@@ -105,12 +105,26 @@ export interface AnalysisResponse {
   photograph_id: string
   prediction_mask_key: string
   prediction_overlay_key: string
+  original_image_key: string
   model_version: string
   prediction_timestamp: string
   inference_duration_ms: number
   processing_status: string
   original_image_size: [number, number]
+  pixel_measurements: PixelMeasurements | null
   analyses_remaining: number | null
+}
+
+export interface PixelMeasurements {
+  crack_pixel_count: number
+  crack_pixel_percentage: number
+  bounding_box: {
+    min_x: number
+    min_y: number
+    max_x: number
+    max_y: number
+  } | null
+  region_count: number
 }
 
 export interface GuestSession {
@@ -143,6 +157,16 @@ export interface GuestAnalysisConsumeResponse {
   consumed: boolean
   analyses_count: number
   max_analyses: number
+  analyses_remaining: number
+}
+
+export interface GuestPhotographUploadResponse {
+  photograph_id: string
+  session_id: string
+  structure_type: string
+  original_image_key: string
+  file_size: number
+  content_type: string
   analyses_remaining: number
 }
 

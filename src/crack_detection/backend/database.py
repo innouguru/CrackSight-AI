@@ -102,6 +102,7 @@ def init_schema() -> None:
             model_version VARCHAR(128) NOT NULL,
             prediction_timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
             pixel_measurements JSONB,
+            idempotency_key UUID UNIQUE,
             CONSTRAINT fk_prediction_versions_photograph FOREIGN KEY (photograph_id) REFERENCES photographs(id) ON DELETE CASCADE
         );
         """,

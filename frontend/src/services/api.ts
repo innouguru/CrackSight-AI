@@ -3,6 +3,7 @@ import type {
   AnalysisResponse,
   ApiErrorBody,
   GuestAnalysisConsumeResponse,
+  GuestPhotographUploadResponse,
   GuestSessionCreateResponse,
   GuestSessionValidateResponse,
   HealthResponse,
@@ -27,7 +28,6 @@ interface ApiClientOptions {
 
 function buildHeaders(options: ApiClientOptions = {}): HeadersInit {
   const headers: HeadersInit = {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
   }
 
@@ -163,6 +163,81 @@ export class ApiClient {
       undefined,
       { guestSessionToken },
     )
+  }
+
+  /**
+   * Upload a photograph for a guest session using multipart/form-data.
+   */
+  async uploadGuestPhotograph(
+    file: File,
+    structureType: string,
+    options: ApiClientOptions = {},
+  ): Promise<GuestPhotographUploadResponse> {
+    const url = `${this.baseUrl}/guest/session/photograph`
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('structure_type', structureType)
+
+    const headers: HeadersInit = {}
+    if (options.guestSessionToken) {
+      headers['X-Guest-Session-Token'] = options.guestSessionToken
+    }
+    if (this.guestSessionToken) {
+      headers['X-Guest-Session-Token'] = this.guestSessionToken
+    }
+
+    const init: RequestInit = {
+      method: 'POST',
+      headers,
+      body: formData,
+    }
+
+    const response = await fetch(url, init)
+    return withTimeout(parseResponse<GuestPhotographUploadResponse>(response), REQUEST_TIMEOUT_MS)
+  }
+
+  /**
+   * Download a guest result file (original, mask, or overlay).
+   * Returns a blob URL that can be used as an image src or download link.
+   */
+  async downloadGuestResult(
+    photographId: string,
+    fileType: 'original' | 'mask' | 'overlay',
+    options: ApiClientOptions = {},
+  ): Promise<string> {
+    const url = `${this.baseUrl}/guest/session/photograph/${photographId}/${fileType}`
+
+    const headers: HeadersInit = {}
+    if (options.guestSessionToken) {
+      headers['X-Guest-Session-Token'] = options.guestSessionToken
+    }
+    if (this.guestSessionToken) {
+      headers['X-Guest-Session-Token'] = this.guestSessionToken
+    }
+
+    const init: RequestInit = {
+      method: 'GET',
+      headers,
+    }
+
+    const response = await fetch(url, init)
+
+    if (!response.ok) {
+      const errorBody = await response
+        .json()
+        .catch(() => ({ message: `Request failed with status ${response.status}` }))
+      throw new ApiError(
+        errorBody?.message || `Request failed with status ${response.status}`,
+        response.status,
+        errorBody?.error || 'api_error',
+        errorBody?.retryable ?? false,
+        errorBody?.action,
+        errorBody?.details,
+      )
+    }
+
+    const blob = await response.blob()
+    return URL.createObjectURL(blob)
   }
 
   async createInspection(payload: InspectionCreate): Promise<Inspection> {

@@ -26,7 +26,26 @@ from crack_detection.backend.dependencies import validate_guest_session
 
 logger = logging.getLogger(__name__)
 
-# Paths that do not require authentication.
+# Paths that do not require middleware-level authentication.
+#
+# Including a path here means FastAPI will not automatically reject
+# unauthenticated requests to that path. However:
+#
+# * ``/guest/session`` and its sub-paths (e.g. ``/guest/session/photograph``)
+#   are listed as public so the middleware does not interfere with guest
+#   session token validation. Guest session tokens are validated by the
+#   endpoint code itself via ``validate_guest_session``.
+#
+# * Registered-user endpoints under ``/auth/`` and ``/inspections/``
+#   rely on Clerk Bearer JWT verification. A missing or invalid JWT
+#   will be rejected by the middleware.
+#
+# * Health and readiness endpoints are public for load balancer/container
+#   orchestration and do not represent guest or registered user access.
+#
+# This design ensures that guest session validation is handled at the
+# endpoint level (where the session token is available), while the
+# middleware provides a first-line filter for registered-user routes.
 PUBLIC_PATHS: Set[str] = {
     "/",
     "/docs",

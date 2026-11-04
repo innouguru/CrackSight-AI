@@ -30,21 +30,29 @@
 
 ## Current Milestone
 
-**Milestone 6: Frontend Foundation — implemented and verified.**
+**Milestone 7.1: Guest analysis reliability and idempotency — implemented and verified.**
 
-The production React/TypeScript frontend foundation is implemented under `frontend/`:
+The guest analysis workflow is functionally complete and connected to real backend functionality:
 
-- Clerk React SDK integrated via `AppProviders` wrapping the app (ClerkProvider + auth context).
-- Typed API client (`src/services/api.ts`) with Clerk bearer token and guest session token support, timeout handling, and structured `ApiError` error responses.
-- Application routing with `react-router-dom`: public routes (`/`, `/sign-in`, `/sign-up`), guest routes (`/try`, `/try/results`), and registered-user protected routes (`/app/*`) with auth guards and loading states.
-- Layouts: `PublicLayout`, `GuestLayout`, `AppShell` (responsive sidebar with mobile drawer, sign-out for authenticated users).
-- Pages: Landing, Auth (email/password + Google via Clerk), GuestAnalysis (guest session creation/validation connected to backend), Results, Dashboard, History, NewInspection, InspectionDetail, Reports, AccessDenied, NotFound.
-- Reusable UI components: Button, PageHeading, StatusPill, DemoNotice, SafetyNotice, LinkArrow, ResultViewer, InspectionCard, Brand, LoadingState, ErrorState, EmptyState.
-- Hooks: `useAuth`, `useGuestSession`, `useApiStatus`.
-- Shared types in `src/types/index.ts` aligned with backend Pydantic schemas.
-- Vitest configured; 18 tests passing across 3 test files.
-- TypeScript strict check, oxlint, and Vite production build all pass.
-- Local dev server at `http://localhost:5173/` (start with `cd frontend; npm run dev`).
+- Guest session creation with 24-hour expiration.
+- Photo upload with server-side validation (file type, size, content integrity via PIL).
+- Structure type selection (wall/beam/column).
+- Real U-Net ResNet-34 inference via the backend FastAPI pipeline.
+- Results display with pixel measurements (crack pixel count, percentage, bounding box, region count).
+- Individual result-file downloads (original, mask, overlay) with ownership verification.
+- Three-analysis guest allowance with atomic enforcement and compensation for concurrent requests.
+- Idempotency key mechanism to prevent duplicate analysis results and allowance consumption on retries.
+- Guest ownership checks: guests can only access their own photographs.
+- Expired guest sessions are rejected; 24-hour session expiry is enforced.
+- Frontend build, lint, and 18 tests all pass.
+
+### Changes from Milestone 6
+
+- Orphaned R2 object cleanup on storage failures (best-effort cleanup with logging).
+- Analysis retry idempotency via deterministic idempotency keys and database uniqueness constraint.
+- Guest 24-hour expiration and R2 cleanup behaviour documented.
+- Middleware `PUBLIC_PATHS` design explained via code comment.
+- All changes are working directory modifications against Milestone 6 commit `d851c3c`.
 
 ### Frontend UX prototype — preserved
 - The approved visual prototype (commit `916f64f`) design tokens, colour palette, typography, and layouts are preserved.
@@ -52,7 +60,6 @@ The production React/TypeScript frontend foundation is implemented under `fronte
 
 ## Not Yet Implemented
 
-- Full guest image-upload and analysis workflow connected to backend (Milestone 7).
 - Full registered-user inspection management with persistence (Milestone 8).
 - Dashboard/history backed by real user data (Milestone 9).
 - PDF report generation/download (Milestone 10).
@@ -73,7 +80,6 @@ The production React/TypeScript frontend foundation is implemented under `fronte
 - Inference checkpoint must be supplied to a deployment environment; it must not be committed.
 - Inference hosting remains unresolved and requires CPU benchmarking before selection.
 - Backend upload file-size/dimension limits still need a configured source of truth; the prototype's 10 MB cap is only a local UX example.
-- Guest-session cleanup automation and partial failures spanning storage/database need production hardening.
 - External Neon, R2, and Clerk integrations are not configured for production validation.
 - Backend integration tests have previously timed out when run together due to a shared session-scoped database connection; see prior task history.
 

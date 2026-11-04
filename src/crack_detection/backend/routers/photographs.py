@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import logging
 from typing import Optional
-from uuid import UUID, uuid4
+from uuid import UUID, uuid4, UUID_NAMESPACE_DNS
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
 from psycopg2.extras import RealDictCursor
@@ -24,9 +24,30 @@ from crack_detection.backend.schemas import (
     ReanalyseResponse,
     AnalysisResponse,
 )
-
 router = APIRouter()
 logger = logging.getLogger(__name__)
+
+
+def _cleanup_uploaded_keys(
+    storage: R2Storage, uploaded_keys: list[UUID]
+) -> None:
+    """Attempt to delete each uploaded R2 key, logging failures without raising.
+
+    This function is best-effort: a failure to delete an object does not
+    mask the original exception that caused the cleanup, and a single
+    failure does not prevent deletion of the remaining keys.
+    """
+    for key in uploaded_keys:
+        try:
+            storage.delete_file(key)
+        except StorageError as exc:
+            logger.warning(
+                "Cleanup failed to delete R2 key %s: %s", key, exc
+            )
+        except Exception as exc:  # pylint: disable=broad-except
+            logger.warning(
+                "Unexpected error during R2 key cleanup %s: %s", key, exc
+            )
 
 
 @router.post("/{inspection_id}", response_model=PhotographResponse, status_code=status.HTTP_201_CREATED, summary="Add photograph to inspection")
@@ -339,6 +360,48 @@ async def analyse_photograph(
             )
         require_ownership(request, row["user_id"])
 
+    # --- Idempotency check ---
+    # Generate a deterministic idempotency key based on guest session and photograph
+    if is_guest:
+        idempotency_key = str(
+            uuid.uuid5(UUID_NAMESPACE_DNS, f"cracksight:analyse:{session['id']}:{photo_id}")
+        )
+    else:
+        idempotency_key = str(
+            uuid.uuid5(UUID_NAMESPACE_DNS, f"cracksight:analyse:{user['user_id']}:{photo_id}")
+        )
+
+    # Check if an analysis with this idempotency key already exists
+    from crack_detection.backend.database import get_db_connection
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        cur.execute(
+            """
+            SELECT id, version_number, model_version, prediction_timestamp,
+                   pixel_measurements, inference_duration_ms, processing_status
+            FROM prediction_versions
+            WHERE photograph_id = %s AND idempotency_key = %s
+            """,
+            (photo_id, idempotency_key),
+        )
+        existing = cur.fetchone()
+
+    if existing:
+        # Idempotent request: return existing result without re-running inference
+        # or consuming allowance. Construct the AnalysisResponse from the stored data.
+        analyses_remaining = max(0, 3 - session["analyses_count"]) if is_guest else None
+        return AnalysisResponse(
+            photograph_id=photo_id,
+            prediction_mask_key=existing["binary_mask_key"],
+            prediction_overlay_key=existing["overlay_key"],
+            model_version=existing["model_version"],
+            prediction_timestamp=existing["prediction_timestamp"],
+            inference_duration_ms=existing["inference_duration_ms"],
+            processing_status=existing["processing_status"],
+            original_image_size=[256, 256],  # fallback; actual size from original image
+            pixel_measurements=existing["pixel_measurements"],
+            analyses_remaining=analyses_remaining,
+        )
+
     # --- Guest analysis limit check ---
     new_count = None
     if is_guest:
@@ -388,9 +451,11 @@ async def analyse_photograph(
             detail=f"Inference failed: {exc}",
         )
 
-    # --- Upload mask and overlay to R2 ---
+# --- Upload mask and overlay to R2, tracking keys for cleanup ---
     mask_key = f"inspections/{photo_id}/masks/{photo_id}_mask.png"
     overlay_key = f"inspections/{photo_id}/overlays/{photo_id}_overlay.png"
+
+    uploaded_keys: list[str] = []
 
     try:
         storage.upload_file(
@@ -398,18 +463,23 @@ async def analyse_photograph(
             np.array(result["binary_mask"]).tobytes(),
             "image/png",
         )
+        uploaded_keys.append(mask_key)
         storage.upload_file(
             overlay_key,
             np.array(result["overlay"]).tobytes(),
             "image/png",
         )
+        uploaded_keys.append(overlay_key)
     except Exception as exc:  # pylint: disable=broad-except
+        # Inference succeeded but storage failed. Do not consume allowance.
+        # Attempt cleanup of any objects already uploaded.
+        _cleanup_uploaded_keys(storage, uploaded_keys)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to upload analysis results to storage: {exc}",
         )
 
-    # --- Persist prediction metadata in PostgreSQL ---
+# --- Persist prediction metadata in PostgreSQL ---
     prediction_overlay_key = f"inspections/{photo_id}/overlays/{photo_id}_overlay.png"
 
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -418,9 +488,10 @@ async def analyse_photograph(
             INSERT INTO prediction_versions (
                 photograph_id, version_number, original_image_key,
                 probability_map_key, binary_mask_key, overlay_key,
-                model_version, prediction_timestamp, pixel_measurements
+                model_version, prediction_timestamp, pixel_measurements,
+                idempotency_key
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 photo_id,
@@ -432,9 +503,36 @@ async def analyse_photograph(
                 result["model_version"],
                 __import__("datetime").datetime.utcnow(),
                 None,  # pixel_measurements - not calculated by current pipeline
+                idempotency_key,
             ),
         )
         conn.commit()
+
+    # --- Consume guest allowance only after full success ---
+    new_count = None
+    analyses_remaining = None
+    if is_guest:
+        from crack_detection.backend.database import increment_guest_analysis_count
+
+        new_count = increment_guest_analysis_count(
+            session["id"], max_analyses=3
+        )
+        if new_count is None:
+            # Concurrent request consumed the last allowance slot.
+            # Compensate: delete the R2 objects we just created.
+            try:
+                storage.delete_file(mask_key)
+            except StorageError:
+                pass
+            try:
+                storage.delete_file(overlay_key)
+            except StorageError:
+                pass
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Guest analysis limit reached (3 analyses per session)",
+            )
+        analyses_remaining = max(0, 3 - new_count)
 
     # --- Build response ---
     analyses_remaining = max(0, 3 - new_count) if is_guest else None

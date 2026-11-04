@@ -48,4 +48,5 @@ Completed formal Milestone 6: Frontend Foundation:
 
 ## Recommended Next Step
 
-Begin **Milestone 7: Guest Analysis Workflow** from `ROADMAP.md`. Read `TECHNICAL_DESIGN.md` for backend API context and `agent_context/CURRENT_STATE.md` for implemented-versus-planned status.
+Milestone 7.1 (Guest analysis reliability and idempotency) is implemented and verified.
+**Milestone 7: Registered-user Inspections** may now begin from `ROADMAP.md`. Read `TECHNICAL_DESIGN.md` for backend API context and `agent_context/CURRENT_STATE.md` for implemented-versus-planned status.
