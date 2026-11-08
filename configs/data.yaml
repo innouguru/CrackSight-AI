@@ -1,0 +1,41 @@
+# Dataset ingestion configuration for M1 pipeline
+# Paths relative to project root; do not embed absolute machine paths.
+
+project_root: .
+output_dir: outputs/manifests
+
+canonical_mask:
+  # Concrete400 mask conversion: binary threshold on grayscale content
+  concrete400_threshold: 127  # pixel intensity > 127 = crack; per README and audit evidence
+  # Façade: binary pass-through {0,1}
+  facade_binary_check: true
+
+# Dataset paths (relative to project root)
+datasets:
+  facade-crack-dataset:
+    path: data/facade-crack-dataset
+    splits: [train, valid]
+    image_suffix: .jpg
+    annotation_suffix: _mask.png
+  crack-seg:
+    path: data/crack-seg
+    splits: [train, val, test]
+    image_suffix: .jpg
+    annotation_suffix: .txt
+    yaml_config: data/crack-seg/crack-seg.yaml
+  concrete400:
+    path: data/concrete400
+    splits: [image_001-303, image_304-379]  # README recommended; no folder-level split
+    segmentation_image_dir: Segmentation/Image
+    segmentation_mask_dir: Segmentation/Masks
+    detection_box_dir: Object Detection/Boxes
+    classification_crack_dir: Classification/crack
+    classification_nocrack_dir: Classification/no_crack
+
+duplicate_policy:
+  method: sha256_exact  # byte-identical only; perceptual hash recorded but not excluded
+  exclude_cross_split: true  # fail-closed if exact duplicate spans splits
+
+split_integrity:
+  facade_scene_key_rule: "strip _v<N> suffix from basename before .rf. hash"
+  concrete400_classification_cluster_threshold: 6  # dHash distance; clusters kept intact

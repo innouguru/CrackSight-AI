@@ -1,0 +1,12 @@
+{
+  "assignment_method": "sorted unique scene keys alphabetically; first 24 scenes train, next 6 valid, remaining 6 test",
+  "dataset": "facade-crack-dataset",
+  "evidence": "Scene grouping verified; filenames contain _v<N> before .rf. hash.",
+  "leakage_check": "Zero overlap across partitions by construction.",
+  "limitation": "Requires evaluation to use scene-grouped files rather than folder-level files. Original folder-level split remains with same-source leakage.",
+  "split_type": "project-defined scene-disjoint proposal",
+  "test_scenes": 6,
+  "total_scenes": 36,
+  "train_scenes": 24,
+  "valid_scenes": 6
+}\n

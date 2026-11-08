@@ -1,0 +1,2147 @@
+{
+  "experiment": "m3_crack_seg_baseline_b1_20261026_201725",
+  "evaluation_type": "one_time_final_test_evaluation",
+  "created_at_utc": "2026-10-27T09:52:05.595983+00:00",
+  "checkpoint_path": "/content/drive/MyDrive/CrackDetection/outputs/experiments/m3_crack_seg_baseline_b1_20261026_201725/checkpoints/best_model.pth",
+  "checkpoint_epoch": 5,
+  "device": "cpu",
+  "image_size": [
+    256,
+    256
+  ],
+  "prediction_threshold": 0.5,
+  "metric_aggregation": "per-image metrics, summarized by mean and median",
+  "test_manifest_records": 112,
+  "excluded_record_count": 1,
+  "eligible_test_records": 111,
+  "actual_evaluated_records": 111,
+  "elapsed_seconds": 90.32,
+  "aggregate_metrics": {
+    "mean_dice": 0.7241687910443713,
+    "median_dice": 0.7630012035369873,
+    "mean_iou": 0.58844496679219,
+    "median_iou": 0.6168164311242567,
+    "mean_precision": 0.7378505094245179,
+    "median_precision": 0.7622061482820977,
+    "mean_recall": 0.7758034040512221,
+    "median_recall": 0.8426966292134831,
+    "n_evaluated": 111,
+    "empty_true": 0,
+    "empty_pred": 0
+  },
+  "per_image_metrics": [
+    {
+      "dice": 0.6823529601097107,
+      "iou": 0.5178571424550799,
+      "precision": 0.6813074565883555,
+      "recall": 0.6834016393442623,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1616.rf.c868709931a671796794fdbb95352c5a",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1616.rf.c868709931a671796794fdbb95352c5a.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1616.rf.c868709931a671796794fdbb95352c5a.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6087837815284729,
+      "iou": 0.437591063410592,
+      "precision": 0.6703869047619048,
+      "recall": 0.557549504950495,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1675.rf.e3aa3f8d28d0247ef0284dd46dacc29f",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1675.rf.e3aa3f8d28d0247ef0284dd46dacc29f.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1675.rf.e3aa3f8d28d0247ef0284dd46dacc29f.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7630012035369873,
+      "iou": 0.6168164311242567,
+      "precision": 0.95574341123819,
+      "recall": 0.6349520977865873,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1686.rf.809fb1b51c607e5cf787e44ef4ddd7b8",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1686.rf.809fb1b51c607e5cf787e44ef4ddd7b8.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1686.rf.809fb1b51c607e5cf787e44ef4ddd7b8.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.32280147075653076,
+      "iou": 0.19246467811853543,
+      "precision": 0.9014705882352941,
+      "recall": 0.19660038486209108,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1706.rf.011d213c21ec78896c36728dcbc156f5",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1706.rf.011d213c21ec78896c36728dcbc156f5.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1706.rf.011d213c21ec78896c36728dcbc156f5.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6602936387062073,
+      "iou": 0.49286442380587947,
+      "precision": 0.7221807318894697,
+      "recall": 0.6081761006289308,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1716.rf.85ea38b36008beaa72c5d8541f734eb0",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1716.rf.85ea38b36008beaa72c5d8541f734eb0.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1716.rf.85ea38b36008beaa72c5d8541f734eb0.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.683975338935852,
+      "iou": 0.5197283310091435,
+      "precision": 0.8067269076305221,
+      "recall": 0.5936461026967123,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1722.rf.38b38f2e833309a4f35bfbf0432dffff",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1722.rf.38b38f2e833309a4f35bfbf0432dffff.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1722.rf.38b38f2e833309a4f35bfbf0432dffff.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.49327027797698975,
+      "iou": 0.32737807806500335,
+      "precision": 0.6608187134502924,
+      "recall": 0.3934997098084736,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1794.rf.7a03ca09d05e9e2941f768bc8570cb54",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1794.rf.7a03ca09d05e9e2941f768bc8570cb54.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1794.rf.7a03ca09d05e9e2941f768bc8570cb54.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5399361252784729,
+      "iou": 0.369803063295491,
+      "precision": 0.7971698113207547,
+      "recall": 0.4082125603864734,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1804.rf.7e39a73f7b0d1c4bdf8094006e0cf495",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1804.rf.7e39a73f7b0d1c4bdf8094006e0cf495.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1804.rf.7e39a73f7b0d1c4bdf8094006e0cf495.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7986640930175781,
+      "iou": 0.6648133433957002,
+      "precision": 0.9676300578034682,
+      "recall": 0.6799350121852152,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1806.rf.8c87862452f4ce0232a666c180ec9942",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1806.rf.8c87862452f4ce0232a666c180ec9942.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1806.rf.8c87862452f4ce0232a666c180ec9942.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5226519107818604,
+      "iou": 0.35377711280711405,
+      "precision": 0.9874739039665971,
+      "recall": 0.35537190082644626,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1813.rf.79f1af872f76dd8b46df4a83ed5f54c6",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1813.rf.79f1af872f76dd8b46df4a83ed5f54c6.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1813.rf.79f1af872f76dd8b46df4a83ed5f54c6.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8197381496429443,
+      "iou": 0.6945392487516842,
+      "precision": 0.8964757709251101,
+      "recall": 0.7551020408163265,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1818.rf.7e52c1687bfb625e86c54c9d71a66d99",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1818.rf.7e52c1687bfb625e86c54c9d71a66d99.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1818.rf.7e52c1687bfb625e86c54c9d71a66d99.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8535862565040588,
+      "iou": 0.7445708368722121,
+      "precision": 0.8899876390605687,
+      "recall": 0.8200455580865603,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1819.rf.d2d41865c85e1019dc3e8b9daf73c434",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1819.rf.d2d41865c85e1019dc3e8b9daf73c434.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1819.rf.d2d41865c85e1019dc3e8b9daf73c434.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 1.3869625448137413e-09,
+      "iou": 1.3869625465856868e-09,
+      "precision": 0.0,
+      "recall": 0.0,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1839.rf.3495cbba8ee9a583ed0dff8d0e5fc0f7",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1839.rf.3495cbba8ee9a583ed0dff8d0e5fc0f7.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1839.rf.3495cbba8ee9a583ed0dff8d0e5fc0f7.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8028846383094788,
+      "iou": 0.6706827305870067,
+      "precision": 0.898453261600538,
+      "recall": 0.7256925583921782,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1896.rf.e718dd26abc98c2645ea37a808039034",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1896.rf.e718dd26abc98c2645ea37a808039034.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1896.rf.e718dd26abc98c2645ea37a808039034.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.2366345375776291,
+      "iou": 0.13419483088052203,
+      "precision": 0.22959183673469388,
+      "recall": 0.244122965641953,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1921.rf.e704f0b0e352f4ac12f23e71ffa6d9ad",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1921.rf.e704f0b0e352f4ac12f23e71ffa6d9ad.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1921.rf.e704f0b0e352f4ac12f23e71ffa6d9ad.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5767285227775574,
+      "iou": 0.4052132699021248,
+      "precision": 0.8260869565217391,
+      "recall": 0.4430051813471503,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1957.rf.e4ee900c82e7bab356690f56f27959c6",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1957.rf.e4ee900c82e7bab356690f56f27959c6.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1957.rf.e4ee900c82e7bab356690f56f27959c6.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5363636612892151,
+      "iou": 0.36645962715410435,
+      "precision": 0.9263285024154589,
+      "recall": 0.37746062992125984,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1960.rf.a23272eb27c0f5ab6327f98571919ad9",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1960.rf.a23272eb27c0f5ab6327f98571919ad9.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1960.rf.a23272eb27c0f5ab6327f98571919ad9.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5160537362098694,
+      "iou": 0.34775767098829363,
+      "precision": 0.9888143176733781,
+      "recall": 0.34913112164297,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1974.rf.c900dacf421e72dd3b10be4d3f6e4b40",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1974.rf.c900dacf421e72dd3b10be4d3f6e4b40.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1974.rf.c900dacf421e72dd3b10be4d3f6e4b40.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7642276287078857,
+      "iou": 0.6184210522617098,
+      "precision": 0.9521178637200737,
+      "recall": 0.6382716049382716,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1979.rf.d3ee9d85b659ee844d1c26680f05d419",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1979.rf.d3ee9d85b659ee844d1c26680f05d419.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1979.rf.d3ee9d85b659ee844d1c26680f05d419.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6275618672370911,
+      "iou": 0.45726055565678625,
+      "precision": 0.5751295336787565,
+      "recall": 0.6905132192846034,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "1998.rf.c310ef9093282f4e2e72be168ab5f879",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/1998.rf.c310ef9093282f4e2e72be168ab5f879.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/1998.rf.c310ef9093282f4e2e72be168ab5f879.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7846580147743225,
+      "iou": 0.6456273759348841,
+      "precision": 0.9593220338983051,
+      "recall": 0.6637998436278343,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2015.rf.7ace4a935989f5dd884bd52642f0bcdd",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2015.rf.7ace4a935989f5dd884bd52642f0bcdd.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2015.rf.7ace4a935989f5dd884bd52642f0bcdd.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8520140051841736,
+      "iou": 0.7421815402424244,
+      "precision": 0.7827835880933226,
+      "recall": 0.9346781940441883,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2026.rf.30a92a40e9e192eb71ac0461019aea44",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2026.rf.30a92a40e9e192eb71ac0461019aea44.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2026.rf.30a92a40e9e192eb71ac0461019aea44.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7169028520584106,
+      "iou": 0.558728447974823,
+      "precision": 0.8577336641852771,
+      "recall": 0.6157957244655582,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2043.rf.37ea25ead4d12143a2825d97dbb5c6a5",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2043.rf.37ea25ead4d12143a2825d97dbb5c6a5.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2043.rf.37ea25ead4d12143a2825d97dbb5c6a5.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7782964110374451,
+      "iou": 0.6370582610916349,
+      "precision": 0.750281214848144,
+      "recall": 0.8084848484848485,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2064.rf.f9f37327dfaaa571b91ccc5d25cc8039",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2064.rf.f9f37327dfaaa571b91ccc5d25cc8039.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2064.rf.f9f37327dfaaa571b91ccc5d25cc8039.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7514488101005554,
+      "iou": 0.6018566268169898,
+      "precision": 0.8587196467991169,
+      "recall": 0.6680022896393818,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2067.rf.23ed68b28ea7c5e4cbfb234ffa9702ea",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2067.rf.23ed68b28ea7c5e4cbfb234ffa9702ea.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2067.rf.23ed68b28ea7c5e4cbfb234ffa9702ea.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8414576649665833,
+      "iou": 0.7263071889490954,
+      "precision": 0.8201107011070111,
+      "recall": 0.8639455782312925,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2084.rf.950ff4fcd9bc177e7831cb4c9a2dd6eb",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2084.rf.950ff4fcd9bc177e7831cb4c9a2dd6eb.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2084.rf.950ff4fcd9bc177e7831cb4c9a2dd6eb.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8880503177642822,
+      "iou": 0.798642533334357,
+      "precision": 0.8478783026421137,
+      "recall": 0.9322183098591549,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2091.rf.ab9d969f82e8610c30ec3f7576494f44",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2091.rf.ab9d969f82e8610c30ec3f7576494f44.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2091.rf.ab9d969f82e8610c30ec3f7576494f44.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6405693888664246,
+      "iou": 0.47120418798826785,
+      "precision": 0.5166475315729047,
+      "recall": 0.8426966292134831,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2137.rf.44786d7aeaf45f9497f47125a5bab284",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2137.rf.44786d7aeaf45f9497f47125a5bab284.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2137.rf.44786d7aeaf45f9497f47125a5bab284.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7992412447929382,
+      "iou": 0.6656134804288502,
+      "precision": 0.8511784511784511,
+      "recall": 0.7532777115613826,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2147.rf.68491b477ce9af3d84c550103dd511e3",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2147.rf.68491b477ce9af3d84c550103dd511e3.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2147.rf.68491b477ce9af3d84c550103dd511e3.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7156937122344971,
+      "iou": 0.5572609202393614,
+      "precision": 0.5856079404466501,
+      "recall": 0.9200779727095516,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2197.rf.b97a6e0452cf8a431fdcb24bfb4d643d",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2197.rf.b97a6e0452cf8a431fdcb24bfb4d643d.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2197.rf.b97a6e0452cf8a431fdcb24bfb4d643d.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6257340908050537,
+      "iou": 0.45532245496866935,
+      "precision": 0.5689320388349515,
+      "recall": 0.6951364175563464,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2205.rf.eaf969e5ee1bad463953679d0f0a317f",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2205.rf.eaf969e5ee1bad463953679d0f0a317f.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2205.rf.eaf969e5ee1bad463953679d0f0a317f.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8086158037185669,
+      "iou": 0.6787196202260108,
+      "precision": 0.7396640826873385,
+      "recall": 0.8917445482866043,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2222.rf.bfd72b1a6235ed53983e11289c619b4e",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2222.rf.bfd72b1a6235ed53983e11289c619b4e.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2222.rf.bfd72b1a6235ed53983e11289c619b4e.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8595744967460632,
+      "iou": 0.7537313428509005,
+      "precision": 0.8273471959672338,
+      "recall": 0.8944141689373297,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2232.rf.93366df80c896bda322de47beba47441",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2232.rf.93366df80c896bda322de47beba47441.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2232.rf.93366df80c896bda322de47beba47441.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6425637006759644,
+      "iou": 0.4733656168603322,
+      "precision": 0.5051679586563308,
+      "recall": 0.8826185101580135,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2233.rf.48068254cb62ce6f233708947ac13b1c",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2233.rf.48068254cb62ce6f233708947ac13b1c.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2233.rf.48068254cb62ce6f233708947ac13b1c.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.31848064064979553,
+      "iou": 0.18940052112128536,
+      "precision": 0.1900610287707062,
+      "recall": 0.9819819819819819,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2240.rf.66f2163089851cb1d7874b913e592b94",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2240.rf.66f2163089851cb1d7874b913e592b94.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2240.rf.66f2163089851cb1d7874b913e592b94.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.726210355758667,
+      "iou": 0.5701179546918507,
+      "precision": 0.5807743658210948,
+      "recall": 0.9688195991091314,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2243.rf.97ce3609d517af6979f6d5db3295814f",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2243.rf.97ce3609d517af6979f6d5db3295814f.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2243.rf.97ce3609d517af6979f6d5db3295814f.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7814702987670898,
+      "iou": 0.6413223136962412,
+      "precision": 0.8571428571428571,
+      "recall": 0.7180752621838371,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2252.rf.87849e818065fa8392978ab64926d339",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2252.rf.87849e818065fa8392978ab64926d339.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2252.rf.87849e818065fa8392978ab64926d339.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7534351348876953,
+      "iou": 0.6044090627039748,
+      "precision": 0.6130434782608696,
+      "recall": 0.9772277227722772,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2271.rf.8da6d46618460757719f6df2f8d89297",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2271.rf.8da6d46618460757719f6df2f8d89297.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2271.rf.8da6d46618460757719f6df2f8d89297.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7481181025505066,
+      "iou": 0.5975948190586541,
+      "precision": 0.6077140169332079,
+      "recall": 0.9728915662650602,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2274.rf.5712706f169ad5ab788f546227533d28",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2274.rf.5712706f169ad5ab788f546227533d28.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2274.rf.5712706f169ad5ab788f546227533d28.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6603389978408813,
+      "iou": 0.49291497925818323,
+      "precision": 0.5790725326991677,
+      "recall": 0.7681388012618297,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2275.rf.586655e669fa91476d091094ff24d359",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2275.rf.586655e669fa91476d091094ff24d359.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2275.rf.586655e669fa91476d091094ff24d359.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.9464894533157349,
+      "iou": 0.8984147522166241,
+      "precision": 0.9281417112299465,
+      "recall": 0.9655771905424201,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2323.rf.06768caef93b3a44d3c59325a03230eb",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2323.rf.06768caef93b3a44d3c59325a03230eb.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2323.rf.06768caef93b3a44d3c59325a03230eb.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8685064911842346,
+      "iou": 0.7675753222614237,
+      "precision": 0.9184549356223176,
+      "recall": 0.8237105465742879,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2339.rf.998318533e4ed9c7bcb7d32a307f3ef5",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2339.rf.998318533e4ed9c7bcb7d32a307f3ef5.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2339.rf.998318533e4ed9c7bcb7d32a307f3ef5.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7315347194671631,
+      "iou": 0.5767085072686831,
+      "precision": 0.6005809731299927,
+      "recall": 0.9355203619909502,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2363.rf.66dcd237b513dd108c4b8e9ffec97d8d",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2363.rf.66dcd237b513dd108c4b8e9ffec97d8d.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2363.rf.66dcd237b513dd108c4b8e9ffec97d8d.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.880299985408783,
+      "iou": 0.7861926837783654,
+      "precision": 0.8366228070175439,
+      "recall": 0.9287888009738283,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2369.rf.a3202ed06db3bc7523390481441fb197",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2369.rf.a3202ed06db3bc7523390481441fb197.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2369.rf.a3202ed06db3bc7523390481441fb197.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.780163586139679,
+      "iou": 0.6395641235209018,
+      "precision": 0.6526946107784432,
+      "recall": 0.9695044472681067,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2373.rf.e46190ac62dfc1db6f49d8a51cb3c7f7",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2373.rf.e46190ac62dfc1db6f49d8a51cb3c7f7.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2373.rf.e46190ac62dfc1db6f49d8a51cb3c7f7.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6156178712844849,
+      "iou": 0.44468784179114146,
+      "precision": 0.44713656387665196,
+      "recall": 0.9878345498783455,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2388.rf.dd8dc351bb67d6bfc9ae331dae59cb0d",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2388.rf.dd8dc351bb67d6bfc9ae331dae59cb0d.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2388.rf.dd8dc351bb67d6bfc9ae331dae59cb0d.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6756652593612671,
+      "iou": 0.5101921953930155,
+      "precision": 0.7379949452401011,
+      "recall": 0.6230440967283073,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2400.rf.e2dbfc7baf8e55f3ee71cde186d199c2",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2400.rf.e2dbfc7baf8e55f3ee71cde186d199c2.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2400.rf.e2dbfc7baf8e55f3ee71cde186d199c2.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5247524976730347,
+      "iou": 0.3557046975886972,
+      "precision": 0.3593220338983051,
+      "recall": 0.9724770642201835,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2412.rf.e84608f5da46f7643e7da0b7646e6db4",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2412.rf.e84608f5da46f7643e7da0b7646e6db4.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2412.rf.e84608f5da46f7643e7da0b7646e6db4.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8985652923583984,
+      "iou": 0.8158135279635222,
+      "precision": 0.8677685950413223,
+      "recall": 0.9316283924843424,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2413.rf.669f2c0f7a1d89a840314907bb8be452",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2413.rf.669f2c0f7a1d89a840314907bb8be452.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2413.rf.669f2c0f7a1d89a840314907bb8be452.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7541218400001526,
+      "iou": 0.6052934400399385,
+      "precision": 0.6683608640406608,
+      "recall": 0.8651315789473685,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2416.rf.0daa5b77c15dedd67a5b013075476db8",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2416.rf.0daa5b77c15dedd67a5b013075476db8.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2416.rf.0daa5b77c15dedd67a5b013075476db8.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6366366147994995,
+      "iou": 0.4669603520114886,
+      "precision": 0.500945179584121,
+      "recall": 0.8731466227347611,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2426.rf.ae04998dc00ce092b840c07229072282",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2426.rf.ae04998dc00ce092b840c07229072282.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2426.rf.ae04998dc00ce092b840c07229072282.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.9088954329490662,
+      "iou": 0.8330049256980271,
+      "precision": 0.8592479674796748,
+      "recall": 0.9646320593268682,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2437.rf.0d98e6b224e34447aafdf882383ea14a",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2437.rf.0d98e6b224e34447aafdf882383ea14a.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2437.rf.0d98e6b224e34447aafdf882383ea14a.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5106382966041565,
+      "iou": 0.3428571425602968,
+      "precision": 0.34285714285714286,
+      "recall": 1.0,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2454.rf.98ca60a89bb835f7ef56315930fdef1d",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2454.rf.98ca60a89bb835f7ef56315930fdef1d.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2454.rf.98ca60a89bb835f7ef56315930fdef1d.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7116736769676208,
+      "iou": 0.5524017464836674,
+      "precision": 0.5562884784520669,
+      "recall": 0.9875097580015613,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2470.rf.3bba055020993dc304c435353cfd1818",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2470.rf.3bba055020993dc304c435353cfd1818.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2470.rf.3bba055020993dc304c435353cfd1818.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.655634343624115,
+      "iou": 0.4876905035314297,
+      "precision": 0.4911452184179457,
+      "recall": 0.985781990521327,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2506.rf.0293f921d67e517ebc9ee35b7c32dc63",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2506.rf.0293f921d67e517ebc9ee35b7c32dc63.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2506.rf.0293f921d67e517ebc9ee35b7c32dc63.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7748132348060608,
+      "iou": 0.6324041806337942,
+      "precision": 0.7069133398247323,
+      "recall": 0.8571428571428571,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2515.rf.ff5e3199ed1dd044ecd274b38761e272",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2515.rf.ff5e3199ed1dd044ecd274b38761e272.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2515.rf.ff5e3199ed1dd044ecd274b38761e272.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6038233637809753,
+      "iou": 0.43248347456800423,
+      "precision": 0.4851694915254237,
+      "recall": 0.7993019197207679,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2531.rf.5984304ff6cfd2e3dd5c21f219d415e9",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2531.rf.5984304ff6cfd2e3dd5c21f219d415e9.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2531.rf.5984304ff6cfd2e3dd5c21f219d415e9.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6795699000358582,
+      "iou": 0.5146579798972226,
+      "precision": 0.5505226480836237,
+      "recall": 0.8876404494382022,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2535.rf.1c9939260116325701f7944151a9aeb1",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2535.rf.1c9939260116325701f7944151a9aeb1.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2535.rf.1c9939260116325701f7944151a9aeb1.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6892759203910828,
+      "iou": 0.5258741251386376,
+      "precision": 0.5578635014836796,
+      "recall": 0.9016786570743405,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2555.rf.8ce6a08bbea2d1ea1693f796bd43e9a3",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2555.rf.8ce6a08bbea2d1ea1693f796bd43e9a3.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2555.rf.8ce6a08bbea2d1ea1693f796bd43e9a3.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8691099286079407,
+      "iou": 0.7685185177278616,
+      "precision": 0.7871443624868283,
+      "recall": 0.9701298701298702,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2575.rf.702ecb64c7c46731d4c1896e1221bcb7",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2575.rf.702ecb64c7c46731d4c1896e1221bcb7.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2575.rf.702ecb64c7c46731d4c1896e1221bcb7.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5793712735176086,
+      "iou": 0.4078273590315189,
+      "precision": 0.4769033361847733,
+      "recall": 0.7379219060225016,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "2584.rf.ae6d3c785f229ad271065776e4263d7f",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/2584.rf.ae6d3c785f229ad271065776e4263d7f.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/2584.rf.ae6d3c785f229ad271065776e4263d7f.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8450409173965454,
+      "iou": 0.7316630353189314,
+      "precision": 0.9673547767642823,
+      "recall": 0.7501861504095308,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3018.rf.8080fab394ada475a530ab47db3dc637",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3018.rf.8080fab394ada475a530ab47db3dc637.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3018.rf.8080fab394ada475a530ab47db3dc637.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8673344850540161,
+      "iou": 0.7657463327153813,
+      "precision": 0.9502141327623126,
+      "recall": 0.797752808988764,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3023.rf.6e959c0e312734aaf3a0c0486fc4a906",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3023.rf.6e959c0e312734aaf3a0c0486fc4a906.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3023.rf.6e959c0e312734aaf3a0c0486fc4a906.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8265039324760437,
+      "iou": 0.7043090635441758,
+      "precision": 0.9806896551724138,
+      "recall": 0.7142139628327474,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3049.rf.4cf26f933dc21c9d1fda9807c0b3d35d",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3049.rf.4cf26f933dc21c9d1fda9807c0b3d35d.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3049.rf.4cf26f933dc21c9d1fda9807c0b3d35d.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7501570582389832,
+      "iou": 0.6002010721849192,
+      "precision": 0.9961067853170189,
+      "recall": 0.6016123614376889,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3063.rf.8e65e867e7dac42c2cbfcc6107ea6a5c",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3063.rf.8e65e867e7dac42c2cbfcc6107ea6a5c.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3063.rf.8e65e867e7dac42c2cbfcc6107ea6a5c.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5261639952659607,
+      "iou": 0.35700307510287865,
+      "precision": 0.9883900928792569,
+      "recall": 0.35850645704660306,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3067.rf.006b54ea05537cb110efb4e8ee046272",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3067.rf.006b54ea05537cb110efb4e8ee046272.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3067.rf.006b54ea05537cb110efb4e8ee046272.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.5279085636138916,
+      "iou": 0.35861123784439874,
+      "precision": 0.9788029925187033,
+      "recall": 0.3614180478821363,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3068.rf.c15cd50686e78f2840ab43aa578e1d7d",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3068.rf.c15cd50686e78f2840ab43aa578e1d7d.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3068.rf.c15cd50686e78f2840ab43aa578e1d7d.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6191709637641907,
+      "iou": 0.4484052530028735,
+      "precision": 0.9509283819628647,
+      "recall": 0.45902688860435337,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3093.rf.842f05edf426b1584757049a52269c07",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3093.rf.842f05edf426b1584757049a52269c07.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3093.rf.842f05edf426b1584757049a52269c07.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7507853507995605,
+      "iou": 0.6010058670569942,
+      "precision": 0.956,
+      "recall": 0.618103448275862,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3118.rf.c666d79c4882118c0a6142e165e3632f",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3118.rf.c666d79c4882118c0a6142e165e3632f.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3118.rf.c666d79c4882118c0a6142e165e3632f.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8292493224143982,
+      "iou": 0.7083056473698965,
+      "precision": 0.7351724137931035,
+      "recall": 0.9509366636931311,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3137.rf.a83bb9c7dcb0b1dab1a5bf818c423185",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3137.rf.a83bb9c7dcb0b1dab1a5bf818c423185.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3137.rf.a83bb9c7dcb0b1dab1a5bf818c423185.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7644404172897339,
+      "iou": 0.6186997804100074,
+      "precision": 0.6311475409836066,
+      "recall": 0.9691075514874142,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3150.rf.1ca4ed4a1274c78e2030b61aa874e8ed",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3150.rf.1ca4ed4a1274c78e2030b61aa874e8ed.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3150.rf.1ca4ed4a1274c78e2030b61aa874e8ed.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7674609422683716,
+      "iou": 0.6226666658364445,
+      "precision": 0.6388508891928865,
+      "recall": 0.9609053497942387,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3154.rf.96c992d5b0c2d0fc334a116d0ecf9330",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3154.rf.96c992d5b0c2d0fc334a116d0ecf9330.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3154.rf.96c992d5b0c2d0fc334a116d0ecf9330.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7997573018074036,
+      "iou": 0.6663296252109913,
+      "precision": 0.6765913757700205,
+      "recall": 0.9777448071216617,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3159.rf.8e32d9347a6cc6090b8810e9ecf6db13",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3159.rf.8e32d9347a6cc6090b8810e9ecf6db13.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3159.rf.8e32d9347a6cc6090b8810e9ecf6db13.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7364280223846436,
+      "iou": 0.5828144451023481,
+      "precision": 0.6062176165803109,
+      "recall": 0.9378757515030061,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3162.rf.c7cb7c1c601f27043c0ddb17b74edfdd",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3162.rf.c7cb7c1c601f27043c0ddb17b74edfdd.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3162.rf.c7cb7c1c601f27043c0ddb17b74edfdd.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7205674052238464,
+      "iou": 0.5631929042400643,
+      "precision": 0.6441251056635672,
+      "recall": 0.8175965665236051,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3172.rf.cb0999cf34611fb5bbdac2a5c68b926b",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3172.rf.cb0999cf34611fb5bbdac2a5c68b926b.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3172.rf.cb0999cf34611fb5bbdac2a5c68b926b.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7646558880805969,
+      "iou": 0.6189821174429407,
+      "precision": 0.6401137980085349,
+      "recall": 0.9493670886075949,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3174.rf.8ec774fc4db15af6b7d1e920c31f759c",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3174.rf.8ec774fc4db15af6b7d1e920c31f759c.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3174.rf.8ec774fc4db15af6b7d1e920c31f759c.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8618954420089722,
+      "iou": 0.7573077865985488,
+      "precision": 0.9305765167521883,
+      "recall": 0.8026555584483207,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3202.rf.e847435a50534b2273e1e2b8177f946e",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3202.rf.e847435a50534b2273e1e2b8177f946e.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3202.rf.e847435a50534b2273e1e2b8177f946e.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6615853905677795,
+      "iou": 0.49430523880462773,
+      "precision": 0.532733224222586,
+      "recall": 0.8726541554959786,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3206.rf.ec6794d42a29e7bd3f3252073c6eed71",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3206.rf.ec6794d42a29e7bd3f3252073c6eed71.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3206.rf.ec6794d42a29e7bd3f3252073c6eed71.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8938807249069214,
+      "iou": 0.8081232490167636,
+      "precision": 0.8631264023934181,
+      "recall": 0.9269076305220884,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3207.rf.f408ffa769bb22f0cc56b51300ed9ce1",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3207.rf.f408ffa769bb22f0cc56b51300ed9ce1.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3207.rf.f408ffa769bb22f0cc56b51300ed9ce1.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8884866237640381,
+      "iou": 0.7993485336812061,
+      "precision": 0.8421413864104323,
+      "recall": 0.9402298850574713,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3215.rf.2e19342a5e9557ad837d3b98267d1ffc",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3215.rf.2e19342a5e9557ad837d3b98267d1ffc.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3215.rf.2e19342a5e9557ad837d3b98267d1ffc.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7960069179534912,
+      "iou": 0.661139148766302,
+      "precision": 0.6703216374269005,
+      "recall": 0.9797008547008547,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3225.rf.00490d0babc76539398c471f17b0d6e7",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3225.rf.00490d0babc76539398c471f17b0d6e7.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3225.rf.00490d0babc76539398c471f17b0d6e7.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7621756196022034,
+      "iou": 0.6157380812086513,
+      "precision": 0.6254375729288215,
+      "recall": 0.9754322111010009,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3227.rf.1bfaf73652a764c8825e813c25a347a8",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3227.rf.1bfaf73652a764c8825e813c25a347a8.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3227.rf.1bfaf73652a764c8825e813c25a347a8.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8032178282737732,
+      "iou": 0.6711478793473135,
+      "precision": 0.6817226890756303,
+      "recall": 0.9774096385542169,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3229.rf.66af8e45c447ae474773ccf8e7c50a5a",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3229.rf.66af8e45c447ae474773ccf8e7c50a5a.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3229.rf.66af8e45c447ae474773ccf8e7c50a5a.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8289322853088379,
+      "iou": 0.7078431365609381,
+      "precision": 0.7513007284079084,
+      "recall": 0.9244558258642765,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3231.rf.4888b161d3d270231d4cc729b7348d7e",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3231.rf.4888b161d3d270231d4cc729b7348d7e.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3231.rf.4888b161d3d270231d4cc729b7348d7e.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8462282419204712,
+      "iou": 0.7334450957808506,
+      "precision": 0.7371524852569503,
+      "recall": 0.9931895573212258,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3240.rf.a3096e02cbb77913c600a48e6673fc34",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3240.rf.a3096e02cbb77913c600a48e6673fc34.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3240.rf.a3096e02cbb77913c600a48e6673fc34.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7610160708427429,
+      "iou": 0.6142259409085975,
+      "precision": 0.935031847133758,
+      "recall": 0.6416083916083916,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3258.rf.1b9e5091cb3dc7fe0abf4e44dd3e0dc7",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3258.rf.1b9e5091cb3dc7fe0abf4e44dd3e0dc7.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3258.rf.1b9e5091cb3dc7fe0abf4e44dd3e0dc7.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8066214919090271,
+      "iou": 0.6759142488323906,
+      "precision": 0.7099337748344371,
+      "recall": 0.9337979094076655,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3259.rf.a92a5f313a7c48a2a4e7973db4fb19e2",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3259.rf.a92a5f313a7c48a2a4e7973db4fb19e2.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3259.rf.a92a5f313a7c48a2a4e7973db4fb19e2.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8191027641296387,
+      "iou": 0.693627450413703,
+      "precision": 0.8834547346514048,
+      "recall": 0.7634892086330936,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3262.rf.c9dc3251366364177a515678a4b7deca",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3262.rf.c9dc3251366364177a515678a4b7deca.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3262.rf.c9dc3251366364177a515678a4b7deca.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8423507213592529,
+      "iou": 0.7276390002194689,
+      "precision": 0.7575503355704698,
+      "recall": 0.9485294117647058,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3266.rf.e869e737911fd5b9235a9dcb6e297cc3",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3266.rf.e869e737911fd5b9235a9dcb6e297cc3.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3266.rf.e869e737911fd5b9235a9dcb6e297cc3.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8188202381134033,
+      "iou": 0.693222353515788,
+      "precision": 0.7351828499369483,
+      "recall": 0.9239302694136292,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3275.rf.f98acf5215d6730828f485c270ae7b54",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3275.rf.f98acf5215d6730828f485c270ae7b54.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3275.rf.f98acf5215d6730828f485c270ae7b54.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8166022896766663,
+      "iou": 0.6900489393596865,
+      "precision": 0.9452513966480447,
+      "recall": 0.7187765505522515,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3303.rf.061ce24aaf7333b08a68618808e54a9c",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3303.rf.061ce24aaf7333b08a68618808e54a9c.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3303.rf.061ce24aaf7333b08a68618808e54a9c.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.0014652021927759051,
+      "iou": 0.0007331385285492506,
+      "precision": 0.0011086474501108647,
+      "recall": 0.0021598272138228943,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3306.rf.b72adcdf677fa01eeccf1247826ff0d8",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3306.rf.b72adcdf677fa01eeccf1247826ff0d8.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3306.rf.b72adcdf677fa01eeccf1247826ff0d8.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8308780193328857,
+      "iou": 0.7106854831545509,
+      "precision": 0.8545454545454545,
+      "recall": 0.8084862385321101,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3313.rf.5f0a7ba195fe30e2ed30165df414b94e",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3313.rf.5f0a7ba195fe30e2ed30165df414b94e.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3313.rf.5f0a7ba195fe30e2ed30165df414b94e.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.9106541872024536,
+      "iou": 0.8359643096527355,
+      "precision": 0.9069247952345495,
+      "recall": 0.9144144144144144,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3351.rf.1c54d04ac035ecc049785b24e7435668",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3351.rf.1c54d04ac035ecc049785b24e7435668.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3351.rf.1c54d04ac035ecc049785b24e7435668.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7948567867279053,
+      "iou": 0.6595538305920913,
+      "precision": 0.6793206793206793,
+      "recall": 0.9577464788732394,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3354.rf.0a71b77956ae50ad6ea1195c2ac55cd0",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3354.rf.0a71b77956ae50ad6ea1195c2ac55cd0.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3354.rf.0a71b77956ae50ad6ea1195c2ac55cd0.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8364963531494141,
+      "iou": 0.7189460467767301,
+      "precision": 0.8220946915351507,
+      "recall": 0.8514115898959881,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3376.rf.06fe7c72959b6ae5c03d19165ea3d515",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3376.rf.06fe7c72959b6ae5c03d19165ea3d515.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3376.rf.06fe7c72959b6ae5c03d19165ea3d515.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8344179391860962,
+      "iou": 0.7158808930782007,
+      "precision": 0.9592684954280964,
+      "recall": 0.7383237364043506,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3443.rf.ae3196f72376757297122e81626f6f60",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3443.rf.ae3196f72376757297122e81626f6f60.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3443.rf.ae3196f72376757297122e81626f6f60.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6941176652908325,
+      "iou": 0.5315315312654997,
+      "precision": 0.9431616341030196,
+      "recall": 0.5491209927611168,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3456.rf.30895a89b64e39620e28cd70e6330319",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3456.rf.30895a89b64e39620e28cd70e6330319.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3456.rf.30895a89b64e39620e28cd70e6330319.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8360995650291443,
+      "iou": 0.7183600708744147,
+      "precision": 0.8297872340425532,
+      "recall": 0.8425087108013938,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3481.rf.df8774688622b789d11a98521eb9ea1f",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3481.rf.df8774688622b789d11a98521eb9ea1f.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3481.rf.df8774688622b789d11a98521eb9ea1f.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7588865160942078,
+      "iou": 0.611456176251583,
+      "precision": 0.6248236953455572,
+      "recall": 0.9661941112322792,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3498.rf.d6a2177504b9a25c571a3c936d1ae1a8",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3498.rf.d6a2177504b9a25c571a3c936d1ae1a8.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3498.rf.d6a2177504b9a25c571a3c936d1ae1a8.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8202811479568481,
+      "iou": 0.6953191483444092,
+      "precision": 0.8336734693877551,
+      "recall": 0.8073122529644269,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3600.rf.b7b614527ef02e79cf9bac0f01499db1",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3600.rf.b7b614527ef02e79cf9bac0f01499db1.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3600.rf.b7b614527ef02e79cf9bac0f01499db1.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.70703125,
+      "iou": 0.5468277941489216,
+      "precision": 0.5687352710133543,
+      "recall": 0.9341935483870968,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3808.rf.493b34c335bf6a7418b971aa62b7d0fd",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3808.rf.493b34c335bf6a7418b971aa62b7d0fd.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3808.rf.493b34c335bf6a7418b971aa62b7d0fd.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8869485259056091,
+      "iou": 0.7968620967821122,
+      "precision": 0.8326143226919759,
+      "recall": 0.9488692232055064,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3813.rf.e15af5ed48e2b7af887d08311ef9a478",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3813.rf.e15af5ed48e2b7af887d08311ef9a478.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3813.rf.e15af5ed48e2b7af887d08311ef9a478.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.753731369972229,
+      "iou": 0.6047904186443195,
+      "precision": 0.8089244851258581,
+      "recall": 0.7055888223552894,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3833.rf.e85ce14ff45661fe11e7d51a072cdef6",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3833.rf.e85ce14ff45661fe11e7d51a072cdef6.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3833.rf.e85ce14ff45661fe11e7d51a072cdef6.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.797630786895752,
+      "iou": 0.663382593872428,
+      "precision": 0.7279279279279279,
+      "recall": 0.8820960698689956,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3836.rf.5593476e218d3458202eb55d88f70676",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3836.rf.5593476e218d3458202eb55d88f70676.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3836.rf.5593476e218d3458202eb55d88f70676.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.6754422187805176,
+      "iou": 0.5099378878820261,
+      "precision": 0.8743343982960596,
+      "recall": 0.5502680965147453,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3841.rf.10b7cdb473d0d68639078e98f220754a",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3841.rf.10b7cdb473d0d68639078e98f220754a.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3841.rf.10b7cdb473d0d68639078e98f220754a.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8506559133529663,
+      "iou": 0.7401229141877761,
+      "precision": 0.7622061482820977,
+      "recall": 0.9623287671232876,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3848.rf.eebe99038cd40502695607594e000258",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3848.rf.eebe99038cd40502695607594e000258.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3848.rf.eebe99038cd40502695607594e000258.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8446866273880005,
+      "iou": 0.731132074609514,
+      "precision": 0.8072916666666666,
+      "recall": 0.8857142857142857,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3852.rf.449ecbe5cec6616321519ad9291ee6ea",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3852.rf.449ecbe5cec6616321519ad9291ee6ea.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3852.rf.449ecbe5cec6616321519ad9291ee6ea.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.7574506998062134,
+      "iou": 0.6095940954910745,
+      "precision": 0.8815368196371398,
+      "recall": 0.6639871382636656,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3872.rf.0e39fa77d324ee70da6d5e31e943678c",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3872.rf.0e39fa77d324ee70da6d5e31e943678c.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3872.rf.0e39fa77d324ee70da6d5e31e943678c.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8753412365913391,
+      "iou": 0.778317150844147,
+      "precision": 0.9196940726577438,
+      "recall": 0.8350694444444444,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3885.rf.5d0b08090bb3c2fcd3bc8fe36db9e51a",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3885.rf.5d0b08090bb3c2fcd3bc8fe36db9e51a.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3885.rf.5d0b08090bb3c2fcd3bc8fe36db9e51a.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    },
+    {
+      "dice": 0.8155737519264221,
+      "iou": 0.6885813140846813,
+      "precision": 0.7566539923954373,
+      "recall": 0.8844444444444445,
+      "empty_true": 0,
+      "empty_pred": 0,
+      "record": {
+        "sample_id": "3897.rf.94c81f86436f41e7bba4b2e66934a470",
+        "dataset": "crack-seg",
+        "split": "test",
+        "image_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/images/test/3897.rf.94c81f86436f41e7bba4b2e66934a470.jpg",
+        "annotation_path": "/content/drive/MyDrive/CrackDetection/data/crack-seg/labels/test/3897.rf.94c81f86436f41e7bba4b2e66934a470.txt",
+        "mask_conversion_rule": "polygon_rasterization_416x416",
+        "exclusion_reason": null,
+        "excluded_from_scored_eval": false,
+        "notes": "[]"
+      }
+    }
+  ],
+  "limitations": [
+    "Near-duplicate review has not been completed.",
+    "Results apply to this dataset and evaluation protocol; they do not independently establish structural safety or crack severity."
+  ]
+}

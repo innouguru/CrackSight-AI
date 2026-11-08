@@ -1,0 +1,70 @@
+# M3 Baseline Experiment Configuration — Binary Crack Segmentation
+# Dataset exclusions and evaluation rules are applied by the loader and documented.
+
+experiment_name: "m3_crack_seg_baseline_b1"
+version: "3.0.0"
+
+# Dataset and manifest settings
+manifest_dir: "outputs/manifests"
+datasets:
+  crack-seg:
+    # Full training/validation/test manifests must be built with scripts/build_dataset_manifests.py.
+    # The existing duplicate-exclusion manifest is at outputs/manifests/crackseg_duplicate_exclusion.json.
+    manifest_path: "outputs/manifests/crackseg_duplicate_exclusion.json"  # placeholder; build full manifest before full run
+    splits:
+      train: "data/crack-seg/images/train"
+      val: "data/crack-seg/images/val"
+      test: "data/crack-seg/images/test"
+  concrete400:
+    # Concrete400 segmentation uses folder-level splits; manifest should reference Segmentation/Image + Masks.
+    manifest_path: "outputs/manifests/concrete400_seg_manifest.json"  # build before full run if needed
+    splits:
+      train: "data/concrete400/Segmentation/Image"
+      val: "data/concrete400/Segmentation/Image"
+
+# Image and preprocessing settings
+image_size: [256, 256]  # [height, width] — small baseline; larger options preserved
+batch_size: 4
+num_workers: 0  # Conservative for CPU/local smoke tests
+
+# Model settings
+model:
+  architecture: "unet_resnet34"
+  pretrained: true
+  encoder_weights: "IMAGENET1K_V1"
+  num_classes: 1
+
+# Loss settings
+loss:
+  type: "bce_dice"
+  dice_weight: 0.5
+
+# Training settings
+training:
+  device: "auto"  # auto | cpu | cuda
+  max_epochs: 5
+  patience: 3  # early stopping patience (epochs without val improvement)
+  learning_rate: 0.001
+  optimizer: "adam"
+  seed: 42
+  mixed_precision: false  # Not used in this baseline
+
+# Checkpoint settings
+checkpoint_dir: "outputs/checkpoints"
+best_checkpoint_name: "best_model.pth"
+last_checkpoint_name: "last_model.pth"
+
+# Metrics and evaluation
+metrics:
+  empty_mask_convention: "both_empty_is_perfect"
+  report_per_image: true
+  exclude_exact_duplicate_from_scored_eval: true
+  # Note: crack-seg test duplicate exclusion applied (1979.rf.d3ee / dea5 -> 111 images)
+  # Near-duplicate cross-split pairs (6 pairs) preserved as limitation per docs/dataset-audit/near_duplicate_inspection.md
+
+evaluation_limitations:
+  facade_dataset_excluded_from_b1: true  # Scene leakage unresolved; licence open (DSET-002, DSET-008)
+  facade_scene_disjoint_split_validated: false
+  crack_seg_near_duplicate_review_completed: false  # 4 train-val + 2 train-test pairs unresolved
+  concrete400_mask_threshold: 127
+  concrete400_mask_polarity_evidence: "threshold_127_produces_binary_masks_consistent_with_readme_and_visual_evidence"

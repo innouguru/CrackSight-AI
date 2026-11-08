@@ -1,0 +1,3949 @@
+{
+  "manifest_version": "1.0.0",
+  "dataset": "concrete400",
+  "split": "train",
+  "generated_at": "2026-10-26T13:55:18.384377",
+  "duplicate_exclusion_applied": false,
+  "scored_test_count_after_exclusion": null,
+  "records": [
+    {
+      "sample_id": "concrete400_image_001",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_001.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_001.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_002",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_002.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_002.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_003",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_003.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_003.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_004",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_004.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_004.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_005",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_005.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_005.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_006",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_006.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_006.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_007",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_007.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_007.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_008",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_008.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_008.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_009",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_009.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_009.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_010",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_010.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_010.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_011",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_011.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_011.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_012",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_012.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_012.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_013",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_013.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_013.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_014",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_014.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_014.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_015",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_015.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_015.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_016",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_016.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_016.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_017",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_017.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_017.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_018",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_018.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_018.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_019",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_019.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_019.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_020",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_020.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_020.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_021",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_021.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_021.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_022",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_022.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_022.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_023",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_023.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_023.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_024",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_024.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_024.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_025",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_025.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_025.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_026",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_026.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_026.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_027",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_027.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_027.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_028",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_028.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_028.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_029",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_029.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_029.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_030",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_030.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_030.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_031",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_031.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_031.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_032",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_032.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_032.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_033",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_033.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_033.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_034",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_034.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_034.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_035",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_035.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_035.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_036",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_036.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_036.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_037",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_037.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_037.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_038",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_038.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_038.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_039",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_039.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_039.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_040",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_040.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_040.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_041",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_041.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_041.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_042",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_042.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_042.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_043",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_043.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_043.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_044",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_044.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_044.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_045",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_045.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_045.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_046",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_046.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_046.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_047",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_047.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_047.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_048",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_048.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_048.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_049",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_049.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_049.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_050",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_050.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_050.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_051",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_051.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_051.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_052",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_052.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_052.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_053",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_053.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_053.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_054",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_054.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_054.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_055",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_055.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_055.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_056",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_056.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_056.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_057",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_057.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_057.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_058",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_058.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_058.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_059",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_059.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_059.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_060",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_060.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_060.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_061",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_061.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_061.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_062",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_062.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_062.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_063",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_063.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_063.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_064",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_064.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_064.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_065",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_065.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_065.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_066",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_066.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_066.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_067",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_067.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_067.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_068",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_068.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_068.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_069",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_069.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_069.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_070",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_070.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_070.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_071",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_071.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_071.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_072",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_072.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_072.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_073",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_073.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_073.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_074",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_074.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_074.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_075",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_075.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_075.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_076",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_076.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_076.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_077",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_077.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_077.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_078",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_078.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_078.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_079",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_079.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_079.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_080",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_080.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_080.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_081",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_081.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_081.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_082",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_082.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_082.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_083",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_083.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_083.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_084",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_084.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_084.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_085",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_085.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_085.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_086",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_086.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_086.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_087",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_087.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_087.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_088",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_088.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_088.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_089",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_089.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_089.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_090",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_090.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_090.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_091",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_091.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_091.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_092",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_092.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_092.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_093",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_093.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_093.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_094",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_094.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_094.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_095",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_095.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_095.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_096",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_096.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_096.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_097",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_097.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_097.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_098",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_098.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_098.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_099",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_099.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_099.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_100",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_100.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_100.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_101",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_101.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_101.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_102",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_102.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_102.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_103",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_103.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_103.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_104",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_104.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_104.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_105",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_105.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_105.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_106",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_106.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_106.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_107",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_107.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_107.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_108",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_108.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_108.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_109",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_109.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_109.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_110",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_110.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_110.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_111",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_111.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_111.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_112",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_112.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_112.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_113",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_113.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_113.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_114",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_114.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_114.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_115",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_115.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_115.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_116",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_116.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_116.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_117",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_117.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_117.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_118",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_118.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_118.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_119",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_119.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_119.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_120",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_120.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_120.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_121",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_121.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_121.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_122",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_122.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_122.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_123",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_123.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_123.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_124",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_124.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_124.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_125",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_125.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_125.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_126",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_126.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_126.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_127",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_127.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_127.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_128",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_128.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_128.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_129",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_129.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_129.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_130",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_130.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_130.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_131",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_131.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_131.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_132",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_132.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_132.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_133",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_133.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_133.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_134",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_134.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_134.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_135",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_135.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_135.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_136",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_136.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_136.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_137",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_137.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_137.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_138",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_138.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_138.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_139",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_139.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_139.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_140",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_140.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_140.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_141",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_141.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_141.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_142",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_142.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_142.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_143",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_143.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_143.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_144",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_144.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_144.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_145",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_145.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_145.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_146",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_146.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_146.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_147",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_147.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_147.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_148",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_148.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_148.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_149",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_149.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_149.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_150",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_150.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_150.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_151",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_151.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_151.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_152",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_152.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_152.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_153",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_153.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_153.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_154",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_154.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_154.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_155",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_155.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_155.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_156",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_156.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_156.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_157",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_157.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_157.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_158",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_158.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_158.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_159",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_159.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_159.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_160",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_160.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_160.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_161",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_161.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_161.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_162",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_162.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_162.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_163",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_163.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_163.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_164",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_164.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_164.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_165",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_165.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_165.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_166",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_166.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_166.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_167",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_167.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_167.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_168",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_168.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_168.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_169",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_169.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_169.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_170",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_170.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_170.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_171",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_171.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_171.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_172",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_172.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_172.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_173",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_173.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_173.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_174",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_174.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_174.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_175",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_175.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_175.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_176",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_176.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_176.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_177",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_177.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_177.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_178",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_178.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_178.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_179",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_179.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_179.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_180",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_180.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_180.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_181",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_181.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_181.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_182",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_182.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_182.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_183",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_183.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_183.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_184",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_184.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_184.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_185",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_185.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_185.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_186",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_186.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_186.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_187",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_187.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_187.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_188",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_188.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_188.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_189",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_189.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_189.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_190",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_190.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_190.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_191",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_191.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_191.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_192",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_192.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_192.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_193",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_193.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_193.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_194",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_194.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_194.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_195",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_195.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_195.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_196",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_196.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_196.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_197",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_197.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_197.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_198",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_198.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_198.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_199",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_199.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_199.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_200",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_200.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_200.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_201",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_201.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_201.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_202",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_202.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_202.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_203",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_203.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_203.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_204",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_204.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_204.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_205",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_205.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_205.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_206",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_206.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_206.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_207",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_207.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_207.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_208",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_208.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_208.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_209",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_209.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_209.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_210",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_210.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_210.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_211",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_211.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_211.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_212",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_212.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_212.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_213",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_213.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_213.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_214",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_214.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_214.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_215",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_215.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_215.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_216",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_216.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_216.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_217",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_217.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_217.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_218",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_218.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_218.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_219",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_219.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_219.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_220",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_220.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_220.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_221",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_221.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_221.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_222",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_222.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_222.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_223",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_223.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_223.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_224",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_224.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_224.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_225",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_225.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_225.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_226",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_226.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_226.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_227",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_227.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_227.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_228",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_228.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_228.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_229",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_229.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_229.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_230",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_230.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_230.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_231",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_231.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_231.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_232",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_232.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_232.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_233",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_233.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_233.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_234",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_234.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_234.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_235",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_235.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_235.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_236",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_236.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_236.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_237",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_237.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_237.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_238",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_238.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_238.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_239",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_239.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_239.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_240",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_240.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_240.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_241",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_241.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_241.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_242",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_242.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_242.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_243",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_243.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_243.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_244",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_244.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_244.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_245",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_245.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_245.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_246",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_246.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_246.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_247",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_247.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_247.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_248",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_248.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_248.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_249",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_249.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_249.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_250",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_250.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_250.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_251",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_251.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_251.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_252",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_252.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_252.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_253",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_253.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_253.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_254",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_254.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_254.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_255",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_255.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_255.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_256",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_256.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_256.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_257",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_257.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_257.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_258",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_258.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_258.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_259",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_259.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_259.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_260",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_260.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_260.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_261",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_261.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_261.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_262",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_262.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_262.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_263",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_263.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_263.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_264",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_264.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_264.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_265",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_265.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_265.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_266",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_266.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_266.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_267",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_267.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_267.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_268",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_268.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_268.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_269",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_269.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_269.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_270",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_270.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_270.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_271",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_271.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_271.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_272",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_272.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_272.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_273",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_273.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_273.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_274",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_274.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_274.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_275",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_275.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_275.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_276",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_276.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_276.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_277",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_277.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_277.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_278",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_278.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_278.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_279",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_279.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_279.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_280",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_280.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_280.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_281",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_281.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_281.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_282",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_282.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_282.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_283",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_283.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_283.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_284",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_284.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_284.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_285",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_285.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_285.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_286",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_286.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_286.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_287",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_287.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_287.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_288",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_288.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_288.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_289",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_289.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_289.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_290",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_290.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_290.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_291",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_291.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_291.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_292",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_292.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_292.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_293",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_293.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_293.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_294",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_294.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_294.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_295",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_295.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_295.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_296",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_296.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_296.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_297",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_297.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_297.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_298",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_298.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_298.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_299",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_299.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_299.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_300",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_300.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_300.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_301",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_301.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_301.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_302",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_302.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_302.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    },
+    {
+      "sample_id": "concrete400_image_303",
+      "dataset": "concrete400",
+      "split": "train",
+      "image_path": "data\\concrete400\\Segmentation\\Image\\image_303.jpg",
+      "annotation_path": "data\\concrete400\\Segmentation\\Masks\\image_303.jpg",
+      "mask_conversion_rule": "threshold_127_binary",
+      "exclusion_reason": null,
+      "excluded_from_scored_eval": false,
+      "notes": [
+        "Concrete400 segmentation subset only; classification images excluded per DSET-005."
+      ]
+    }
+  ]
+}

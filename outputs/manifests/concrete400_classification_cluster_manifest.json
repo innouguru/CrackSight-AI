@@ -1,0 +1,25 @@
+{
+  "clustering_method": "dHash 8x8 grayscale, Hamming distance <= 6, greedy union-find",
+  "clusters_size_2plus": 40,
+  "crack_patches_total": 1502,
+  "dataset": "concrete400",
+  "evidence": "168 near-duplicate pairs within no_crack (audit); 0 near-matches with segmentation images; dHash clustering used for split integrity.",
+  "largest_cluster_size": 9,
+  "leakage_check": "Clusters do not span splits by construction; cluster-level disjointness enforced.",
+  "no_crack_patches_total": 869,
+  "split_definition": "project-defined experimental split (not official); clusters assigned deterministically (sorted cluster representative); ~80% clusters to train",
+  "task": "classification",
+  "threshold_documented_in_config": 6,
+  "total_clusters": 1419,
+  "total_patches": 1502,
+  "train_class_counts": {
+    "crack": 506,
+    "no_crack": 695
+  },
+  "train_images": 1201,
+  "valtest_class_counts": {
+    "crack": 127,
+    "no_crack": 174
+  },
+  "valtest_images": 301
+}\n

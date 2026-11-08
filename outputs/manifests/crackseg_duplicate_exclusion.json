@@ -1,0 +1,16 @@
+{
+  "dataset": "crack-seg",
+  "digests": {
+    "1979.rf.d3ee9d85b659ee844d1c26680f05d419.jpg": "02beb610e7a256f91c9ab42593d87e4f85db13b75d896ddb65af95cc1b52a82a",
+    "1979.rf.dea5db582b997afc4acb0f68d74c3b84.jpg": "02beb610e7a256f91c9ab42593d87e4f85db13b75d896ddb65af95cc1b52a82a"
+  },
+  "evidence": "Exact SHA-256 match; audit \u00a7E1, M1 duplicate grouping (DSET-006).",
+  "excluded_sample": "data/crack-seg/images/test/1979.rf.dea5db582b997afc4acb0f68d74c3b84.jpg",
+  "exclusion_reason": "Byte-identical duplicate pair in test split (SHA-256 match)",
+  "file_pair": [
+    "data/crack-seg/images/test/1979.rf.d3ee9d85b659ee844d1c26680f05d419.jpg",
+    "data/crack-seg/images/test/1979.rf.dea5db582b997afc4acb0f68d74c3b84.jpg"
+  ],
+  "retained_sample": "data/crack-seg/images/test/1979.rf.d3ee9d85b659ee844d1c26680f05d419.jpg",
+  "scored_test_count_after_exclusion": 111
+}
