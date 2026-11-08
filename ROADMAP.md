@@ -244,33 +244,47 @@ The pre-Milestone 6 browser prototype provides mock screens and local image prev
 
 **Objective**: Enable registered users to create, save, and manage inspections with PDF reports.
 
-**Main Deliverables**:
-- Registered user inspection creation with title
-- Add photographs to inspection (structure type per photo)
-- Save inspection results (persist beyond 24 hours)
-- Inspection dashboard and history
-- Monthly analysis allowance with fair-use protection
-- Generate and download professional PDF inspection reports
-- View inspection history (list and card views)
-- Filtering by title, date, structure type, verification status
-
-**Dependencies**:
-- Authentication (Milestone 3) complete
-- Guest workflow (Milestone 7) complete
-- Backend inspection management (Milestone 2+3) complete
-- PDF report generation capability
+**Main Deliverables** (in implementation order):
+1. Registered-user inspection creation with title — connect the frontend creation flow to the existing backend `POST /inspections` endpoint.
+2. Add photographs to inspection (structure type per photo) — productionise the existing upload endpoint (declare `python-multipart` dependency; fix foreign-ownership status consistency); the upload, listing, and download endpoints are already implemented and tested.
+3. Save inspection results (persist beyond 24 hours) — **COMPLETE (verified)**. Registered-user tables (`users`, `inspections`, `photographs`, `prediction_versions`) have no expiry; only `guest_sessions` carries the 24-hour expiry, and `cleanup_expired_guest_sessions()` never touches registered data.
+4. Inspection dashboard and history — connect the mock-backed `DashboardPage` and `HistoryPage` to the existing backend `GET /inspections` endpoint.
+5. Filtering by title, date, structure type, verification status — implement backend date/structure-type/verification-status filters on `GET /inspections` (title search already works; the `structure_type` query param is currently accepted but ignored).
+6. Monthly analysis allowance with fair-use protection — implement per-registered-user monthly usage tracking with atomic enforcement, reset, and failure compensation (the guest 3-analysis limit already exists).
+7. Generate and download professional PDF inspection reports — implemented and verified: ReportLab standalone generator + `POST /reports/generate/{inspection_id}` + `GET /reports/{report_id}/download` endpoints; ReportLab (navy `#18313b`/teal `#167f78` branding matching frontend tokens) chosen over WeasyPrint; branding resolved.
+8. View inspection history (list and card views) — implemented together with Task 4 using the same `list_inspections` data fetch (list and card presentations share one backend call).
 
 **Acceptance Criteria**:
-- [ ] Registered user can create inspection with title
-- [ ] User can add photographs with structure type (wall/beam/column)
-- [ ] Inspection saves and persists beyond guest session
-- [ ] Dashboard shows total inspections, total photographs, and recent inspections from saved data
-- [ ] New Inspection button is available in the integrated application
-- [ ] PDF report generates with required content (branding, ID, date, photos, measurements, model version, observations, verification statuses, disclaimer, page numbers)
-- [ ] PDF is a downloadable file only (no public shareable links)
-- [ ] History supports list and card views backed by saved inspections
-- [ ] Search by title, date, structure type, and verification status works against saved data
-- [ ] Monthly allowance with fair-use protection is connected to backend enforcement
+- [x] Inspection saves and persists beyond guest session — COMPLETE (verified; no code change required)
+- [x] Registered user can create inspection with title — backend endpoint implemented and tested; frontend creation flow connected to `apiClient.createInspection`; navigates to detail page on success
+- [x] User can add photographs with structure type (wall/beam/column) — backend upload/list/download implemented and tested; `python-multipart` declared in `requirements.txt`; foreign-ownership status standardised to opaque 404 across upload/complete/update/delete/download/reopen endpoints
+- [x] Dashboard shows total inspections, total photographs, and recent inspections from saved data — backend `list_inspections` implemented; frontend `DashboardPage`/`HistoryPage` connected to real authenticated data
+- [x] New Inspection button is available in the integrated application — creation flow connected to backend
+- [x] PDF report generates with required content (branding, ID, date, photos, measurements, model version, observations, verification statuses, disclaimer, page numbers) — COMPLETE: standalone ReportLab generator implemented + 31 unit tests; `POST /reports/generate/{inspection_id}` implemented + 13 tests (registered-user-only, Draft/Completed, page count persisted); `GET /reports/{report_id}/download` implemented + 8 tests (opaque 404, streamed PDF bytes, attachment disposition); Inspection-delete FK cleanup complete (ON DELETE CASCADE + R2 PDF cleanup before DB DELETE, 12 tests); frontend wiring complete (InspectionDetailPage report generate/download card, ReportsPage honest copy; 14 new frontend tests, all passing).
+- [x] PDF is a downloadable file only (no public shareable links) — backend download endpoint implemented: ownership-checked streaming of actual PDF bytes from private R2 with attachment disposition; no public links
+- [x] History supports list and card views backed by saved inspections — views connected to real backend data; list/card views, search, filters tested
+- [x] Search by title, date, structure type, and verification status works against saved data — backend filters (status/structure_type/verification_status/date_from/date_to) implemented with validation, EXISTS subqueries, correct total; frontend filter UI wired
+- [x] Monthly allowance with fair-use protection is connected to backend enforcement — `user_usage` table + atomic increment/decrement; 429 on limit exceeded; failure compensation; 5/5 allowance tests pass
+
+**Dependencies** (implementation order):
+1. Inspection creation — depends on Authentication (Milestone 3), Database/storage (Milestone 4); foundation for Tasks 2, 4, 5, 6, 7, 8.
+2. Add photographs — depends on Task 1 (inspections must exist); `python-multipart` declared in `requirements.txt`; foreign-ownership status standardised to opaque 404; COMPLETE.
+3. Save inspection results — depends on Database/storage (Milestone 4); COMPLETE, no further work.
+4. Dashboard and history — depends on Task 1 (inspections must exist); reuses existing `list_inspections` and detail endpoints.
+5. Filtering — depends on Task 4 (dashboard/history connected); extends the same `list_inspections` endpoint.
+6. Monthly allowance — depends on registered-user identity and persisted analyses; allowance limit/reset period is an unresolved decision.
+7. Generate PDF reports — depends on Tasks 1 and 2 (inspections and photographs must exist); PDF library choice (ReportLab) and branding (navy `#18313b`/teal `#167f78`) resolved; frontend wiring complete.
+8. View history list and card — implemented with Task 4 (same data fetch, two presentations).
+
+**Status by deliverable**:
+- Deliverable 1 (inspection creation): COMPLETE — backend done, frontend connected; verified with 10 frontend tests.
+- Deliverable 2 (photographs): COMPLETE — backend upload/list/download implemented and tested; frontend connected; `python-multipart` declared in `requirements.txt`; foreign-ownership status standardised to opaque 404 across upload/complete/update/delete/download/reopen endpoints; verified with regression tests.
+- Deliverable 3 (persist beyond 24h): COMPLETE — verified.
+- Deliverable 4 (dashboard and history): COMPLETE — backend `GET /inspections` implemented; frontend `DashboardPage`/`HistoryPage` connected to `apiClient.listInspections()` with real authenticated data + tests.
+- Deliverable 5 (monthly allowance): COMPLETE — registered-user monthly tracking (`user_usage` table, atomic increment/decrement helpers), 429 on limit exceeded, failure compensation; 5/5 allowance tests pass.
+- Deliverable 6 (PDF reports): COMPLETE — ReportLab 4.5.1 installed; standalone `report_generator.py` + 31/31 unit tests; `POST /reports/generate/{inspection_id}` + 13/13 endpoint tests; `GET /reports/{report_id}/download` + 9/9 endpoint tests (incl. download-after-inspection-deleted); `fk_reports_inspection` now `ON DELETE CASCADE` (fresh-DB statement + idempotent guarded constraint-swap migration) and `delete_inspection` cleans up associated report PDFs from R2 before the DB DELETE (+ 12 migration/deletion tests, mocked only); frontend wiring complete (InspectionDetailPage report generate/download card for authenticated users, Draft & Completed; ReportsPage kept as clearly-labelled sample content navigating its CTA to `/app/history` with no fabricated list endpoint; 14 new frontend tests, all passing; `vitest` 71 passed, `tsc --noEmit` clean, `oxlint` clean, `vite build` OK). Real-service integration verification remains deployment-time.
+- Deliverable 7 (history list/card views): COMPLETE — views connected to real backend data; list/card views, search, filters tested.
+- Deliverable 8 (filtering): COMPLETE — backend `list_inspections` supports `status`, `structure_type`, `verification_status`, `date_from`, `date_to` with enum validation, EXISTS subqueries, and correct total count; frontend filter UI wired to backend params.
 
 ---
 
@@ -287,7 +301,7 @@ The pre-Milestone 6 browser prototype provides mock screens and local image prev
 - Verification-status filtering
 
 **Dependencies**:
-- Registered-user inspections (Milestone 8) partially complete
+- Registered-user inspections (Milestone 8) complete
 
 **Acceptance Criteria**:
 - [ ] Dashboard displays correct counts from saved inspections and photographs
@@ -422,7 +436,7 @@ The pre-Milestone 6 browser prototype provides mock screens and local image prev
 
 **Total Milestones**: 13
 
-**Progress**: Milestones 1–5 complete; pre-Milestone 6 design prototype complete; formal Milestone 6 and later milestones remain pending.
+**Progress**: Milestones 1–5 complete; pre-Milestone 6 design prototype complete; Milestone 6 foundation and Milestone 8 (all eight deliverables, including PDF reports) complete; Milestones 9 and 10 criteria already satisfied by Milestone 8 work; Milestones 11–13 remain pending.
 
 **Critical Path**:
 1. Documentation (Milestone 1) → Backend foundation (Milestone 2) → Auth (Milestone 3) → Database/storage (Milestone 4) → Inference integration (Milestone 5) → Frontend (Milestone 6) → Guest workflow (Milestone 7) → Registered inspections (Milestone 8) → Dashboard/history (Milestone 9) → PDF reports (Milestone 10) → Testing/security (Milestone 11) → Deployment (Milestone 12) → Validation (Milestone 13)
@@ -432,11 +446,9 @@ The pre-Milestone 6 browser prototype provides mock screens and local image prev
 **Key Unresolved Decisions** (carried through roadmap):
 - Inference service hosting provider and cost
 - Maximum file size/dimension limits
-- PDF report branding details
 - Monthly analysis allowance
 - Batch processing concurrency
 - Guest session management approach
 - Frontend hosting platform
-- Report generation library choice
 
 **Dependencies Between Milestones**: Each milestone depends on completion of preceding infrastructure milestones. Milestone 1 (documentation) has no dependencies and can proceed immediately.

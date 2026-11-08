@@ -1,6 +1,14 @@
 # DECISIONS
 
-**Last updated:** 2026-11-02
+**Last updated:** 2026-11-08
+
+## 2026-11-08 — Report page-count capture (Milestone 8, Task 6 step 3)
+
+`reports.page_count` is populated by the generator itself via an optional
+`page_count_sink` list parameter (the two-pass branded canvas knows the total
+after build). Parsing the PDF in the endpoint was rejected because `pypdf` is
+declared as a **test-only** dependency and should not become a runtime
+requirement; storing NULL when count is unavailable remains fine per schema.
 
 ## Technical Decisions
 
@@ -45,3 +53,10 @@
 3. **Explicit prediction/observation distinction:** Label model outputs as AI predictions and manual notes as inspector observations; keep image-space pixel units visible.
 4. **Persistent safety boundary:** Keep the inspection-aid limitation in the landing, results, and workspace contexts; do not introduce severity ratings or structural safety conclusions.
 5. **Isolated visual prototype:** Keep routes and reusable components in `frontend/`; hold mock records and interactions in local React state, make their non-persistent nature explicit, and do not call production APIs until formal Milestone 6 integration.
+
+## Frontend Report Integration Decisions (2026-11-08 — Milestone 8, Task 6 step 7)
+
+1. **Access gating:** PDF report actions on `InspectionDetailPage` render only for authenticated users (`isAuthenticated`); guests and unauthenticated users see no report card. Draft AND Completed inspections are both reportable, matching the backend contract.
+2. **Duplicate prevention:** The generate button is disabled while a generation request is in flight; after a failure it re-enables so the user can retry. Each successful generation creates a new backend report row.
+3. **Download contract:** `apiClient.downloadReportPdf(reportId)` calls `GET /reports/{reportId}/download` with the bearer token and returns a blob URL, which is revoked after the anchor click. The anchor filename `cracksight-report-{report_id}.pdf` matches the backend's `Content-Disposition` attachment name exactly. Internal R2 keys are never exposed to the browser.
+4. **ReportsPage honesty:** The page renders clearly-labelled sample content only. Its "Generate report" CTA navigates to `/app/history`; no report-history/list endpoint was fabricated, since the backend has none (addition requires approval).
