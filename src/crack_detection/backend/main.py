@@ -76,12 +76,29 @@ def create_app() -> FastAPI:
     )
     app.include_router(reports_router, prefix="/reports", tags=["reports"])
 
+    # ------------------------------------------------------------------ startup
+    app.add_event_handler("startup", _startup_event)
+
+    # ------------------------------------------------------------------ root
+    @app.get("/", include_in_schema=False)
+    async def root() -> dict:
+        """Root endpoint returning basic service information."""
+        return {
+            "service": settings.app_name,
+            "version": "0.1.0",
+            "status": "operational",
+            "docs": "/docs" if settings.debug else "disabled",
+        }
+
     return app
 
 
-@app.on_event("startup")
 async def _startup_event() -> None:
-    """Load the inference pipeline once when the application starts."""
+    """Load the inference pipeline once when the application starts.
+
+    Registered by ``create_app`` via ``app.add_event_handler`` so that no
+    module-level code dereferences ``app`` before the factory has created it.
+    """
     global _pipeline_loaded_at
 
     from crack_detection.backend import inference_service
@@ -98,12 +115,6 @@ async def _startup_event() -> None:
         _pipeline_loaded_at = None
 
 
-@app.get("/", include_in_schema=False)
-async def root() -> dict:
-    """Root endpoint returning basic service information."""
-    return {
-        "service": settings.app_name,
-        "version": "0.1.0",
-        "status": "operational",
-        "docs": "/docs" if settings.debug else "disabled",
-    }
+# Module-level application instance exposing ``crack_detection.backend.main:app``
+# as the Uvicorn entry point.
+app = create_app()
