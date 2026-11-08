@@ -1,23 +1,35 @@
 import { ArrowLeft, ArrowRight, ClipboardPlus } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ApiError, type InspectionCreate } from '../types'
+import { apiClient } from '../services/api'
 import { DemoNotice, PageHeading, SafetyNotice } from '../components/Ui'
 import { useAuth } from '../hooks/useAuth'
 import { structureTypes } from '../data/mockData'
 
 export function NewInspectionPage() {
-  const { isAuthenticated, isLoading } = useAuth()
+  const { isAuthenticated, isLoading, getToken } = useAuth()
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [location, setLocation] = useState('')
   const [buildingType, setBuildingType] = useState('')
   const [structure, setStructure] = useState('Wall')
   const [notes, setNotes] = useState('')
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const [inspectionDate] = useState(() =>
     new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium' }).format(new Date()),
   )
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  // Attach the Clerk bearer token to the API client once auth resolves.
+  useEffect(() => {
+    ;(async () => {
+      const token = await getToken()
+      apiClient.setToken(token ?? null)
+    })()
+  }, [getToken])
+
+  const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!title.trim()) {
       setError('Add an inspection title to continue.')
@@ -31,8 +43,28 @@ export function NewInspectionPage() {
       setError('Please sign in to create and save inspections.')
       return
     }
+
+    setSubmitting(true)
     setError('')
-  }
+
+    const payload: InspectionCreate = {
+      title: title.trim(),
+      building_type: buildingType || undefined,
+      building_location: location || undefined,
+      notes: notes || undefined,
+    }
+
+    try {
+      const created = await apiClient.createInspection(payload)
+      navigate(`/app/inspections/${created.id}`)
+    } catch (err) {
+      setError(
+        err instanceof ApiError ? err.message : 'Failed to create inspection. Please try again.',
+      )
+    } finally {
+      setSubmitting(false)
+    }
+  }, [title, location, buildingType, structure, notes, isAuthenticated, navigate])
 
   return (
     <>
@@ -43,7 +75,7 @@ export function NewInspectionPage() {
         description="Add the basics now. You can attach photographs and observations as the inspection progresses."
       />
       <DemoNotice>
-        {isLoading ? 'Resolving your session…' : !isAuthenticated ? 'Please sign in to create and save inspections. Inspection creation will be connected to your account in the next milestone.' : 'Creating an inspection here updates only the current browser session. No record is sent to the backend.'}
+        {isLoading ? 'Resolving your session…' : !isAuthenticated ? 'Please sign in to create and save inspections.' : 'Create a draft inspection. It will be saved to your account and remain editable until completed.'}
       </DemoNotice>
       <div className="create-layout" style={{ marginTop: 15 }}>
         <form className="card card--padded create-form" onSubmit={handleSubmit} noValidate>
@@ -85,8 +117,8 @@ export function NewInspectionPage() {
           {error && <p className="prototype-alert" role="alert">{error}</p>}
           <div className="form-footer">
             <Link className="button button--secondary" to="/app/history">Cancel</Link>
-            <button type="submit" className="button button--primary" disabled={!isAuthenticated || !title.trim()}>
-              Create draft <ArrowRight size={15} />
+            <button type="submit" className="button button--primary" disabled={submitting || !isAuthenticated || !title.trim()}>
+              {submitting ? 'Creating…' : 'Create draft'} <ArrowRight size={15} />
             </button>
           </div>
         </form>

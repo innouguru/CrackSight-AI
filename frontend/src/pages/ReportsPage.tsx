@@ -1,11 +1,13 @@
 import { Download, FileText, Info } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { DemoNotice, PageHeading, SafetyNotice } from '../components/Ui'
 import { demoImages, reportRecords } from '../data/mockData'
 
 export function ReportsPage() {
   const [selectedId, setSelectedId] = useState(reportRecords[0]?.id ?? '')
   const [notice, setNotice] = useState('')
+  const navigate = useNavigate()
   const selected = reportRecords.find((report) => report.id === selectedId) ?? reportRecords[0]
 
   return (
@@ -13,10 +15,10 @@ export function ReportsPage() {
       <PageHeading
         eyebrow="Inspection documentation"
         title="PDF reports"
-        description="Preview the report structure and review sample report history."
-        action={<button className="button button--primary" onClick={() => setNotice('PDF generation is a sample interaction only. Report generation is not connected to the backend.') }><FileText size={15} /> Generate report</button>}
+        description="Preview the report structure. Real reports are generated from an inspection's detail page."
+        action={<button className="button button--primary" onClick={() => navigate('/app/history')}><FileText size={15} /> Generate report</button>}
       />
-      <DemoNotice>Report records and the preview below are sample content. No PDF is generated or downloaded by this prototype.</DemoNotice>
+      <DemoNotice>Report records and the preview below are sample content. Real PDF reports are generated and downloaded per inspection from the inspection detail page after sign-in.</DemoNotice>
       {notice && <p className="prototype-alert" role="status">{notice}</p>}
       <div className="report-preview" style={{ marginTop: 15 }}>
         <section className="card card--padded report-list">
@@ -28,7 +30,7 @@ export function ReportsPage() {
             </button>
           ))}
           <div style={{ marginTop: 14 }}>
-            <button className="button button--secondary" style={{ width: '100%' }} onClick={() => setNotice('The sample report cannot be downloaded as a PDF until the report API is connected.')}><Download size={14} /> Download PDF <span className="form-field__hint">(not connected)</span></button>
+            <button className="button button--secondary" style={{ width: '100%' }} onClick={() => setNotice('Real reports are generated and downloaded from an inspection\'s detail page. This sample list is not backed by a report-history API.')}><Download size={14} /> Download PDF <span className="form-field__hint">(sample preview)</span></button>
           </div>
         </section>
         <section className="report-sheet" aria-label="PDF report preview">

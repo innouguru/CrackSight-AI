@@ -12,6 +12,7 @@ import type {
   InspectionListResponse,
   Photograph,
   PhotographCreate,
+  PhotographListResponse,
   PhotographResponse,
   ReportGenerateResponse,
   SignInUrlResponse,
@@ -248,6 +249,9 @@ export class ApiClient {
     search?: string
     status?: string
     structure_type?: string
+    verification_status?: string
+    date_from?: string
+    date_to?: string
     limit?: number
     offset?: number
   }): Promise<InspectionListResponse> {
@@ -255,6 +259,9 @@ export class ApiClient {
     if (params?.search) searchParams.set('search', params.search)
     if (params?.status) searchParams.set('status', params.status)
     if (params?.structure_type) searchParams.set('structure_type', params.structure_type)
+    if (params?.verification_status) searchParams.set('verification_status', params.verification_status)
+    if (params?.date_from) searchParams.set('date_from', params.date_from)
+    if (params?.date_to) searchParams.set('date_to', params.date_to)
     if (params?.limit !== undefined) searchParams.set('limit', String(params.limit))
     if (params?.offset !== undefined) searchParams.set('offset', String(params.offset))
 
@@ -294,6 +301,85 @@ export class ApiClient {
     return this.delete<void>(`/photos/${photoId}`)
   }
 
+  async listInspectionPhotographs(
+    inspectionId: string,
+  ): Promise<PhotographListResponse> {
+    return this.get<PhotographListResponse>(
+      `/inspections/${inspectionId}/photos`
+    )
+  }
+
+  /**
+   * Upload a photograph to an owned draft inspection using multipart/form-data.
+   * The backend stores the original image in private R2 and persists the
+   * photograph record associated with the authenticated user, the inspection,
+   * and the selected structure type.
+   */
+  async uploadPhotograph(
+    inspectionId: string,
+    file: File,
+    structureType: string,
+  ): Promise<Photograph> {
+    const url = `${this.baseUrl}/photos/${inspectionId}/upload`
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('structure_type', structureType)
+
+    const headers: HeadersInit = {}
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`
+    }
+
+    const init: RequestInit = {
+      method: 'POST',
+      headers,
+      body: formData,
+    }
+
+    const response = await fetch(url, init)
+    return withTimeout(parseResponse<Photograph>(response), REQUEST_TIMEOUT_MS)
+  }
+
+  /**
+   * Download a photograph image (original, mask, or overlay) from private
+   * storage and return a blob URL usable as an image src or download link.
+   */
+  async downloadPhotographImage(
+    photoId: string,
+    imageType: 'original' | 'mask' | 'overlay' = 'original',
+  ): Promise<string> {
+    const url = `${this.baseUrl}/photos/${photoId}/download/${imageType}`
+
+    const headers: HeadersInit = {}
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`
+    }
+
+    const init: RequestInit = {
+      method: 'GET',
+      headers,
+    }
+
+    const response = await fetch(url, init)
+
+    if (!response.ok) {
+      const errorBody = await response
+        .json()
+        .catch(() => ({ message: `Request failed with status ${response.status}` }))
+      throw new ApiError(
+        errorBody?.message || `Request failed with status ${response.status}`,
+        response.status,
+        errorBody?.error || 'api_error',
+        errorBody?.retryable ?? false,
+        errorBody?.action,
+        errorBody?.details,
+      )
+    }
+
+    const blob = await response.blob()
+    return URL.createObjectURL(blob)
+  }
+
   async analysePhotograph(photoId: string): Promise<AnalysisResponse> {
     return this.post<AnalysisResponse>(`/photos/${photoId}/analyse`)
   }
@@ -304,6 +390,44 @@ export class ApiClient {
 
   async generateReport(inspectionId: string): Promise<ReportGenerateResponse> {
     return this.post<ReportGenerateResponse>(`/reports/generate/${inspectionId}`)
+  }
+
+  /**
+   * Download a generated PDF inspection report from private storage and
+   * return a blob URL. The caller is responsible for revoking it.
+   */
+  async downloadReportPdf(reportId: string): Promise<string> {
+    const url = `${this.baseUrl}/reports/${reportId}/download`
+
+    const headers: HeadersInit = {}
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`
+    }
+
+    const init: RequestInit = {
+      method: 'GET',
+      headers,
+    }
+
+    const response = await fetch(url, init)
+
+    if (!response.ok) {
+      const contentType = response.headers.get('content-type') ?? ''
+      const errorBody = contentType.includes('application/json')
+        ? await response.json().catch(() => null)
+        : null
+      throw new ApiError(
+        errorBody?.message || `Request failed with status ${response.status}`,
+        response.status,
+        errorBody?.error || 'api_error',
+        errorBody?.retryable ?? false,
+        errorBody?.action,
+        errorBody?.details,
+      )
+    }
+
+    const blob = await response.blob()
+    return URL.createObjectURL(blob)
   }
 }
 

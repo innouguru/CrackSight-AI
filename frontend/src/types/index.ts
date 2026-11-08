@@ -63,6 +63,57 @@ export interface InspectionListResponse {
   total: number
 }
 
+/**
+ * Backend-mapped inspection view for dashboard/history pages.
+ * Maps backend Inspection fields to UI-friendly names.
+ * ``structure`` and ``verification`` are optional because they are
+ * per-photograph attributes in the backend and are not stored on the
+ * inspection record itself.
+ */
+export interface InspectionView {
+  id: string
+  title: string
+  location: string | null
+  buildingType: string | null
+  date: string
+  status: 'Draft' | 'Completed'
+  structure?: string
+  photoCount: number
+  verification?: string
+  notes?: string | null
+}
+
+/**
+ * Maps a backend ``Inspection`` to an ``InspectionView`` for UI display.
+ * Does not fabricate fields that are not present in the backend response
+ * (e.g. ``structure`` and ``verification`` are per-photograph attributes
+ * and are left undefined at the inspection level).
+ */
+export function toInspectionView(insp: Inspection): InspectionView {
+  return {
+    id: insp.id,
+    title: insp.title,
+    location: insp.building_location,
+    buildingType: insp.building_type,
+    date: formatInspectionDate(insp.created_at),
+    status: insp.status === 'completed' ? 'Completed' : 'Draft',
+    photoCount: insp.photograph_count,
+    notes: insp.notes,
+  }
+}
+
+/**
+ * Formats an ISO date string from the backend into a short display format
+ * (e.g. "02 Nov 2026"), matching the prototype's date style.
+ */
+export function formatInspectionDate(isoString: string): string {
+  return new Date(isoString).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
 export interface Photograph {
   id: string
   inspection_id: string
@@ -99,6 +150,25 @@ export interface PhotographResponse {
   prediction_timestamp: string | null
   pixel_measurements: Record<string, unknown> | null
   created_at: string
+}
+
+export interface PhotographMetadataResponse {
+  id: string
+  inspection_id: string
+  structure_type: StructureType
+  observation: string | null
+  verification_status: VerificationStatus
+  model_version: string | null
+  prediction_timestamp: string | null
+  pixel_measurements: Record<string, unknown> | null
+  created_at: string
+  prediction_available: boolean
+}
+
+export interface PhotographListResponse {
+  inspection_id: string
+  photographs: PhotographMetadataResponse[]
+  total: number
 }
 
 export interface AnalysisResponse {

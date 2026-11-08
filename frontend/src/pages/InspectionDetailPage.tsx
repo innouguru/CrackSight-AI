@@ -1,149 +1,451 @@
-import {
-  ArrowLeft,
-  Check,
-  Download,
-  FileText,
-  ImagePlus,
-  MapPin,
-  RotateCcw,
-} from 'lucide-react'
-import { useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
-import { ResultViewer } from '../components/ResultViewer'
-import { DemoNotice, PageHeading, SafetyNotice, StatusPill } from '../components/Ui'
+import { ArrowLeft, FileText, ImagePlus, Download } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { ApiError, type Inspection, type StructureType } from '../types'
+import { apiClient } from '../services/api'
 import { useAuth } from '../hooks/useAuth'
-import { initialInspections, type VerificationStatus } from '../data/mockData'
+import { DemoNotice, PageHeading, SafetyNotice, StatusPill } from '../components/Ui'
+import { ErrorState } from '../components/ErrorState'
+import { LoadingState } from '../components/LoadingState'
+import { structureTypes } from '../data/mockData'
+import type { PhotographMetadataResponse } from '../types'
+
+const STRUCTURE_LABELS: Record<StructureType, string> = {
+  wall: 'Wall',
+  beam: 'Beam',
+  column: 'Column',
+}
 
 export function InspectionDetailPage() {
   const { inspectionId = '' } = useParams()
-  const { isAuthenticated, isLoading } = useAuth()
-  const inspections = initialInspections
-  const inspection = inspections.find((item) => item.id === inspectionId)
-  const [verification, setVerification] = useState<VerificationStatus>(inspection?.verification ?? 'Not verified')
+  const { isAuthenticated, isLoading, getToken } = useAuth()
+  const [inspection, setInspection] = useState<Inspection | null>(null)
+  const [photographs, setPhotographs] = useState<PhotographMetadataResponse[]>([])
+  const [error, setError] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState('')
   const [notice, setNotice] = useState('')
-  const location = useLocation()
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [structureType, setStructureType] = useState<StructureType>('wall')
+  const previewUrlRef = useRef<string | null>(null)
+  const [downloadingPhotoId, setDownloadingPhotoId] = useState<string | null>(null)
+  const [generatingReport, setGeneratingReport] = useState(false)
+  const [reportError, setReportError] = useState('')
+  const [reportNotice, setReportNotice] = useState('')
+  const [generatedReportId, setGeneratedReportId] = useState<string | null>(null)
+  const [downloadingReport, setDownloadingReport] = useState(false)
+
+  // Attach the Clerk bearer token to the API client once auth resolves.
+  useEffect(() => {
+    ;(async () => {
+      const token = await getToken()
+      apiClient.setToken(token ?? null)
+    })()
+  }, [getToken])
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current)
+      }
+    }
+  }, [])
+
+  const loadInspection = useCallback(async () => {
+    if (!inspectionId) return
+    setError('')
+    try {
+      const [insp] = await Promise.all([
+        apiClient.getInspection(inspectionId),
+        apiClient.listInspectionPhotographs(inspectionId).then((resp) => {
+          setPhotographs(resp.photographs)
+        }),
+      ])
+      setInspection(insp)
+    } catch (err) {
+      setError(
+        err instanceof ApiError ? err.message : 'Failed to load inspection.',
+      )
+    }
+  }, [inspectionId])
+
+  useEffect(() => {
+    if (!isLoading && inspectionId) {
+      loadInspection()
+    }
+  }, [inspectionId, isLoading, loadInspection])
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null
+    setSelectedFile(file)
+    setUploadError('')
+    if (file) {
+      const url = URL.createObjectURL(file)
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current)
+      }
+      previewUrlRef.current = url
+      setPreviewUrl(url)
+    } else {
+      setPreviewUrl(null)
+    }
+  }
+
+  const handleUpload = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!selectedFile || !inspectionId) return
+    setUploading(true)
+    setUploadError('')
+    try {
+      await apiClient.uploadPhotograph(inspectionId, selectedFile, structureType)
+      setNotice('Photograph uploaded successfully.')
+      setSelectedFile(null)
+      setPreviewUrl(null)
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current)
+        previewUrlRef.current = null
+      }
+      setStructureType('wall')
+      await loadInspection()
+    } catch (err) {
+      setUploadError(
+        err instanceof ApiError ? err.message : 'Upload failed. Please try again.',
+      )
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleDownload = async (photoId: string) => {
+    setDownloadingPhotoId(photoId)
+    try {
+      const blobUrl = await apiClient.downloadPhotographImage(photoId, 'original')
+      const anchor = document.createElement('a')
+      anchor.href = blobUrl
+      anchor.download = `${photoId}.jpg`
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+      URL.revokeObjectURL(blobUrl)
+    } catch (err) {
+      setUploadError(
+        err instanceof ApiError ? err.message : 'Download failed. Please try again.',
+      )
+    } finally {
+      setDownloadingPhotoId(null)
+    }
+  }
+
+  const isDraft = inspection?.status === 'draft'
+  const canUpload = isAuthenticated && isDraft && !!inspectionId
+
+  const handleGenerateReport = async () => {
+    // Prevent duplicate generation requests (each call creates a new
+    // backend report) and allow retry after a failure.
+    if (generatingReport || !isAuthenticated || !inspectionId) return
+    setGeneratingReport(true)
+    setReportError('')
+    try {
+      const report = await apiClient.generateReport(inspectionId)
+      setGeneratedReportId(report.report_id)
+      setReportNotice(
+        `Report generated successfully (ID: ${report.report_id}). Download it below.`,
+      )
+    } catch (err) {
+      setGeneratedReportId(null)
+      setReportNotice('')
+      setReportError(
+        err instanceof ApiError ? err.message : 'Report generation failed. Please try again.',
+      )
+    } finally {
+      setGeneratingReport(false)
+    }
+  }
+
+  const handleDownloadReport = async () => {
+    if (downloadingReport || !generatedReportId) return
+    setDownloadingReport(true)
+    setReportError('')
+    try {
+      const blobUrl = await apiClient.downloadReportPdf(generatedReportId)
+      const anchor = document.createElement('a')
+      anchor.href = blobUrl
+      // Matches the backend's Content-Disposition attachment filename.
+      anchor.download = `cracksight-report-${generatedReportId}.pdf`
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+      URL.revokeObjectURL(blobUrl)
+    } catch (err) {
+      setReportError(
+        err instanceof ApiError ? err.message : 'Report download failed. Please try again.',
+      )
+    } finally {
+      setDownloadingReport(false)
+    }
+  }
 
   if (isLoading) {
     return (
-      <div className="empty-state card" style={{ padding: 40 }}>
-        <div style={{ width: 40, height: 40, border: '3px solid #e6ebe9', borderTopColor: '#167f78', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
-        <h3>Resolving session…</h3>
-        <p>Please wait while your authentication state is checked.</p>
+      <div className="app-content" style={{ padding: 40, display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center' }}>
+        <LoadingState message="Resolving session…" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="app-content" style={{ padding: 40, display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center' }}>
+        <ErrorState
+          title="Unable to load inspection"
+          message={error}
+          retryable
+          onRetry={loadInspection}
+        />
       </div>
     )
   }
 
   if (!inspection) {
     return (
-      <div className="empty-state card">
-        <h3>Inspection not found</h3><p>This sample record may no longer be available in the prototype session.</p>
-        <Link className="button button--secondary" to="/app/history">Back to history</Link>
+      <div className="app-content" style={{ padding: 40, display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center' }}>
+        <LoadingState message="Loading inspection…" />
       </div>
     )
   }
 
-  const isDraft = inspection.status === 'Draft'
-  const hasPhotograph = inspection.photoCount > 0
-  const stateNotice = (location.state as { prototypeNotice?: string } | null)?.prototypeNotice
-
   return (
     <>
-      <Link to="/app/history" className="upload-back"><ArrowLeft size={14} /> Back to inspections</Link>
+      <Link to="/app/history" className="upload-back">
+        <ArrowLeft size={14} /> Back to inspections
+      </Link>
       <PageHeading
         eyebrow={`Inspection ${inspection.id}`}
         title={inspection.title}
-        description={<span className="inspection-location"><MapPin size={13} /> {inspection.location} · {inspection.buildingType}</span>}
         action={
           <>
-            <Link className="button button--secondary" to="/app/reports"><FileText size={15} /> Report preview</Link>
-              <button
-                className="button button--primary"
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    setNotice('Please sign in to manage inspections.')
-                    return
-                  }
-                  setNotice(isDraft ? 'Marked completed in prototype state. The record is read-only until reopened.' : 'Inspection reopened as a draft in prototype state.')
-                }}
-              >
-              {isDraft ? <Check size={15} /> : <RotateCcw size={15} />}
-              {isDraft ? 'Mark as completed' : 'Reopen draft'}
-            </button>
+            <span className="status-badge">
+              <StatusPill status={inspection.status === 'completed' ? 'Completed' : 'Draft'} />
+            </span>
           </>
         }
       />
-      {(stateNotice || notice) && <DemoNotice>{notice || stateNotice}</DemoNotice>}
-      <div style={{ marginTop: 14, marginBottom: 14 }}>
-        <DemoNotice>{isLoading ? 'Resolving session…' : 'Sample details and image outputs are illustrative. Editing and lifecycle actions are held in memory only.'}</DemoNotice>
-      </div>
-      <div className="detail-summary">
-        <div className="detail-summary__item"><small>STATUS</small><StatusPill status={inspection.status} /></div>
-        <div className="detail-summary__item"><small>COMPONENT</small><strong>{inspection.structure}</strong></div>
-        <div className="detail-summary__item"><small>PHOTOGRAPHS</small><strong>{inspection.photoCount} sample {inspection.photoCount === 1 ? 'photo' : 'photos'}</strong></div>
-      </div>
-      <div className="inspection-detail-grid">
-        <section>
-          <div className="card card--padded">
-            <div className="card-heading">
-              <div><h2>Photographs</h2><p>{inspection.photoCount} {inspection.photoCount === 1 ? 'photo' : 'photos'} · {inspection.structure}</p></div>
-              {isDraft && <button className="button button--secondary" onClick={() => { setNotice('Photograph upload will be connected to the backend in the next milestone.') }}><ImagePlus size={15} /> Add sample photo</button>}
-            </div>
-            {hasPhotograph ? (
-              <>
-                <ResultViewer />
-                <div className="result-meta" style={{ marginTop: 17 }}>
-                  <div className="result-meta__row"><span>Model version</span><strong>m3_baseline_b1 · ResNet-34 U-Net</strong></div>
-                  <div className="result-meta__row"><span>Processed</span><strong>02 Nov 2026 · 10:42</strong></div>
-                  <div className="result-meta__row"><span>Image dimensions</span><strong>416 × 416 pixels</strong></div>
-                </div>
-              </>
-            ) : (
-              <div className="empty-state">
-                <span className="empty-state__icon"><ImagePlus size={20} /></span>
-                <h3>No photographs added</h3>
-                <p>Add a sample photograph to preview image comparison and analysis details. This action stays in the prototype.</p>
-                {isDraft && <button className="button button--primary" onClick={() => setNotice('Photograph upload will be connected to the backend in the next milestone.')}>Add sample photograph</button>}
+      {(notice || uploadError) && (
+        <div style={{ margin: '0 16px 16px 16px' }}>
+          {notice && <DemoNotice>{notice}</DemoNotice>}
+          {uploadError && <p className="prototype-alert" role="alert">{uploadError}</p>}
+        </div>
+      )}
+      <SafetyNotice compact />
+
+      <section className="card card--padded" style={{ margin: '16px' }}>
+        <div className="card-heading">
+          <div>
+            <h2>Photographs</h2>
+            <p>
+              {photographs.length} {photographs.length === 1 ? 'photo' : 'photos'} &middot;
+              {inspection.photograph_count} total
+            </p>
+          </div>
+        </div>
+
+        {photographs.length === 0 && (
+          <div className="empty-state" style={{ minHeight: 180 }}>
+            <span className="empty-state__icon">
+              <ImagePlus size={20} />
+            </span>
+            <h3 className="empty-state__title">No photographs added</h3>
+            <p className="empty-state__description">
+              Upload a photograph to begin building this inspection. Each photo is assigned a
+              structure type (wall, beam or column) and stored privately.
+            </p>
+            {canUpload && (
+              <div style={{ marginTop: 17 }}>
+                <p className="empty-state__description" style={{ color: '#1d2b33', fontSize: 12, fontWeight: 600 }}>
+                  Use the upload form below to add a photograph.
+                </p>
               </div>
             )}
           </div>
-          {hasPhotograph && <section className="card card--padded" style={{ marginTop: 14 }}>
-            <div className="card-heading">
-              <div><h2>Inspector observation</h2><p>Human-entered note, separate from the AI output</p></div>
-              <button className="button button--ghost" disabled={!isDraft} onClick={() => setNotice('Observation editing is represented in the prototype only.')}>Edit note</button>
-            </div>
-            <p className="text-muted" style={{ fontSize: 11, lineHeight: 1.65 }}>
-              {inspection.notes || 'Fine surface crack visible across the wall finish. Verify extent and context during the site review.'}
-            </p>
-          </section>}
-        </section>
+        )}
 
-        <aside className="guest-results__side">
-          {hasPhotograph ? <section className="card card--padded">
-            <div className="card-heading"><div><h2>AI prediction review</h2><p>Human verification required</p></div></div>
-            <div className="measurement"><small>Predicted crack pixels</small><strong className="measurement__value">2,814 px</strong><small>Image-space measurement only</small></div>
-            <div className="form-field" style={{ marginTop: 15 }}>
-              <label htmlFor="verification-status">Verification status</label>
-              <select
-                id="verification-status"
-                value={verification}
-                disabled={!isDraft}
-                onChange={(event) => setVerification(event.target.value as VerificationStatus)}
+        {photographs.length > 0 && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14, marginTop: 10 }}>
+            {photographs.map((photo) => (
+              <div
+                key={photo.id}
+                className="photo-card"
+                style={{
+                  border: '1px solid #e6ebe9',
+                  borderRadius: 10,
+                  padding: 12,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
+                  background: '#fbfcfc',
+                }}
               >
-                <option>Not verified</option><option>Correct detection</option><option>Partially correct</option><option>Incorrect detection</option>
+                <div style={{ fontSize: 11, color: '#718087', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Structure type
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#1d2b33' }}>
+                  {STRUCTURE_LABELS[photo.structure_type]}
+                </div>
+                <div style={{ fontSize: 11, color: '#718087' }}>
+                  {new Date(photo.created_at).toLocaleDateString()}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleDownload(photo.id)}
+                  disabled={downloadingPhotoId === photo.id}
+                  className="button button--ghost"
+                  style={{ fontSize: 11, padding: '6px 10px', marginTop: 6 }}
+                >
+                  {downloadingPhotoId === photo.id ? (
+                    'Preparing…'
+                  ) : (
+                    <span>
+                      <Download size={13} /> Download original
+                    </span>
+                  )}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {isAuthenticated && (
+        <section className="card card--padded" style={{ margin: '16px' }}>
+          <div className="card-heading">
+            <div>
+              <h2>PDF report</h2>
+              <p>
+                Generate a branded PDF inspection report with all photographs and analysis
+                results. Available for Draft and Completed inspections.
+              </p>
+            </div>
+          </div>
+          {reportNotice && <p className="form-field__hint" role="status">{reportNotice}</p>}
+          {reportError && <p className="prototype-alert" role="alert">{reportError}</p>}
+          <div className="form-footer" style={{ marginTop: 12 }}>
+            <button
+              type="button"
+              className="button button--secondary"
+              onClick={handleGenerateReport}
+              disabled={generatingReport}
+            >
+              {generatingReport ? (
+                'Generating…'
+              ) : (
+                <span>
+                  <FileText size={14} /> Generate report
+                </span>
+              )}
+            </button>
+            {generatedReportId && (
+              <button
+                type="button"
+                className="button button--primary"
+                onClick={handleDownloadReport}
+                disabled={downloadingReport}
+              >
+                {downloadingReport ? (
+                  'Preparing…'
+                ) : (
+                  <span>
+                    <Download size={14} /> Download PDF report
+                  </span>
+                )}
+              </button>
+            )}
+          </div>
+        </section>
+      )}
+
+      {canUpload && (
+        <section className="card card--padded" style={{ margin: '16px' }}>
+          <div className="card-heading">
+            <div>
+              <h2>Add photograph</h2>
+              <p>Select an image and assign its structure type before uploading.</p>
+            </div>
+          </div>
+          <form className="create-form" onSubmit={handleUpload} noValidate style={{ marginTop: 12 }}>
+            <div className="form-field">
+              <label htmlFor="upload-file">Photograph <span>Required</span></label>
+              <input
+                id="upload-file"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={handleFileChange}
+              />
+              <span className="form-field__hint">JPEG, PNG or WebP. The image content is validated on the server.</span>
+            </div>
+            {previewUrl && (
+              <div style={{ marginTop: 10, border: '1px solid #e6ebe9', borderRadius: 8, padding: 10, background: '#fbfcfc', display: 'flex', alignItems: 'center', gap: 10, maxWidth: 320 }}>
+                <img src={previewUrl} alt="Preview" style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 6 }} />
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1d2b33' }}>{selectedFile?.name}</div>
+                  <div style={{ fontSize: 11, color: '#718087' }}>{((selectedFile?.size ?? 0) / 1024).toFixed(1)} KB</div>
+                </div>
+              </div>
+            )}
+            <div className="form-field" style={{ marginTop: 14 }}>
+              <label htmlFor="upload-structure">Structure type</label>
+              <select
+                id="upload-structure"
+                value={structureType}
+                onChange={(event) => setStructureType(event.target.value as StructureType)}
+              >
+                {structureTypes.map((type) => (
+                  <option key={type} value={type.toLowerCase() as StructureType}>
+                    {type}
+                  </option>
+                ))}
               </select>
-              {!isDraft && <span className="form-field__hint">Completed inspections are read-only. Reopen to edit.</span>}
             </div>
-          </section> : <section className="card card--padded empty-state"><span className="empty-state__icon"><ImagePlus size={20} /></span><h3>Analysis not available</h3><p>Add a photograph before reviewing an AI prediction or pixel measurements.</p></section>}
-          <SafetyNotice />
-          {hasPhotograph && <section className="card card--padded">
-            <div className="card-heading"><div><h2>Downloads</h2><p>Individual result files</p></div></div>
-            <div className="quick-actions">
-              <a className="quick-action" href="/demo/crack-wall.jpg" download><span className="quick-action__icon"><Download size={15} /></span><span className="quick-action__text"><strong>Original photograph</strong><small>JPEG · sample asset</small></span></a>
-              <a className="quick-action" href="/demo/crack-mask.png" download><span className="quick-action__icon"><Download size={15} /></span><span className="quick-action__text"><strong>Predicted mask</strong><small>PNG · sample output</small></span></a>
+            {uploadError && <p className="prototype-alert" role="alert">{uploadError}</p>}
+            <div className="form-footer" style={{ marginTop: 16 }}>
+              <button
+                type="button"
+                className="button button--secondary"
+                onClick={() => {
+                  setSelectedFile(null)
+                  setPreviewUrl(null)
+                  if (previewUrlRef.current) {
+                    URL.revokeObjectURL(previewUrlRef.current)
+                    previewUrlRef.current = null
+                  }
+                  setUploadError('')
+                }}
+                disabled={uploading}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="button button--primary"
+                disabled={uploading || !selectedFile}
+              >
+                {uploading ? 'Uploading…' : 'Upload photograph'}
+              </button>
             </div>
-          </section>}
-        </aside>
-      </div>
+          </form>
+        </section>
+      )}
+
+      {!isAuthenticated && (
+        <DemoNotice>
+          Please sign in to add photographs to this inspection.
+        </DemoNotice>
+      )}
+      {isAuthenticated && inspection && !isDraft && (
+        <DemoNotice>
+          Completed inspections are read-only. Reopen the inspection to add photographs.
+        </DemoNotice>
+      )}
     </>
   )
 }

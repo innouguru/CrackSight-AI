@@ -1,10 +1,10 @@
 import { ArrowUpRight, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import type { Inspection } from '../data/mockData'
+import type { InspectionView } from '../types'
 import { demoImages } from '../data/mockData'
 import { StatusPill } from './Ui'
 
-export function InspectionCard({ inspection }: { inspection: Inspection }) {
+export function InspectionCard({ inspection }: { inspection: InspectionView }) {
   return (
     <article className="card inspection-card">
       <Link to={`/app/inspections/${inspection.id}`} aria-label={`Open ${inspection.title}`}>
@@ -18,7 +18,10 @@ export function InspectionCard({ inspection }: { inspection: Inspection }) {
             <MapPin size={12} aria-hidden="true" /> {inspection.location}
           </p>
           <div className="inspection-card__meta">
-            <span>{inspection.structure} · {inspection.photoCount} photos</span>
+            <span>
+              {inspection.structure ? `${inspection.structure} · ` : ''}
+              {inspection.photoCount} photos
+            </span>
             <span>{inspection.date}</span>
             <ArrowUpRight size={14} aria-hidden="true" />
           </div>

@@ -7,52 +7,115 @@ import {
   Images,
   Search,
 } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ApiError, type InspectionView, toInspectionView } from '../types'
+import { apiClient } from '../services/api'
 import { DemoNotice, PageHeading, SafetyNotice, StatusPill } from '../components/Ui'
+import { ErrorState } from '../components/ErrorState'
+import { LoadingState } from '../components/LoadingState'
 import { useAuth } from '../hooks/useAuth'
-import { initialInspections } from '../data/mockData'
-import { demoImages } from '../data/mockData'
 
 export function DashboardPage() {
-  const { isAuthenticated, isGuest, isLoading } = useAuth()
-  const inspections = initialInspections
+  const { isAuthenticated, isGuest, isLoading: authLoading, getToken } = useAuth()
+  const [inspections, setInspections] = useState<InspectionView[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  // Attach the Clerk bearer token to the API client once auth resolves.
+  useEffect(() => {
+    ;(async () => {
+      const token = await getToken()
+      apiClient.setToken(token ?? null)
+    })()
+  }, [getToken])
+
+  const fetchInspections = useCallback(async () => {
+    if (!isAuthenticated || isGuest) {
+      setInspections([])
+      return
+    }
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await apiClient.listInspections()
+      setInspections(response.inspections.map(toInspectionView))
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Failed to load inspections.')
+    } finally {
+      setLoading(false)
+    }
+  }, [isAuthenticated, isGuest])
+
+  useEffect(() => {
+    fetchInspections()
+  }, [fetchInspections])
+
+  const totalInspections = inspections.length
+  const totalPhotographs = inspections.reduce((sum, insp) => sum + insp.photoCount, 0)
+  const draftCount = inspections.filter((i) => i.status === 'Draft').length
   const recent = inspections.slice(0, 3)
+
+  if (authLoading || loading) {
+    return (
+      <div className="app-content" style={{ padding: 40, display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center' }}>
+        <LoadingState message="Loading…" />
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <PageHeading
+          eyebrow="Dashboard"
+          title="Dashboard"
+          description="Here’s an overview of your inspection workspace."
+          action={<Link className="button button--primary" to="/app/inspections/new"><ClipboardPlus size={16} /> New inspection</Link>}
+        />
+        <DemoNotice>
+          You are browsing as a guest. Sign in to save inspections and access your dashboard history.
+        </DemoNotice>
+      </>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="app-content" style={{ padding: 40 }}>
+        <ErrorState
+          title="Unable to load dashboard"
+          message={error}
+          retryable
+          onRetry={fetchInspections}
+        />
+      </div>
+    )
+  }
 
   return (
     <>
       <PageHeading
-        eyebrow="Monday, 2 November 2026"
-        title="Good morning, Jordan"
+        eyebrow="Dashboard"
+        title="Dashboard"
         description="Here’s an overview of your inspection workspace."
         action={<Link className="button button--primary" to="/app/inspections/new"><ClipboardPlus size={16} /> New inspection</Link>}
       />
-      {isLoading && <DemoNotice>Resolving your session…</DemoNotice>}
-      {!isAuthenticated && (
-        <DemoNotice>
-          You are browsing as a guest. Sign in to save inspections and access your dashboard history.
-        </DemoNotice>
-      )}
-      {isAuthenticated && !isGuest && (
-        <DemoNotice>
-          You’re viewing sample workspace data. Inspection records will be connected to your account in the next milestone.
-        </DemoNotice>
+      {!loading && inspections.length === 0 && (
+        <DemoNotice>No inspections yet. Create an inspection to get started.</DemoNotice>
       )}
       <div className="metrics-grid" style={{ marginTop: 15 }}>
         <article className="card metric-card">
           <div className="metric-card__top"><span>Total inspections</span><span className="metric-card__icon"><ClipboardPlus size={15} /></span></div>
-          <p className="metric-card__value">12</p><p className="metric-card__note">Across 4 locations</p>
+          <p className="metric-card__value">{totalInspections}</p><p className="metric-card__note">{totalInspections === 1 ? 'inspection' : 'inspections'}</p>
         </article>
         <article className="card metric-card">
           <div className="metric-card__top"><span>Photos analysed</span><span className="metric-card__icon"><Images size={15} /></span></div>
-          <p className="metric-card__value">47</p><p className="metric-card__note">Across all inspections</p>
+          <p className="metric-card__value">{totalPhotographs}</p><p className="metric-card__note">Across all inspections</p>
         </article>
         <article className="card metric-card">
           <div className="metric-card__top"><span>Draft inspections</span><span className="metric-card__icon"><FileText size={15} /></span></div>
-          <p className="metric-card__value">{inspections.filter((inspection) => inspection.status === 'Draft').length}</p><p className="metric-card__note">Ready for your review</p>
-        </article>
-        <article className="card metric-card">
-          <div className="metric-card__top"><span>Analyses this month</span><span className="metric-card__icon"><ImagePlus size={15} /></span></div>
-          <p className="metric-card__value">18 <span style={{ color: '#94a0a5', fontSize: 13, fontWeight: 500 }}>/ 100</span></p><p className="metric-card__note">Monthly allowance</p>
+          <p className="metric-card__value">{draftCount}</p><p className="metric-card__note">Ready for your review</p>
         </article>
       </div>
 
@@ -66,7 +129,7 @@ export function DashboardPage() {
             {recent.length > 0 ? recent.map((inspection) => (
               <Link className="recent-row" to={`/app/inspections/${inspection.id}`} key={inspection.id}>
                 <span className="recent-row__main">
-                  <span className="recent-row__thumb"><img src={demoImages.original} alt="" /></span>
+                  <span className="recent-row__thumb"><img src="/demo/crack-wall.jpg" alt="" /></span>
                   <span>
                     <span className="recent-row__title">{inspection.title}</span>
                     <span className="recent-row__location">{inspection.location}</span>
