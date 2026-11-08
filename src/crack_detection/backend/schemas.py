@@ -36,6 +36,20 @@ class TokenVerifyResponse(BaseModel):
     email: Optional[str] = None
 
 
+class ErrorDetail(BaseModel):
+    """Structured error detail returned by API error responses.
+
+    Mirrors the body produced by ``exceptions._error_response`` so that the
+    error schema is explicit and reusable across the API contract.
+    """
+
+    error: str
+    message: str
+    retryable: bool
+    action: Optional[str] = None
+    details: Optional[Dict[str, Any]] = None
+
+
 # ------------------------------------------------------------------ inspections
 class StructureType(str):
     WALL = "wall"
@@ -112,6 +126,36 @@ class PhotographResponse(BaseModel):
 
 
 # ------------------------------------------------------------------ reanalysis
+class PhotographMetadataResponse(BaseModel):
+    """Owner-facing photograph entry for inspection photo listings.
+
+    Deliberately excludes internal R2 object keys (``original_image_key``,
+    ``prediction_mask_key``, ``prediction_overlay_key``) and any other
+    private storage details; image retrieval is handled separately by
+    owner-only download endpoints. Persisted prediction metadata is
+    returned as-is: NULL fields stay ``null`` — values are never fabricated.
+    """
+
+    id: UUID
+    inspection_id: UUID
+    structure_type: str
+    observation: Optional[str]
+    verification_status: str
+    model_version: Optional[str]
+    prediction_timestamp: Optional[datetime]
+    pixel_measurements: Optional[Dict[str, Any]]
+    created_at: datetime
+    prediction_available: bool
+
+
+class PhotographListResponse(BaseModel):
+    """All photographs belonging to one owned inspection (oldest first)."""
+
+    inspection_id: UUID
+    photographs: List[PhotographMetadataResponse]
+    total: int
+
+
 class ReanalyseResponse(BaseModel):
     photograph_id: UUID
     version_number: int

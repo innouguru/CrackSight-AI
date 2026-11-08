@@ -6,6 +6,7 @@ and current user identity that can be injected into route handlers.
 
 from __future__ import annotations
 
+import logging
 from typing import Generator, Optional
 
 from fastapi import Depends, HTTPException, Request, status
@@ -14,11 +15,18 @@ from crack_detection.backend.database import (
     DatabaseError,
     create_guest_session,
     deactivate_guest_session,
+    ensure_registered_user,
     get_db_connection,
     increment_guest_analysis_count,
     validate_guest_session,
 )
+from crack_detection.backend.exceptions import (
+    ServiceUnavailableError,
+    UnauthorizedError,
+)
 from crack_detection.backend.storage import R2Storage, get_storage
+
+logger = logging.getLogger(__name__)
 
 
 def get_db() -> Generator:
@@ -44,11 +52,52 @@ def get_current_user(request: Request) -> dict:
     * Unauthenticated: raises 401.
 
     Raises 401 if no authenticated user or valid guest session is present.
+
+    Fail closed: an authenticated Clerk identity is only returned after
+    local user synchronisation succeeds (record inserted or existing
+    record confirmed). Missing claims or a failed database synchronisation
+    raise a structured HTTP error and never return an authenticated
+    identity, so inspection and photograph foreign keys cannot be violated.
     """
     if getattr(request.state, "is_authenticated", False):
+        user_id = request.state.user_id
+        email = request.state.user_email
+        # Synchronise the authenticated Clerk user with the local users table
+        # so that inspection and photograph foreign-key references resolve.
+        # Idempotent: existing records are never duplicated or overwritten.
+        # The synchronisation result is enforced (fail closed): a missing
+        # Clerk subject/email or a failed database synchronisation rejects
+        # the request instead of returning an identity that cannot be used.
+        try:
+            synced = ensure_registered_user(user_id, email)
+        except DatabaseError as exc:
+            logger.error(
+                "Local user synchronisation database failure for Clerk user "
+                "%s: %s",
+                user_id,
+                exc,
+            )
+            raise ServiceUnavailableError(
+                "User account synchronisation is temporarily unavailable.",
+                action="Please retry in a moment.",
+                retryable=True,
+            ) from exc
+        if not synced:
+            logger.warning(
+                "Rejecting authenticated request for Clerk user %s: local "
+                "user synchronisation failed (missing subject or verified "
+                "email, and no existing local record)",
+                user_id,
+            )
+            raise UnauthorizedError(
+                "Authenticated account could not be synchronised with the "
+                "inspection service.",
+                action="Sign in again with an account that has a verified "
+                "email address.",
+            )
         return {
-            "user_id": request.state.user_id,
-            "email": request.state.user_email,
+            "user_id": user_id,
+            "email": email,
             "is_guest": False,
             "is_authenticated": True,
             "guest_session_id": None,
@@ -98,8 +147,11 @@ def require_ownership(
 ) -> None:
     """Verify that the current user owns the given resource.
 
-    Raises 403 if the user does not own the resource. Guest users cannot
-    own resources.
+    Raises 403 if the current principal is a guest (guests cannot own
+    resources). Raises 404 if the resource is not owned by the current
+    authenticated user: foreign and nonexistent resources are
+    indistinguishable, so no existence information about another user's
+    resource is disclosed.
     """
     user = get_current_user(request)
     if user["is_guest"]:
@@ -109,8 +161,8 @@ def require_ownership(
         )
     if user["user_id"] != resource_user_id:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You do not own this resource",
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Resource not found",
         )
 
 

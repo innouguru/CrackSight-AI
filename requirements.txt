@@ -25,9 +25,20 @@ psycopg2-binary>=2.9.0,<3.0.0
 boto3>=1.28.0,<1.35.0
 httpx>=0.24.0,<0.28.0
 python-jose[cryptography]>=3.3.0,<4.0.0
+python-multipart>=0.0.9,<0.0.11
 pydantic-settings>=2.0.0,<3.0.0
 
+# --- PDF report generation (Milestone 8, Task 6) ---
+# ReportLab chosen per audit (agent_context/ACTIVE_TASK.md): pure pip install,
+# no system-level dependencies (Windows dev + budget deployment), BSD license.
+reportlab>=4.2.0,<5.0.0
+
+# --- Test-only dependencies ---
+# Used solely to verify generated PDF content in unit tests.
+pypdf>=4.0.0
+
 # --- Transitive dependencies (pinned for reproducibility) ---
+charset-normalizer==3.5.2
 colorama==0.4.6
 contourpy==1.4.0
 cycler==0.12.1

@@ -80,6 +80,11 @@ class Settings(BaseSettings):
         24, validation_alias="REGISTERED_UNSAVED_EXPIRATION_HOURS"
     )
 
+    # ------------------------------------------------------------------ registered user monthly allowance
+    registered_monthly_analyses_limit: int = Field(
+        100, validation_alias="REGISTERED_MONTHLY_ANALYSES_LIMIT"
+    )
+
     @field_validator("inference_image_size")
     @classmethod
     def _validate_image_size(cls, value: str) -> str:
