@@ -123,7 +123,7 @@ def check_readiness(base_url: str, *, timeout: float = DEFAULT_TIMEOUT_SECONDS) 
     """Check the /ready readiness endpoint.
 
     Returns True if the service responds HTTP 200. The /ready endpoint may
-    report "not_ready" if dependencies (Neon, R2) are not yet configured; that
+    report "not_ready" if dependencies (Neon, object storage) are not yet configured; that
     is expected before live credentials are provisioned and does not fail the
     smoke test by itself. We log the readiness details for visibility.
     """

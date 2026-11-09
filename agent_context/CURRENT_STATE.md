@@ -30,14 +30,14 @@
 - Tests: 3 new tests in `TestSettings` — missing DATABASE_URL raises validation error, DATABASE_URL without sslmode=require raises validation error, DATABASE_URL with sslmode=require is accepted.
 - Live Neon connectivity NOT verified (deployment-time; free-tier limitations per AGENTS.md).
 
-### Backend — Milestone 12 sub-deliverable 5: Cloudflare R2 configuration (2026-11-09)
-- `storage.py`: No changes needed — existing `R2Storage` class wraps boto3 S3-compatible client for private R2 bucket; all settings already wired via `get_settings()`.
-- `config.py`: Added `r2_endpoint` field validator `_validate_r2_endpoint` (must be HTTPS URL) and `r2_bucket_name` field validator `_validate_r2_bucket_name` (must be non-empty) — fail fast on malformed R2 settings.
-- `render.yaml`: R2 env vars (`R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_ENDPOINT`) declared as `sync: false` secrets; comments added documenting bucket creation, API token setup (Object Read & Write), and endpoint format.
-- `.env.example`: R2 section updated with setup instructions (create private bucket, create API token with Object Read & Write, endpoint format); placeholders only, no real credentials.
+### Backend — Milestone 12 sub-deliverable 5: Object Storage configuration (2026-11-09)
+- `storage.py`: `R2Storage` renamed to `ObjectStorage`; wraps boto3 S3-compatible client for object storage (Cloudflare R2 or Backblaze B2); all settings already wired via `get_settings()`.
+- `config.py`: Added `object_storage_endpoint` field validator `_validate_object_storage_endpoint` (must be HTTPS URL) and `object_storage_bucket_name` field validator `_validate_object_storage_bucket_name` (must be non-empty) — fail fast on malformed object storage settings.
+- `render.yaml`: Object storage env vars (`OBJECT_STORAGE_ACCOUNT_ID`, `OBJECT_STORAGE_ACCESS_KEY_ID`, `OBJECT_STORAGE_SECRET_ACCESS_KEY`, `OBJECT_STORAGE_BUCKET_NAME`, `OBJECT_STORAGE_ENDPOINT`) declared as `sync: false` secrets; comments added documenting bucket creation, API token setup, and endpoint format.
+- `.env.example`: Object Storage section updated with setup instructions (create private bucket, create API token with Object Read & Write, endpoint format); placeholders only, no real credentials.
 - No `requirements.txt` changes — `boto3>=1.28.0,<1.35.0` already declared.
-- Tests: 3 new tests in `TestSettings` — R2 endpoint without https:// raises error, R2 endpoint with https:// accepted, empty R2 bucket name raises error.
-- Live R2 connectivity NOT verified (deployment-time; free-tier limitations per AGENTS.md).
+- Tests: 3 new tests in `TestSettings` — `OBJECT_STORAGE_ENDPOINT` without `https://` raises error, `OBJECT_STORAGE_ENDPOINT` with `https://` accepted, empty `OBJECT_STORAGE_BUCKET_NAME` raises error.
+- Live object storage connectivity NOT verified (deployment-time; free-tier limitations per AGENTS.md).
 - Bucket remains private; objects accessed server-side only; backend enforces ownership checks on all read/write operations.
 
 ### Backend — Milestone 12 sub-deliverable 6: Backend smoke testing (2026-11-09)

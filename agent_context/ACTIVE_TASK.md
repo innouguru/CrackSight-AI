@@ -16,8 +16,8 @@
 ## Milestone 12 — Neon PostgreSQL configuration (2026-11-09, verified)
 **Sub-deliverable 4 = Neon configuration (DATABASE_URL with sslmode=require; test branch for live testing).** COMPLETE.
 
-## Milestone 12 — Cloudflare R2 configuration (2026-11-09, verified)
-**Sub-deliverable 5 = R2 configuration (private bucket + Object Read & Write token).** COMPLETE.
+## Milestone 12 — Object Storage configuration (2026-11-09, verified)
+**Sub-deliverable 5 = Object Storage configuration (private bucket + Object Read & Write token).** COMPLETE.
 
 ## Milestone 12 — Backend smoke testing (2026-11-09, verified)
 **Sub-deliverable 6 = Backend smoke testing.** COMPLETE (verified 2026-11-09; see history below).

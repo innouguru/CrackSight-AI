@@ -311,7 +311,7 @@ export class ApiClient {
 
   /**
    * Upload a photograph to an owned draft inspection using multipart/form-data.
-   * The backend stores the original image in private R2 and persists the
+   * The backend stores the original image in private object storage and persists the
    * photograph record associated with the authenticated user, the inspection,
    * and the selected structure type.
    */

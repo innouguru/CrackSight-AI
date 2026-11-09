@@ -86,31 +86,34 @@ services:
       - key: CLERK_JWKS_URL
         sync: false
       # ------------------------------------------------------------------
-      # Object storage — Cloudflare R2 (sub-deliverable 5).
+      # Object storage — Cloudflare R2 / Backblaze B2 (sub-deliverable 5).
       #
       # These must be supplied as secrets in the Render dashboard. The bucket
       # must remain private; the application accesses objects server-side only
       # and enforces ownership checks on all read/write operations.
       #
-      # Setup steps (Cloudflare dashboard):
-      # 1. Create an R2 bucket (e.g. "cracksight-storage") — keep it private.
-      # 2. Create an R2 API token with "Object Read & Write" permissions,
-      #    scoped to this bucket where possible.
+      # Setup steps:
+      # 1. Create an object storage bucket (e.g. "cracksight-ai-production") — keep it private.
+      # 2. Create an object storage API token with "Object Read & Write"
+      #    permissions, scoped to this bucket where possible.
       # 3. Enter the values below as Render environment secrets:
-      #    - R2_ACCOUNT_ID: your Cloudflare account ID
-      #    - R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY: from the API token
-      #    - R2_BUCKET_NAME: the bucket you created
-      #    - R2_ENDPOINT: https://<account_id>.r2.cloudflarestorage.com
+      #    - OBJECT_STORAGE_ACCOUNT_ID: your object storage account ID
+      #    - OBJECT_STORAGE_ACCESS_KEY_ID / OBJECT_STORAGE_SECRET_ACCESS_KEY:
+      #      from the API token
+      #    - OBJECT_STORAGE_BUCKET_NAME: the bucket you created
+      #    - OBJECT_STORAGE_ENDPOINT: https://s3.us-west-004.backblazeb2.com
+      #      (Backblaze B2) or https://<account_id>.r2.cloudflarestorage.com
+      #      (Cloudflare R2)
       # ------------------------------------------------------------------
-      - key: R2_ACCOUNT_ID
+      - key: OBJECT_STORAGE_ACCOUNT_ID
         sync: false
-      - key: R2_ACCESS_KEY_ID
+      - key: OBJECT_STORAGE_ACCESS_KEY_ID
         sync: false
-      - key: R2_SECRET_ACCESS_KEY
+      - key: OBJECT_STORAGE_SECRET_ACCESS_KEY
         sync: false
-      - key: R2_BUCKET_NAME
+      - key: OBJECT_STORAGE_BUCKET_NAME
         sync: false
-      - key: R2_ENDPOINT
+      - key: OBJECT_STORAGE_ENDPOINT
         sync: false
       # ------------------------------------------------------------------
       # Runtime configuration (non-secret).

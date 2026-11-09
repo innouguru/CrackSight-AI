@@ -1,6 +1,6 @@
 """Unit tests for the build-time checkpoint download script.
 
-All tests use mocked HTTP responses (no real R2 credentials, no live bucket)
+All tests use mocked HTTP responses (no real object storage credentials, no live bucket)
 and temporary directories for artifacts. The real model checkpoint is never
 touched or downloaded by these tests.
 """
@@ -74,7 +74,7 @@ class _MockResponse:
 
 def _make_url() -> str:
     return (
-        "https://cracksight-model-bucket.r2.cloudflarestorage.com/"
+        "https://s3.us-west-004.backblazeb2.com/cracksight-ai-production/m3_crack_seg_baseline_b1_20261026_201725/best_model.pth"
         "m3_crack_seg_baseline_b1_20261026_201725/best_model.pth"
         "?signature=SECRET_TOKEN&expires=12345&token=ABC"
     )
@@ -102,15 +102,15 @@ def _install_failing_urlopen(monkeypatch, exc):
 def test_safe_url_display_strips_query_and_credentials():
     url = _make_url()
     display = _safe_url_display(url)
-    assert display == "https://cracksight-model-bucket.r2.cloudflarestorage.com"
+    assert display == "https://s3.us-west-004.backblazeb2.com"
     assert "signature" not in display
     assert "SECRET_TOKEN" not in display
     assert "best_model.pth" not in display
 
 
 def test_safe_url_display_strips_userinfo():
-    url = "https://user:pass@host.r2.cloudflarestorage.com/key?sig=X"
-    assert _safe_url_display(url) == "https://host.r2.cloudflarestorage.com"
+    url = "https://user:pass@s3.us-west-004.backblazeb2.com/bucket/key?sig=X"
+    assert _safe_url_display(url) == "https://s3.us-west-004.backblazeb2.com"
 
 
 # --------------------------------------------------------------------------- successful download

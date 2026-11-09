@@ -45,7 +45,7 @@ try:
         SignInUrlResponse,
         TokenVerifyResponse,
     )
-    from crack_detection.backend.storage import R2Storage, StorageError
+    from crack_detection.backend.storage import ObjectStorage, StorageError
 
     _BACKEND_AVAILABLE = True
 except ImportError:  # pragma: no cover
@@ -69,11 +69,11 @@ class TestSettings:
             "DATABASE_URL",
             "postgresql://user:pass@localhost:5432/db?sslmode=require",
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://test.r2.cloudflarestorage.com")
 
         settings = Settings()
         assert settings.app_name == "CrackSight AI"
@@ -92,11 +92,11 @@ class TestSettings:
             "DATABASE_URL",
             "postgresql://user:pass@localhost:5432/db?sslmode=require",
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://test.r2.cloudflarestorage.com")
         monkeypatch.setenv("INFERENCE_IMAGE_SIZE", "invalid")
 
         with pytest.raises(ValueError, match="INFERENCE_IMAGE_SIZE"):
@@ -112,11 +112,11 @@ class TestSettings:
             "DATABASE_URL",
             "postgresql://user:pass@localhost:5432/db?sslmode=require",
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://test.r2.cloudflarestorage.com")
 
         s1 = get_settings()
         s2 = get_settings()
@@ -128,11 +128,11 @@ class TestSettings:
         monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test_123")
         monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test_123")
         monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://s3.us-west-004.backblazeb2.com")
 
     def test_database_url_missing_raises(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Missing DATABASE_URL fails closed with a validation error."""
@@ -164,32 +164,32 @@ class TestSettings:
         settings = Settings()
         assert "sslmode=require" in settings.database_url
 
-    def test_r2_endpoint_without_https_raises(
+    def test_object_storage_endpoint_without_https_raises(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """R2_ENDPOINT without https:// fails with a clear error."""
+        """OBJECT_STORAGE_ENDPOINT without https:// fails with a clear error."""
         self._base_env(monkeypatch)
-        monkeypatch.setenv("R2_ENDPOINT", "http://test.r2.cloudflarestorage.com")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "http://s3.us-west-004.backblazeb2.com")
         with pytest.raises(ValueError, match="HTTPS URL"):
             Settings()
 
-    def test_r2_endpoint_with_https_accepted(
+    def test_object_storage_endpoint_with_https_accepted(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """R2_ENDPOINT with https:// is accepted."""
+        """OBJECT_STORAGE_ENDPOINT with https:// is accepted."""
         self._base_env(monkeypatch)
         monkeypatch.setenv(
-            "R2_ENDPOINT", "https://acc123.r2.cloudflarestorage.com"
+            "OBJECT_STORAGE_ENDPOINT", "https://s3.us-west-004.backblazeb2.com"
         )
         settings = Settings()
-        assert settings.r2_endpoint == "https://acc123.r2.cloudflarestorage.com"
+        assert settings.object_storage_endpoint == "https://s3.us-west-004.backblazeb2.com"
 
-    def test_r2_bucket_name_empty_raises(
+    def test_object_storage_bucket_name_empty_raises(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        """Empty R2_BUCKET_NAME fails with a clear error."""
+        """Empty OBJECT_STORAGE_BUCKET_NAME fails with a clear error."""
         self._base_env(monkeypatch)
-        monkeypatch.setenv("R2_BUCKET_NAME", "")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "")
         with pytest.raises(ValueError, match="must not be empty"):
             Settings()
 
@@ -268,8 +268,8 @@ class TestHealthEndpoints:
             monkeypatch,
             env={
                 "DATABASE_URL": "postgresql://user:pass@host:5432/db?sslmode=require",
-                "R2_BUCKET_NAME": "my-bucket",
-                "R2_ENDPOINT": "https://acc.r2.cloudflarestorage.com",
+                "OBJECT_STORAGE_BUCKET_NAME": "my-bucket",
+                "OBJECT_STORAGE_ENDPOINT": "https://acc.r2.cloudflarestorage.com",
                 "INFERENCE_SERVICE_URL": "http://localhost:8001",
             },
         )
@@ -286,8 +286,8 @@ class TestHealthEndpoints:
             monkeypatch,
             env={
                 "DATABASE_URL": "postgresql://CHANGE_ME:CHANGE_ME@CHANGE_ME.neon.tech:5432/CHANGE_ME?sslmode=require",
-                "R2_BUCKET_NAME": "CHANGE_ME",
-                "R2_ENDPOINT": "https://CHANGE_ME.r2.cloudflarestorage.com",
+                "OBJECT_STORAGE_BUCKET_NAME": "CHANGE_ME",
+                "OBJECT_STORAGE_ENDPOINT": "https://CHANGE_ME.r2.cloudflarestorage.com",
             },
         )
         resp = client.get("/ready")
@@ -429,8 +429,8 @@ class TestSchemas:
 # Storage tests (mocked boto3)
 # ---------------------------------------------------------------------------
 @pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
-class TestStorage:
-    """Tests for R2 storage wrapper (with mocked boto3)."""
+class TestObjectStorage:
+    """Tests for object storage wrapper (with mocked boto3)."""
 
     def test_upload_and_download(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """upload_file then download_file round-trips bytes."""
@@ -446,13 +446,13 @@ class TestStorage:
             monkeypatch.setenv(
                 "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
             )
-            monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-            monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-            monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-            monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-            monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+            monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+            monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+            monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+            monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+            monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
-            storage = R2Storage()
+            storage = ObjectStorage()
             result = storage.upload_file("test/key.jpg", b"hello", "image/jpeg")
             assert result == "test/key.jpg"
             mock_client.put_object.assert_called_once()
@@ -478,13 +478,13 @@ class TestStorage:
             monkeypatch.setenv(
                 "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
             )
-            monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-            monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-            monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-            monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-            monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+            monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+            monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+            monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+            monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+            monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
-            storage = R2Storage()
+            storage = ObjectStorage()
             storage.delete_file("missing/key.jpg")
 
 
@@ -568,11 +568,11 @@ class TestClerkJWTVerification:
         monkeypatch.setenv(
             "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
         settings = Settings()
         token = self._make_jwt()
@@ -629,11 +629,11 @@ class TestClerkJWTVerification:
         monkeypatch.setenv(
             "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
         settings = Settings()
         jwks_keys = self._make_jwks()
@@ -677,11 +677,11 @@ class TestClerkJWTVerification:
         monkeypatch.setenv(
             "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
         settings = Settings()
         jwks_keys = self._make_jwks()
@@ -725,11 +725,11 @@ class TestClerkJWTVerification:
         monkeypatch.setenv(
             "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
         settings = Settings()
         jwks_keys = self._make_jwks()
@@ -791,11 +791,11 @@ class TestClerkJWTVerification:
         monkeypatch.setenv(
             "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
         settings = Settings()
         jwks_keys = self._make_jwks()
@@ -866,11 +866,11 @@ class TestAuthEndpoints:
         os.environ["DATABASE_URL"] = (
             "postgresql://user:pass@localhost:5432/db?sslmode=require"
         )
-        os.environ["R2_ACCOUNT_ID"] = "test-account"
-        os.environ["R2_ACCESS_KEY_ID"] = "test-key"
-        os.environ["R2_SECRET_ACCESS_KEY"] = "test-secret"
-        os.environ["R2_BUCKET_NAME"] = "test-bucket"
-        os.environ["R2_ENDPOINT"] = "https://test.r2.cloudflarestorage.com"
+        os.environ["OBJECT_STORAGE_ACCOUNT_ID"] = "test-account"
+        os.environ["OBJECT_STORAGE_ACCESS_KEY_ID"] = "test-key"
+        os.environ["OBJECT_STORAGE_SECRET_ACCESS_KEY"] = "test-secret"
+        os.environ["OBJECT_STORAGE_BUCKET_NAME"] = "test-bucket"
+        os.environ["OBJECT_STORAGE_ENDPOINT"] = "https://test.r2.cloudflarestorage.com"
 
         from cryptography.hazmat.primitives.asymmetric import rsa
 
@@ -1640,11 +1640,11 @@ class TestGuestSessionRouter:
         os.environ["DATABASE_URL"] = (
             "postgresql://user:pass@localhost:5432/db?sslmode=require"
         )
-        os.environ["R2_ACCOUNT_ID"] = "test-account"
-        os.environ["R2_ACCESS_KEY_ID"] = "test-key"
-        os.environ["R2_SECRET_ACCESS_KEY"] = "test-secret"
-        os.environ["R2_BUCKET_NAME"] = "test-bucket"
-        os.environ["R2_ENDPOINT"] = "https://test.r2.cloudflarestorage.com"
+        os.environ["OBJECT_STORAGE_ACCOUNT_ID"] = "test-account"
+        os.environ["OBJECT_STORAGE_ACCESS_KEY_ID"] = "test-key"
+        os.environ["OBJECT_STORAGE_SECRET_ACCESS_KEY"] = "test-secret"
+        os.environ["OBJECT_STORAGE_BUCKET_NAME"] = "test-bucket"
+        os.environ["OBJECT_STORAGE_ENDPOINT"] = "https://test.r2.cloudflarestorage.com"
 
         from crack_detection.backend.main import app
 
@@ -1885,11 +1885,11 @@ class _StdEnv:
         monkeypatch.setenv(
             "DATABASE_URL", "postgresql://user:pass@localhost:5432/db?sslmode=require"
         )
-        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
-        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
-        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
-        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
-        monkeypatch.setenv("R2_ENDPOINT", "https://endpoint")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("OBJECT_STORAGE_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("OBJECT_STORAGE_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("OBJECT_STORAGE_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("OBJECT_STORAGE_ENDPOINT", "https://endpoint")
 
 
 def _load_inspections_router():
@@ -1930,11 +1930,11 @@ class TestApplicationFactory:
         "CLERK_JWT_ISSUER": "https://test.clerk.accounts.com",
         "CLERK_JWKS_URL": "https://test.clerk.accounts.com/.well-known/jwks.json",
         "DATABASE_URL": "postgresql://user:pass@localhost:5432/db?sslmode=require",
-        "R2_ACCOUNT_ID": "acc",
-        "R2_ACCESS_KEY_ID": "key",
-        "R2_SECRET_ACCESS_KEY": "secret",
-        "R2_BUCKET_NAME": "bucket",
-        "R2_ENDPOINT": "https://test.r2.cloudflarestorage.com",
+        "OBJECT_STORAGE_ACCOUNT_ID": "acc",
+        "OBJECT_STORAGE_ACCESS_KEY_ID": "key",
+        "OBJECT_STORAGE_SECRET_ACCESS_KEY": "secret",
+        "OBJECT_STORAGE_BUCKET_NAME": "bucket",
+        "OBJECT_STORAGE_ENDPOINT": "https://test.r2.cloudflarestorage.com",
     }
 
     def _set_env(self, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -2025,11 +2025,11 @@ class TestCorsAndPreflight:
         "CLERK_JWT_ISSUER": "https://test.clerk.accounts.com",
         "CLERK_JWKS_URL": "https://test.clerk.accounts.com/.well-known/jwks.json",
         "DATABASE_URL": "postgresql://user:pass@localhost:5432/db?sslmode=require",
-        "R2_ACCOUNT_ID": "acc",
-        "R2_ACCESS_KEY_ID": "key",
-        "R2_SECRET_ACCESS_KEY": "secret",
-        "R2_BUCKET_NAME": "bucket",
-        "R2_ENDPOINT": "https://test.r2.cloudflarestorage.com",
+        "OBJECT_STORAGE_ACCOUNT_ID": "acc",
+        "OBJECT_STORAGE_ACCESS_KEY_ID": "key",
+        "OBJECT_STORAGE_SECRET_ACCESS_KEY": "secret",
+        "OBJECT_STORAGE_BUCKET_NAME": "bucket",
+        "OBJECT_STORAGE_ENDPOINT": "https://test.r2.cloudflarestorage.com",
     }
 
     def _build_app(

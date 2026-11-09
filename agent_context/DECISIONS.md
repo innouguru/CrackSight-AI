@@ -28,7 +28,7 @@ requirement; storing NULL when count is unavailable remains fine per schema.
 
 ### Infrastructure
 11. **Neon PostgreSQL:** Already selected for application database.
-12. **Cloudflare R2:** Already selected for object storage.
+12. **Object Storage:** Already selected for object storage.
 13. **Clerk:** Already selected for authentication (email/password + Google).
 14. **Frontend:** React + TypeScript, responsive.
 15. **Inference hosting:** Unresolved — requires research and benchmarking before selection.
@@ -58,5 +58,5 @@ requirement; storing NULL when count is unavailable remains fine per schema.
 
 1. **Access gating:** PDF report actions on `InspectionDetailPage` render only for authenticated users (`isAuthenticated`); guests and unauthenticated users see no report card. Draft AND Completed inspections are both reportable, matching the backend contract.
 2. **Duplicate prevention:** The generate button is disabled while a generation request is in flight; after a failure it re-enables so the user can retry. Each successful generation creates a new backend report row.
-3. **Download contract:** `apiClient.downloadReportPdf(reportId)` calls `GET /reports/{reportId}/download` with the bearer token and returns a blob URL, which is revoked after the anchor click. The anchor filename `cracksight-report-{report_id}.pdf` matches the backend's `Content-Disposition` attachment name exactly. Internal R2 keys are never exposed to the browser.
+3. **Download contract:** `apiClient.downloadReportPdf(reportId)` calls `GET /reports/{reportId}/download` with the bearer token and returns a blob URL, which is revoked after the anchor click. The anchor filename `cracksight-report-{report_id}.pdf` matches the backend's `Content-Disposition` attachment name exactly. Internal object storage keys are never exposed to the browser.
 4. **ReportsPage honesty:** The page renders clearly-labelled sample content only. Its "Generate report" CTA navigates to `/app/history`; no report-history/list endpoint was fabricated, since the backend has none (addition requires approval).

@@ -2,7 +2,7 @@
 
 **Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
 
-**Task:** Configure the existing FastAPI backend for Cloudflare R2 object storage (private bucket + Object Read & Write token). Do not deploy; do not create R2 resources; do not run live integration tests against R2 (free-tier limitations).
+**Task:** Configure the existing FastAPI backend for object storage (private bucket + Object Read & Write token). Do not deploy; do not create R2 resources; do not run live integration tests against object storage (free-tier limitations).
 
 **Root causes (established before changing):**
 1. `config.py` had `r2_endpoint` and `r2_bucket_name` as required fields but no validation of URL format or non-empty bucket name — a malformed endpoint would only fail at the first storage operation.
@@ -10,11 +10,11 @@
 3. `render.yaml` and `.env.example` declared R2 vars but without setup guidance.
 
 **Changes:**
-- `src/crack_detection/backend/config.py`: Added `r2_endpoint` field validator `_validate_r2_endpoint` (must be HTTPS URL) and `r2_bucket_name` field validator `_validate_r2_bucket_name` (must be non-empty).
-- `tests/unit/test_backend.py`: 3 new tests in `TestSettings` — `R2_ENDPOINT` without `https://` raises error, `R2_ENDPOINT` with `https://` accepted, empty `R2_BUCKET_NAME` raises error.
-- `render.yaml`: R2 env vars declared as `sync: false` secrets; comments documenting bucket creation, API token setup (Object Read & Write), and endpoint format.
-- `.env.example`: R2 section updated with setup instructions; placeholders only, no real credentials.
-- No changes to `storage.py` — existing `R2Storage` class already works with validated settings.
+- `src/crack_detection/backend/config.py`: Added `object_storage_endpoint` field validator `_validate_object_storage_endpoint` (must be HTTPS URL) and `object_storage_bucket_name` field validator `_validate_object_storage_bucket_name` (must be non-empty).
+- `tests/unit/test_backend.py`: 3 new tests in `TestSettings` — `OBJECT_STORAGE_ENDPOINT` without `https://` raises error, `OBJECT_STORAGE_ENDPOINT` with `https://` accepted, empty `OBJECT_STORAGE_BUCKET_NAME` raises error.
+- `render.yaml`: Object Storage env vars declared as `sync: false` secrets; comments documenting bucket creation, API token setup (Object Read & Write), and endpoint format.
+- `.env.example`: Object Storage section updated with setup instructions; placeholders only, no real credentials.
+- No changes to `storage.py` — `R2Storage` renamed to `ObjectStorage`; already works with validated settings.
 - No `requirements.txt` changes — `boto3>=1.28.0,<1.35.0` already declared.
 
 **R2 configuration decision:**
@@ -115,11 +115,11 @@
 
 ---
 
-# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 5): Cloudflare R2 configuration
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 5): Object Storage configuration (Backblaze B2)
 
 **Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
 
-**Task:** Configure the existing FastAPI backend for Cloudflare R2 object storage (private bucket + Object Read & Write token). Do not deploy; do not create R2 resources; do not run live integration tests against R2 (free-tier limitations).
+**Task:** Configure the existing FastAPI backend for object storage (private bucket + Object Read & Write token). Do not deploy; do not create R2 resources; do not run live integration tests against object storage (free-tier limitations).
 
 **Root causes (established before changing):**
 1. `config.py` had `r2_endpoint` and `r2_bucket_name` as required fields but no validation of URL format or non-empty bucket name — a malformed endpoint would only fail at the first storage operation.
@@ -127,11 +127,11 @@
 3. `render.yaml` and `.env.example` declared R2 vars but without setup guidance.
 
 **Changes:**
-- `src/crack_detection/backend/config.py`: Added `r2_endpoint` field validator `_validate_r2_endpoint` (must be HTTPS URL) and `r2_bucket_name` field validator `_validate_r2_bucket_name` (must be non-empty).
+- `src/crack_detection/backend/config.py`: Added `object_storage_endpoint` field validator `_validate_object_storage_endpoint` (must be HTTPS URL) and `object_storage_bucket_name` field validator `_validate_object_storage_bucket_name` (must be non-empty).
 - `tests/unit/test_backend.py`: 3 new tests in `TestSettings` — R2 endpoint without https:// raises error, R2 endpoint with https:// accepted, empty R2 bucket name raises error.
 - `render.yaml`: Comments added documenting R2 bucket creation, API token setup (Object Read & Write), and endpoint format; R2 vars declared `sync: false`.
-- `.env.example`: R2 section updated with setup instructions; placeholders only, no real credentials.
-- No changes to `storage.py` — existing `R2Storage` class already works with validated settings.
+- `.env.example`: Object Storage section updated with setup instructions; placeholders only, no real credentials.
+- No changes to `storage.py` — `R2Storage` renamed to `ObjectStorage`; already works with validated settings.
 - No `requirements.txt` changes — `boto3` already declared.
 
 **R2 configuration decision:**

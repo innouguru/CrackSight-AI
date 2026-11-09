@@ -1,7 +1,8 @@
-"""Cloudflare R2 object storage integration.
+"""Object storage integration.
 
-Wraps ``boto3`` S3-compatible client for R2. Provides upload, download,
-and delete operations with the key structure defined in TECHNICAL_DESIGN.md.
+Wraps ``boto3`` S3-compatible client for object storage (Cloudflare R2 or
+Backblaze B2). Provides upload, download, and delete operations with the
+key structure defined in TECHNICAL_DESIGN.md.
 """
 
 from __future__ import annotations
@@ -22,16 +23,16 @@ class StorageError(Exception):
     """Raised when an object storage operation fails."""
 
 
-class R2Storage:
-    """Cloudflare R2 storage client."""
+class ObjectStorage:
+    """Object storage client (Cloudflare R2 or Backblaze B2 via S3-compatible API)."""
 
     def __init__(self) -> None:
         settings = get_settings()
         self._client = boto3.client(
             "s3",
-            endpoint_url=settings.r2_endpoint,
-            aws_access_key_id=settings.r2_access_key_id,
-            aws_secret_access_key=settings.r2_secret_access_key,
+            endpoint_url=settings.object_storage_endpoint,
+            aws_access_key_id=settings.object_storage_access_key_id,
+            aws_secret_access_key=settings.object_storage_secret_access_key,
             region_name="auto",
             config=Config(
                 retries={"max_attempts": 3, "mode": "standard"},
@@ -39,10 +40,10 @@ class R2Storage:
                 read_timeout=30,
             ),
         )
-        self._bucket = settings.r2_bucket_name
+        self._bucket = settings.object_storage_bucket_name
 
     def upload_file(self, key: str, data: bytes, content_type: str) -> str:
-        """Upload bytes to R2 at the given key. Returns the object key."""
+        """Upload bytes to object storage at the given key. Returns the object key."""
         try:
             self._client.put_object(
                 Bucket=self._bucket,
@@ -50,33 +51,33 @@ class R2Storage:
                 Body=data,
                 ContentType=content_type,
             )
-            logger.debug("Uploaded object to R2: %s", key)
+            logger.debug("Uploaded object to object storage: %s", key)
             return key
         except ClientError as exc:
-            logger.error("R2 upload failed for key %s: %s", key, exc)
+            logger.error("Object storage upload failed for key %s: %s", key, exc)
             raise StorageError(str(exc)) from exc
 
     def download_file(self, key: str) -> bytes:
-        """Download object bytes from R2 at the given key."""
+        """Download object bytes from object storage at the given key."""
         try:
             response = self._client.get_object(Bucket=self._bucket, Key=key)
             data = response["Body"].read()
-            logger.debug("Downloaded object from R2: %s (%d bytes)", key, len(data))
+            logger.debug("Downloaded object from object storage: %s (%d bytes)", key, len(data))
             return data
         except ClientError as exc:
-            logger.error("R2 download failed for key %s: %s", key, exc)
+            logger.error("Object storage download failed for key %s: %s", key, exc)
             raise StorageError(str(exc)) from exc
 
     def delete_file(self, key: str) -> None:
-        """Delete object from R2 at the given key. Silently ignores missing objects."""
+        """Delete object from object storage at the given key. Silently ignores missing objects."""
         try:
             self._client.delete_object(Bucket=self._bucket, Key=key)
-            logger.debug("Deleted object from R2: %s", key)
+            logger.debug("Deleted object from object storage: %s", key)
         except ClientError as exc:
-            logger.warning("R2 delete failed for key %s: %s", key, exc)
+            logger.warning("Object storage delete failed for key %s: %s", key, exc)
 
     def file_exists(self, key: str) -> bool:
-        """Return True if the object exists in R2."""
+        """Return True if the object exists in object storage."""
         try:
             self._client.head_object(Bucket=self._bucket, Key=key)
             return True
@@ -84,7 +85,7 @@ class R2Storage:
             return False
 
     def generate_key(self, prefix: str, filename: str) -> str:
-        """Generate a namespaced R2 object key."""
+        """Generate a namespaced object storage key."""
         return f"{prefix}/{filename}"
 
     def delete_objects_by_prefix(self, prefix: str) -> int:
@@ -100,9 +101,9 @@ class R2Storage:
                 self._client.delete_objects(Bucket=self._bucket, Delete=delete_keys)
                 deleted_count += len(delete_keys["Objects"])
                 for obj in delete_keys["Objects"]:
-                    logger.debug("Deleted object from R2: %s", obj["Key"])
+                    logger.debug("Deleted object from object storage: %s", obj["Key"])
             except ClientError as exc:
-                logger.error("R2 batch delete failed for prefix %s: %s", prefix, exc)
+                logger.error("Object storage batch delete failed for prefix %s: %s", prefix, exc)
                 raise StorageError(str(exc)) from exc
         return deleted_count
 
@@ -116,6 +117,6 @@ class R2Storage:
         return keys
 
 
-def get_storage() -> R2Storage:
-    """Return a configured R2Storage instance."""
-    return R2Storage()
+def get_storage() -> ObjectStorage:
+    """Return a configured object storage instance."""
+    return ObjectStorage()

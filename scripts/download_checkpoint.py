@@ -1,6 +1,6 @@
 """Build-time downloader for the U-Net ResNet-34 inference checkpoint.
 
-Downloads the trained checkpoint from a private Cloudflare R2 bucket using a
+Downloads the trained checkpoint from a private object storage bucket using a
 pre-signed URL supplied through the ``MODEL_CHECKPOINT_URL`` environment
 variable. The checkpoint itself is never committed to Git and is fetched at
 build time so the Render Web Service has the weights available when the
@@ -8,11 +8,11 @@ FastAPI backend starts.
 
 Usage (Render build command)::
 
-    MODEL_CHECKPOINT_URL="https://<account>.r2.cloudflarestorage.com/<bucket>/<key>?<sig>" \
+    MODEL_CHECKPOINT_URL="https://s3.us-west-004.backblazeb2.com/<bucket>/<key>?<sig>" \
     python scripts/download_checkpoint.py
 
 Environment variables:
-    MODEL_CHECKPOINT_URL    Required. Pre-signed R2 download URL. Never logged,
+    MODEL_CHECKPOINT_URL    Required. Pre-signed object storage download URL. Never logged,
                             hardcoded, or committed. Expires and must be
                             refreshed whenever a future build needs a new download.
     MODEL_CHECKPOINT_SHA256 Optional. Expected SHA-256 digest of the checkpoint
@@ -66,8 +66,8 @@ DOWNLOAD_TIMEOUT_SECONDS = 60
 def _safe_url_display(url: str) -> str:
     """Return a URL fragment safe for logs: scheme and host only.
 
-    Strips credentials, path, query string (which may carry the R2 signature
-    token), and fragment so secrets are never written to logs.
+    Strips credentials, path, query string (which may carry the object storage
+    signature token), and fragment so secrets are never written to logs.
     """
     try:
         parts = urlsplit(url)
@@ -250,7 +250,7 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     parser = argparse.ArgumentParser(
-        description="Download the inference checkpoint from a pre-signed R2 URL at build time."
+        description="Download the inference checkpoint from a pre-signed object storage URL at build time."
     )
     parser.add_argument(
         "--force",
@@ -270,7 +270,7 @@ def main(argv: list[str] | None = None) -> int:
     url = os.environ.get(URL_ENV, "").strip()
     if not url:
         logger.error(
-            "Missing required environment variable %s: provide a pre-signed R2 "
+            "Missing required environment variable %s: provide a pre-signed object storage "
             "download URL. Do not hardcode the URL; it expires and must be "
             "refreshed when a future build needs a new download.",
             URL_ENV,

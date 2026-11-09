@@ -45,12 +45,12 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------------ database — Neon PostgreSQL
     database_url: str = Field(..., validation_alias="DATABASE_URL")
 
-    # ------------------------------------------------------------------ object storage — Cloudflare R2
-    r2_account_id: str = Field(..., validation_alias="R2_ACCOUNT_ID")
-    r2_access_key_id: str = Field(..., validation_alias="R2_ACCESS_KEY_ID")
-    r2_secret_access_key: str = Field(..., validation_alias="R2_SECRET_ACCESS_KEY")
-    r2_bucket_name: str = Field(..., validation_alias="R2_BUCKET_NAME")
-    r2_endpoint: str = Field(..., validation_alias="R2_ENDPOINT")
+    # ------------------------------------------------------------------ object storage — Cloudflare R2 / Backblaze B2
+    object_storage_account_id: str = Field(..., validation_alias="OBJECT_STORAGE_ACCOUNT_ID")
+    object_storage_access_key_id: str = Field(..., validation_alias="OBJECT_STORAGE_ACCESS_KEY_ID")
+    object_storage_secret_access_key: str = Field(..., validation_alias="OBJECT_STORAGE_SECRET_ACCESS_KEY")
+    object_storage_bucket_name: str = Field(..., validation_alias="OBJECT_STORAGE_BUCKET_NAME")
+    object_storage_endpoint: str = Field(..., validation_alias="OBJECT_STORAGE_ENDPOINT")
 
     # ------------------------------------------------------------------ inference service
     inference_service_url: str = Field(
@@ -164,29 +164,29 @@ class Settings(BaseSettings):
             )
         return value
 
-    @field_validator("r2_endpoint", mode="after")
+    @field_validator("object_storage_endpoint", mode="after")
     @classmethod
-    def _validate_r2_endpoint(cls, value: str) -> str:
-        """Ensure the R2 endpoint is a valid HTTPS URL.
+    def _validate_object_storage_endpoint(cls, value: str) -> str:
+        """Ensure the object storage endpoint is a valid HTTPS URL.
 
-        R2 S3-compatible endpoints are account-specific (e.g.
-        ``https://<account_id>.r2.cloudflarestorage.com``). Failing fast here
-        makes a misconfigured endpoint obvious at startup rather than at the
-        first storage operation.
+        Object storage endpoints are account-specific (e.g.
+        ``https://s3.us-west-004.backblazeb2.com``). Failing fast here
+        makes a misconfigured endpoint obvious at startup rather than at
+        the first storage operation.
         """
         if not value.startswith("https://"):
             raise ValueError(
-                "R2_ENDPOINT must be a valid HTTPS URL (e.g. "
-                "https://<account_id>.r2.cloudflarestorage.com)."
+                "OBJECT_STORAGE_ENDPOINT must be a valid HTTPS URL (e.g. "
+                "https://s3.us-west-004.backblazeb2.com)."
             )
         return value
 
-    @field_validator("r2_bucket_name", mode="after")
+    @field_validator("object_storage_bucket_name", mode="after")
     @classmethod
-    def _validate_r2_bucket_name(cls, value: str) -> str:
-        """Ensure the R2 bucket name is non-empty."""
+    def _validate_object_storage_bucket_name(cls, value: str) -> str:
+        """Ensure the object storage bucket name is non-empty."""
         if not value.strip():
-            raise ValueError("R2_BUCKET_NAME must not be empty.")
+            raise ValueError("OBJECT_STORAGE_BUCKET_NAME must not be empty.")
         return value
 
     @field_validator("clerk_jwt_issuer", mode="after")

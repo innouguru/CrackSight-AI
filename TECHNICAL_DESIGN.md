@@ -14,7 +14,7 @@
 - Entry point for all user requests
 - Handles authentication verification (Clerk tokens)
 - Manages inspection lifecycle
-- Manages image upload, storage to R2, inference job orchestration
+- Manages image upload, storage to object storage, inference job orchestration
 - Generates PDF inspection reports
 - Enforces ownership checks
 
@@ -33,7 +33,7 @@
 | **Main Backend** | API endpoints, auth integration, inspection CRUD, storage coordination, PDF generation |
 | **Inference Service** | Model loading, crack segmentation, prediction output generation |
 | **Neon PostgreSQL** | Application records (inspections, photos, observations, verification statuses, ownership) |
-| **Cloudflare R2** | Object storage for images, masks, overlays, temporary guest files, PDF reports |
+| **Object Storage** | Object storage for images, masks, overlays, temporary guest files, PDF reports |
 
 ### Frontend ↔ Backend ↔ Inference Service Boundaries
 
@@ -55,7 +55,7 @@
 - Ownership associations
 - Query and update inspection records
 
-**Main Backend → Cloudflare R2**:
+**Main Backend → Object Storage**:
 - Store and retrieve original images
 - Store prediction results (masks, overlays)
 - Temporary guest session files
@@ -127,7 +127,7 @@ Response format:
 - Neon PostgreSQL stores ownership associations (user_id ↔ inspection ↔ photograph)
 - Every inspection/photo read/write operation checks user ownership
 - Guest sessions isolated by session token (not user account)
-- R2 object keys isolated by guest session or user ID
+- object storage keys isolated by guest session or user ID
 
 **Access Control Matrix**:
 
@@ -170,9 +170,9 @@ Response format:
 - `structure_type` (enum: 'wall', 'beam', 'column', required)
 - `observation` (text, optional)
 - `verification_status` (enum: 'correct', 'incorrect', 'partial', 'not_verified', default 'not_verified')
-- `original_image_key` (string, R2 object key)
-- `prediction_mask_key` (string, R2 object key, nullable)
-- `prediction_overlay_key` (string, R2 object key, nullable)
+- `original_image_key` (string, object storage key)
+- `prediction_mask_key` (string, object storage key, nullable)
+- `prediction_overlay_key` (string, object storage key, nullable)
 - `model_version` (string, e.g. 'm3_baseline_b1')
 - `prediction_timestamp` (timestamp, nullable)
 - `pixel_measurements` (jsonb, nullable)
@@ -182,10 +182,10 @@ Response format:
 - `id` (PK, string, UUID)
 - `photograph_id` (FK → photographs.id)
 - `version_number` (integer, sequential)
-- `original_image_key` (string, R2 object key)
-- `probability_map_key` (string, R2 object key)
-- `binary_mask_key` (string, R2 object key)
-- `overlay_key` (string, R2 object key)
+- `original_image_key` (string, object storage key)
+- `probability_map_key` (string, object storage key)
+- `binary_mask_key` (string, object storage key)
+- `overlay_key` (string, object storage key)
 - `model_version` (string)
 - `prediction_timestamp` (timestamp, default now())
 - `pixel_measurements` (jsonb, nullable)
@@ -194,7 +194,7 @@ Response format:
 - `id` (PK, string, UUID)
 - `inspection_id` (FK → inspections.id)
 - `user_id` (FK → users.id)
-- `report_pdf_key` (string, R2 object key)
+- `report_pdf_key` (string, object storage key)
 - `generated_at` (timestamp, default now())
 - `page_count` (integer, nullable)
 
@@ -212,9 +212,9 @@ Key Constraints:
 - Ownership check: `user_id` must match authenticated user or guest session token
 - Guest `user_id` null, but isolated by session token
 
-### Object Storage Design (Cloudflare R2)
+### Object Storage Design
 
-#### R2 Key Structure
+#### Object Storage Key Structure
 
 **Inspection Reports**: `reports/{report_id}.pdf`
 
@@ -232,7 +232,7 @@ Key Constraints:
 |---|---|---|
 | Guest uploads | `guest/{session_token}/` | 24 hours after creation |
 | Guest analysis results | `guest/{session_token}/analysis/` | 24 hours after creation |
-| Unsaved registered user analyses | Temporary, R2 path | 24 hours after last interaction |
+| Unsaved registered user analyses | Temporary, object storage path | 24 hours after last interaction |
 | Saved inspection photos/results | `inspections/{inspection_id}/` | Permanent until inspection delete |
 | PDF reports | `reports/{report_id}.pdf` | Permanent until user deletes |
 
@@ -240,7 +240,7 @@ Key Constraints:
 
 1. **Guest session cleanup**: Background task or on-login cleanup of sessions > 24 hours old
 2. **Unsaved analysis cleanup**: On user sign-in, cleanup any temporary files older than 24 hours
-3. **Inspection deletion**: Delete R2 objects matching key patterns for that inspection
+3. **Inspection deletion**: Delete object storage objects matching key patterns for that inspection
 4. **Partial failure handling**: If inspection deletion partially fails, log error and retain what can be cleaned up
 
 ### Inference Integration
@@ -286,7 +286,7 @@ Key Constraints:
 3. Each photograph processed independently:
    - Image prepared
    - Inference request sent to inference service
-   - Results stored to R2
+   - Results stored to object storage
    - Status updated in PostgreSQL
 4. If some photographs fail:
    - Successful results retained
@@ -315,7 +315,7 @@ Key Constraints:
   - Backend stores all versions in `Prediction_Versions` table
 
 **Backend Behavior**:
-- On reanalysis: Create new version record + store new R2 objects
+- On reanalysis: Create new version record + store new object storage objects
 - On view: Default to latest version, but allow version selection
 - On download: Download specified version or latest
 
@@ -325,7 +325,7 @@ Key Constraints:
 
 1. User requests PDF report for inspection
 2. Backend retrieves inspection data from PostgreSQL
-3. Backend retrieves photograph data (original images, masks, overlays from R2)
+3. Backend retrieves photograph data (original images, masks, overlays from object storage)
 4. Backend generates PDF with the following sections:
 
 **PDF Section Layout**:
@@ -414,7 +414,7 @@ Key Constraints:
 
 #### Storage Security
 
-- R2 objects not publicly accessible by default
+- object storage objects not publicly accessible by default
 - Object keys include user_id or session_token for isolation
 - Backend enforces ownership checks on all read/write operations
 - Guest session isolation by unique session token
@@ -430,7 +430,7 @@ Key Constraints:
 #### Data Protection
 
 - Neon PostgreSQL access restricted to backend service
-- R2 bucket configured for private access only
+- object storage bucket configured for private access only
 - No sensitive data stored in URLs
 - All API endpoints require authentication (except guest limited endpoints)
 
@@ -473,7 +473,7 @@ Key Constraints:
 | Service | Status |
 |---|---|
 | Neon PostgreSQL | Already selected (free tier) |
-| Cloudflare R2 | Already selected (free tier consideration) |
+| Object Storage | Already selected (free tier consideration) |
 | Clerk | Already selected (free tier) |
 | Inference hosting | **Unresolved - requires research** |
 
@@ -497,7 +497,7 @@ Production:
 - Main Backend: FastAPI on cloud platform (Heroku free tier, Railway, or similar)
 - Inference Service: Separate service (details TBD from benchmarking)
 - Database: Neon PostgreSQL
-- Storage: Cloudflare R2
+- Storage: Object Storage
 
 Development:
 - Local development with venv (Python 3.12.5)
@@ -509,7 +509,7 @@ Development:
 
 - **Very limited budget**: Prefer free-tier services
 - **Neon PostgreSQL**: Already selected, within free tier
-- **Cloudflare R2**: Within free tier limits for object storage
+- **Object Storage**: Within free tier limits for object storage
 - **Clerk**: Free tier sufficient for email/password + Google
 - **Inference hosting**: Research required; cannot assume free tier suffices
 - **Frontend hosting**: Static site, free tier expected
