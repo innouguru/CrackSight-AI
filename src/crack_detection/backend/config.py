@@ -24,6 +24,13 @@ class Settings(BaseSettings):
     backend_host: str = Field("0.0.0.0", validation_alias="BACKEND_HOST")
     backend_port: int = Field(8000, validation_alias="BACKEND_PORT")
 
+    # ------------------------------------------------------------------ CORS
+    # Comma-separated frontend origins browsers may call the backend from.
+    # Wildcard entries ("*") are stripped: production must use explicit
+    # origins. When unset while APP_ENV/DEBUG allows development, the Vite
+    # dev server origins are permitted automatically.
+    allowed_origins: str = Field("", validation_alias="ALLOWED_ORIGINS")
+
     # ------------------------------------------------------------------ security
     secret_key: str = Field(..., validation_alias="SECRET_KEY")
 
@@ -109,6 +116,93 @@ class Settings(BaseSettings):
                 raise ValueError(
                     f"Extension '{ext}' not allowed. Allowed: {sorted(allowed)}"
                 )
+        return value
+
+    @field_validator("allowed_origins", mode="after")
+    @classmethod
+    def _validate_allowed_origins(cls, value: str) -> str:
+        """Normalize comma-separated origins; drop empties and wildcards."""
+        origins: List[str] = []
+        for item in value.split(","):
+            origin = item.strip().rstrip("/")
+            if origin and origin != "*" and origin not in origins:
+                origins.append(origin)
+        return ",".join(origins)
+
+    @property
+    def cors_allowed_origins(self) -> List[str]:
+        """Origins allowed by the CORS middleware.
+
+        Explicitly configured origins win. In development with no explicit
+        configuration the local Vite dev-server origins are allowed. In
+        production with no explicit configuration no cross-origin access is
+        granted (fail closed) — never a wildcard.
+        """
+        if self.allowed_origins:
+            return self.allowed_origins.split(",")
+        if self.debug:
+            return [
+                "http://localhost:5173",
+                "http://127.0.0.1:5173",
+            ]
+        return []
+
+    @field_validator("database_url", mode="after")
+    @classmethod
+    def _validate_database_url_sslmode(cls, value: str) -> str:
+        """Ensure DATABASE_URL uses sslmode=require for secure Neon connections.
+
+        Neon PostgreSQL requires TLS for all client connections. Failing to
+        include ``sslmode=require`` would allow psycopg2 to fall back to a
+        plaintext connection, which Neon rejects. Failing fast here makes the
+        misconfiguration obvious at startup rather than at the first query.
+        """
+        if "sslmode=require" not in value:
+            raise ValueError(
+                "DATABASE_URL must include sslmode=require for secure connections "
+                "to Neon PostgreSQL."
+            )
+        return value
+
+    @field_validator("r2_endpoint", mode="after")
+    @classmethod
+    def _validate_r2_endpoint(cls, value: str) -> str:
+        """Ensure the R2 endpoint is a valid HTTPS URL.
+
+        R2 S3-compatible endpoints are account-specific (e.g.
+        ``https://<account_id>.r2.cloudflarestorage.com``). Failing fast here
+        makes a misconfigured endpoint obvious at startup rather than at the
+        first storage operation.
+        """
+        if not value.startswith("https://"):
+            raise ValueError(
+                "R2_ENDPOINT must be a valid HTTPS URL (e.g. "
+                "https://<account_id>.r2.cloudflarestorage.com)."
+            )
+        return value
+
+    @field_validator("r2_bucket_name", mode="after")
+    @classmethod
+    def _validate_r2_bucket_name(cls, value: str) -> str:
+        """Ensure the R2 bucket name is non-empty."""
+        if not value.strip():
+            raise ValueError("R2_BUCKET_NAME must not be empty.")
+        return value
+
+    @field_validator("clerk_jwt_issuer", mode="after")
+    @classmethod
+    def _validate_clerk_jwt_issuer(cls, value: str) -> str:
+        """Ensure Clerk JWT issuer is a valid HTTPS URL.
+
+        Clerk JWTs contain an ``iss`` claim that must match this value.
+        Failing fast here makes a misconfigured issuer obvious at startup
+        rather than at the first token verification.
+        """
+        if not value.startswith("https://"):
+            raise ValueError(
+                "CLERK_JWT_ISSUER must be a valid HTTPS URL (e.g. "
+                "https://test.clerk.accounts.com)."
+            )
         return value
 
     @field_validator("clerk_jwks_url", mode="after")

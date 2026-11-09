@@ -28,7 +28,6 @@ from crack_detection.backend.routers import (
     reports_router,
 )
 
-settings = get_settings()
 logger = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------
@@ -40,6 +39,10 @@ _pipeline_loaded_at: Optional[float] = None
 
 def create_app() -> FastAPI:
     """Build and configure the FastAPI application instance."""
+    # Fresh settings per build: environment-driven configuration (CORS
+    # origins, debug, title) must reflect the environment active when this
+    # app is created, not a module-import snapshot.
+    settings = get_settings()
     app = FastAPI(
         title=settings.app_name,
         description="AI-assisted building inspection backend for crack detection.",
@@ -49,17 +52,23 @@ def create_app() -> FastAPI:
         redoc_url="/redoc" if settings.debug else None,
     )
 
+    # ------------------------------------------------- authentication middleware
+    # Registered BEFORE CORS. Starlette executes the most-recently added
+    # middleware first, so this ordering makes CORSMiddleware the outermost
+    # layer: browser OPTIONS preflights are answered by CORS without any
+    # Clerk JWT, while non-preflight requests still pass through Clerk
+    # authentication, and CORS headers (including an allowed explicit
+    # origin) are appended even to authentication error responses.
+    app.add_middleware(ClerkAuthMiddleware)
+
     # ------------------------------------------------------------------ CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"] if settings.debug else [],
+        allow_origins=settings.cors_allowed_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-    # ------------------------------------------------------------------ authentication middleware
-    app.add_middleware(ClerkAuthMiddleware)
 
     # ------------------------------------------------------------------ exception handlers
     register_exception_handlers(app)

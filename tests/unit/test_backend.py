@@ -122,6 +122,206 @@ class TestSettings:
         s2 = get_settings()
         assert s1 is s2
 
+    def _base_env(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Set all required env vars except DATABASE_URL."""
+        monkeypatch.setenv("SECRET_KEY", "test-secret-key-12345")
+        monkeypatch.setenv("CLERK_PUBLISHABLE_KEY", "pk_test_123")
+        monkeypatch.setenv("CLERK_SECRET_KEY", "sk_test_123")
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "https://test.clerk.accounts.com")
+        monkeypatch.setenv("R2_ACCOUNT_ID", "acc")
+        monkeypatch.setenv("R2_ACCESS_KEY_ID", "key")
+        monkeypatch.setenv("R2_SECRET_ACCESS_KEY", "secret")
+        monkeypatch.setenv("R2_BUCKET_NAME", "bucket")
+        monkeypatch.setenv("R2_ENDPOINT", "https://test.r2.cloudflarestorage.com")
+
+    def test_database_url_missing_raises(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Missing DATABASE_URL fails closed with a validation error."""
+        self._base_env(monkeypatch)
+        monkeypatch.delenv("DATABASE_URL", raising=False)
+        with pytest.raises(ValueError, match="DATABASE_URL"):
+            Settings()
+
+    def test_database_url_without_sslmode_raises(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """DATABASE_URL without sslmode=require fails with a clear error."""
+        self._base_env(monkeypatch)
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://user:pass@localhost:5432/db"
+        )
+        with pytest.raises(ValueError, match="sslmode=require"):
+            Settings()
+
+    def test_database_url_with_sslmode_require_accepted(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """DATABASE_URL with sslmode=require is accepted."""
+        self._base_env(monkeypatch)
+        monkeypatch.setenv(
+            "DATABASE_URL",
+            "postgresql://user:pass@localhost:5432/db?sslmode=require",
+        )
+        settings = Settings()
+        assert "sslmode=require" in settings.database_url
+
+    def test_r2_endpoint_without_https_raises(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """R2_ENDPOINT without https:// fails with a clear error."""
+        self._base_env(monkeypatch)
+        monkeypatch.setenv("R2_ENDPOINT", "http://test.r2.cloudflarestorage.com")
+        with pytest.raises(ValueError, match="HTTPS URL"):
+            Settings()
+
+    def test_r2_endpoint_with_https_accepted(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """R2_ENDPOINT with https:// is accepted."""
+        self._base_env(monkeypatch)
+        monkeypatch.setenv(
+            "R2_ENDPOINT", "https://acc123.r2.cloudflarestorage.com"
+        )
+        settings = Settings()
+        assert settings.r2_endpoint == "https://acc123.r2.cloudflarestorage.com"
+
+    def test_r2_bucket_name_empty_raises(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Empty R2_BUCKET_NAME fails with a clear error."""
+        self._base_env(monkeypatch)
+        monkeypatch.setenv("R2_BUCKET_NAME", "")
+        with pytest.raises(ValueError, match="must not be empty"):
+            Settings()
+
+    def test_clerk_jwt_issuer_without_https_raises(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """CLERK_JWT_ISSUER without https:// fails with a clear error."""
+        self._base_env(monkeypatch)
+        monkeypatch.setenv("CLERK_JWT_ISSUER", "http://test.clerk.accounts.com")
+        with pytest.raises(ValueError, match="HTTPS URL"):
+            Settings()
+
+    def test_clerk_jwt_issuer_with_https_accepted(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """CLERK_JWT_ISSUER with https:// is accepted."""
+        self._base_env(monkeypatch)
+        monkeypatch.setenv(
+            "CLERK_JWT_ISSUER", "https://test.clerk.accounts.com"
+        )
+        settings = Settings()
+        assert settings.clerk_jwt_issuer == "https://test.clerk.accounts.com"
+
+
+# ---------------------------------------------------------------------------
+# Health endpoint tests
+# ---------------------------------------------------------------------------
+@pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
+class TestHealthEndpoints:
+    """Tests for the /live and /ready health endpoints.
+
+    These tests exercise the real middleware stack via TestClient. They do not
+    require Neon, R2, Clerk, or any external service: /live performs no
+    dependency checks, and /ready only inspects configured environment
+    variables (it never opens a connection).
+    """
+
+    def _build_app(
+        self, monkeypatch: pytest.MonkeyPatch, *, env: dict[str, str] | None = None
+    ):
+        """Build a fresh TestClient under isolated env with settings cache cleared."""
+        from crack_detection.backend.config import get_settings
+        from crack_detection.backend.main import create_app
+
+        get_settings.cache_clear()
+        if env:
+            for key, value in env.items():
+                monkeypatch.setenv(key, value)
+        return TestClient(create_app())
+
+    def test_live_returns_200_and_alive(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """GET /live returns HTTP 200 with status 'alive' and no auth required."""
+        client = self._build_app(monkeypatch)
+        resp = client.get("/live")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["status"] == "alive"
+        assert data["service"] == "CrackSight AI"
+        assert data["version"] == "0.1.0"
+
+    def test_ready_returns_200(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """GET /ready returns HTTP 200 (status may be 'ready' or 'not_ready'
+        depending on configured env vars; both are valid responses)."""
+        client = self._build_app(monkeypatch)
+        resp = client.get("/ready")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "status" in data
+        assert "checks" in data
+        assert data["service"] == "CrackSight AI"
+
+    def test_ready_configured_when_env_provided(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """When DATABASE_URL and R2 env vars are set (not CHANGE_ME), /ready
+        reports those checks as 'configured'."""
+        client = self._build_app(
+            monkeypatch,
+            env={
+                "DATABASE_URL": "postgresql://user:pass@host:5432/db?sslmode=require",
+                "R2_BUCKET_NAME": "my-bucket",
+                "R2_ENDPOINT": "https://acc.r2.cloudflarestorage.com",
+                "INFERENCE_SERVICE_URL": "http://localhost:8001",
+            },
+        )
+        resp = client.get("/ready")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["checks"]["database"] == "configured"
+        assert data["checks"]["storage"] == "configured"
+
+    def test_ready_not_configured_when_unset(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """When DATABASE_URL/R2 are unset or CHANGE_ME, /ready reports
+        'not_configured' rather than healthy."""
+        client = self._build_app(
+            monkeypatch,
+            env={
+                "DATABASE_URL": "postgresql://CHANGE_ME:CHANGE_ME@CHANGE_ME.neon.tech:5432/CHANGE_ME?sslmode=require",
+                "R2_BUCKET_NAME": "CHANGE_ME",
+                "R2_ENDPOINT": "https://CHANGE_ME.r2.cloudflarestorage.com",
+            },
+        )
+        resp = client.get("/ready")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["checks"]["database"] == "not_configured"
+        assert data["checks"]["storage"] == "not_configured"
+
+    def test_health_endpoints_require_no_auth(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Unauthenticated requests to /live and /ready succeed (no Clerk JWT
+        or guest session token required)."""
+        client = self._build_app(monkeypatch)
+        live_resp = client.get("/live")
+        ready_resp = client.get("/ready")
+        assert live_resp.status_code == 200
+        assert ready_resp.status_code == 200
+
+    def test_ready_includes_all_check_keys(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """GET /ready always reports database, storage, and inference_service
+        check keys regardless of their configured state."""
+        client = self._build_app(monkeypatch)
+        resp = client.get("/ready")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert set(data["checks"].keys()) == {
+            "database",
+            "storage",
+            "inference_service",
+        }
+
 
 # ---------------------------------------------------------------------------
 # Exception tests
@@ -1803,6 +2003,310 @@ class TestApplicationFactory:
         assert body["service"] == "CrackSight AI"
         assert body["status"] == "operational"
         assert body["version"] == "0.1.0"
+
+
+@pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")
+class TestCorsAndPreflight:
+    """Tests for environment-driven CORS configuration and OPTIONS preflight
+    behaviour through the real middleware stack.
+
+    Each test builds a *fresh* application via ``create_app()`` under its own
+    environment (``ALLOWED_ORIGINS`` / ``DEBUG``) and clears the cached
+    ``get_settings`` before and after, mirroring the _use_fresh_settings
+    convention. Middleware behaviour is exercised through TestClient against
+    the real CORSMiddleware + ClerkAuthMiddleware stack, never inspected as
+    bare configuration values.
+    """
+
+    _ENV = {
+        "SECRET_KEY": "test-secret-key-12345",
+        "CLERK_PUBLISHABLE_KEY": "pk_test_123",
+        "CLERK_SECRET_KEY": "sk_test_123",
+        "CLERK_JWT_ISSUER": "https://test.clerk.accounts.com",
+        "CLERK_JWKS_URL": "https://test.clerk.accounts.com/.well-known/jwks.json",
+        "DATABASE_URL": "postgresql://user:pass@localhost:5432/db?sslmode=require",
+        "R2_ACCOUNT_ID": "acc",
+        "R2_ACCESS_KEY_ID": "key",
+        "R2_SECRET_ACCESS_KEY": "secret",
+        "R2_BUCKET_NAME": "bucket",
+        "R2_ENDPOINT": "https://test.r2.cloudflarestorage.com",
+    }
+
+    def _build_app(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        *,
+        debug: str = "false",
+        origins: str | None = None,
+    ):
+        # Environment first: ``crack_detection.backend.main`` must not be
+        # imported before it (routers/auth.py builds Settings at module
+        # import time), and the cached get_settings must reflect this
+        # test's environment while create_app() runs.
+        for key, value in self._ENV.items():
+            monkeypatch.setenv(key, value)
+        monkeypatch.setenv("DEBUG", debug)
+        if origins is not None:
+            monkeypatch.setenv("ALLOWED_ORIGINS", origins)
+        else:
+            monkeypatch.delenv("ALLOWED_ORIGINS", raising=False)
+
+        from fastapi.testclient import TestClient
+
+        from crack_detection.backend import main
+        from crack_detection.backend.config import get_settings
+
+        get_settings.cache_clear()
+        try:
+            application = main.create_app()
+        finally:
+            get_settings.cache_clear()
+        return TestClient(application, raise_server_exceptions=False)
+
+    @staticmethod
+    def _preflight_headers(origin: str) -> dict:
+        return {
+            "Origin": origin,
+            "Access-Control-Request-Method": "GET",
+            "Access-Control-Request-Headers": "authorization",
+        }
+
+    # ------------------------------------------------------------ middleware order
+
+    def test_cors_middleware_is_outermost(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """CORSMiddleware runs first (Starlette: last added = outermost).
+
+        Regression guard for the deployment-audit fix: ClerkAuthMiddleware
+        must not be able to answer preflights or auth failures before CORS
+        headers can be attached.
+        """
+        from fastapi.middleware.cors import CORSMiddleware
+
+        from crack_detection.backend.middleware import ClerkAuthMiddleware
+
+        client = self._build_app(monkeypatch, origins="https://app.example.com")
+
+        classes = [m.cls for m in client.app.user_middleware]
+        assert classes[0] is CORSMiddleware
+        assert classes[1] is ClerkAuthMiddleware
+
+    # ------------------------------------------------------------ deployment-like config (DEBUG=false)
+
+    def test_preflight_from_allowed_origin_succeeds(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """A valid preflight from an allowed origin is answered 200 by CORS
+        without any Clerk JWT and without reaching ClerkAuthMiddleware."""
+        client = self._build_app(monkeypatch, origins="https://app.example.com")
+
+        resp = client.options(
+            "/inspections", headers=self._preflight_headers("https://app.example.com")
+        )
+
+        assert resp.status_code == 200
+        assert resp.headers["access-control-allow-origin"] == "https://app.example.com"
+
+    def test_preflight_exposes_methods_headers_and_credentials(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Preflight advertises allowed methods, mirrored request headers and
+        credentials support (required for Bearer-token requests)."""
+        client = self._build_app(monkeypatch, origins="https://app.example.com")
+
+        resp = client.options(
+            "/inspections",
+            headers={
+                "Origin": "https://app.example.com",
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "authorization, content-type",
+            },
+        )
+
+        assert resp.status_code == 200
+        methods = resp.headers["access-control-allow-methods"].upper()
+        assert "GET" in methods and "POST" in methods and "DELETE" in methods
+        mirrored = resp.headers["access-control-allow-headers"].lower()
+        assert "authorization" in mirrored
+        assert "content-type" in mirrored
+        assert resp.headers.get("access-control-allow-credentials") == "true"
+
+    def test_preflight_from_unconfigured_origin_is_refused(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """An origin outside the allowlist receives no CORS permission."""
+        client = self._build_app(monkeypatch, origins="https://app.example.com")
+
+        resp = client.options(
+            "/inspections", headers=self._preflight_headers("https://evil.example.com")
+        )
+
+        assert resp.status_code == 400
+        assert "access-control-allow-origin" not in resp.headers
+        assert "Origin" in resp.headers.get("vary", "")
+
+    def test_protected_request_without_token_rejected_from_allowed_origin(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Non-OPTIONS protected request without a JWT is still rejected
+        (authentication is NOT bypassed by the middleware reordering), and
+        the authentication error response carries CORS headers so the browser
+        front-end can read it."""
+        client = self._build_app(monkeypatch, origins="https://app.example.com")
+
+        resp = client.get(
+            "/inspections", headers={"Origin": "https://app.example.com"}
+        )
+
+        assert resp.status_code == 401
+        assert resp.json()["error"] == "unauthorized"
+        assert resp.headers["access-control-allow-origin"] == "https://app.example.com"
+        assert resp.headers.get("access-control-allow-credentials") == "true"
+
+    def test_protected_request_from_unconfigured_origin_has_no_cors_headers(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """CORS does not grant allowance to origins outside the list."""
+        client = self._build_app(monkeypatch, origins="https://app.example.com")
+
+        resp = client.get("/inspections", headers={"Origin": "https://evil.example.com"})
+
+        assert resp.status_code == 401
+        assert "access-control-allow-origin" not in resp.headers
+
+    def test_production_allows_only_configured_origins(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """With DEBUG=false only explicitly configured origins are permitted
+        (no local-dev fallback, no wildcard)."""
+        client = self._build_app(
+            monkeypatch,
+            debug="false",
+            origins="https://app.example.com,https://extra.example.com",
+        )
+
+        allowed = client.options(
+            "/inspections", headers=self._preflight_headers("https://extra.example.com")
+        )
+        denied = client.options(
+            "/inspections", headers=self._preflight_headers("http://localhost:5173")
+        )
+
+        assert allowed.status_code == 200
+        assert (
+            allowed.headers["access-control-allow-origin"]
+            == "https://extra.example.com"
+        )
+        assert denied.status_code == 400
+        assert "access-control-allow-origin" not in denied.headers
+
+    def test_production_without_origins_blocks_all_cross_origin(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """DEBUG=false with no ALLOWED_ORIGINS grants no cross-origin access
+        (fail closed), while same-origin-style requests without Origin
+        headers still work."""
+        client = self._build_app(monkeypatch, debug="false")
+
+        denied = client.options(
+            "/inspections", headers=self._preflight_headers("https://app.example.com")
+        )
+        direct = client.get("/live")
+
+        assert denied.status_code == 400
+        assert "access-control-allow-origin" not in denied.headers
+        assert direct.status_code == 200
+
+    def test_public_guest_preflight_succeeds_for_allowed_origin(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Preflights to public paths are answered with CORS headers via the
+        outermost CORS layer."""
+        client = self._build_app(monkeypatch, origins="https://app.example.com")
+
+        resp = client.options(
+            "/guest/session",
+            headers={
+                "Origin": "https://app.example.com",
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "x-guest-session-token, content-type",
+            },
+        )
+
+        assert resp.status_code == 200
+        assert resp.headers["access-control-allow-origin"] == "https://app.example.com"
+
+    # ------------------------------------------------------------ local development config (DEBUG=true)
+
+    def test_debug_default_allows_local_dev_origins(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """DEBUG=true with no ALLOWED_ORIGINS permits the Vite dev-server
+        origins for local development."""
+        client = self._build_app(monkeypatch, debug="true")
+
+        resp = client.options(
+            "/inspections", headers=self._preflight_headers("http://localhost:5173")
+        )
+
+        assert resp.status_code == 200
+        assert resp.headers["access-control-allow-origin"] == "http://localhost:5173"
+
+    def test_debug_with_explicit_origins_honours_configuration(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Explicit ALLOWED_ORIGINS wins over the debug fallback."""
+        client = self._build_app(monkeypatch, debug="true", origins="https://app.example.com")
+
+        allowed = client.options(
+            "/inspections", headers=self._preflight_headers("https://app.example.com")
+        )
+        denied = client.options(
+            "/inspections", headers=self._preflight_headers("http://localhost:5173")
+        )
+
+        assert allowed.status_code == 200
+        assert allowed.headers["access-control-allow-origin"] == "https://app.example.com"
+        assert denied.status_code == 400
+        assert "access-control-allow-origin" not in denied.headers
+
+    # ------------------------------------------------------------ settings parsing unit coverage
+
+    def test_allowed_origins_normalised_without_wildcards(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Comma-separated origins are trimmed, de-duplicated, trailing
+        slashes removed and wildcard entries stripped (production must never
+        receive "*")."""
+        from crack_detection.backend.config import get_settings
+
+        self._build_app(
+            monkeypatch,
+            debug="false",
+            origins=(
+                " https://a.example.com/ , https://b.example.com, "
+                "https://a.example.com , *"
+            ),
+        )
+        settings = get_settings()
+        assert settings.allowed_origins == "https://a.example.com,https://b.example.com"
+        assert settings.cors_allowed_origins == [
+            "https://a.example.com",
+            "https://b.example.com",
+        ]
+        assert "*" not in settings.cors_allowed_origins
+
+    def test_wildcard_only_configuration_collapses_to_no_origins(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """A wildcard-only configuration collapses to no allowed origins."""
+        from crack_detection.backend.config import get_settings
+
+        self._build_app(monkeypatch, debug="false", origins="* , *")
+        settings = get_settings()
+        assert settings.cors_allowed_origins == []
+        assert settings.allowed_origins == ""
 
 
 @pytest.mark.skipif(not _BACKEND_AVAILABLE, reason="backend dependencies not installed")

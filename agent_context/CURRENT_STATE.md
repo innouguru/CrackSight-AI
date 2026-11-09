@@ -4,6 +4,83 @@
 
 ## Implemented and Verified
 
+### Backend — Milestone 12 sub-deliverable 3: Backend deployment configuration (2026-11-09)
+- New `.python-version`: `3.12.5` (Render Python runtime pin; matches local CPython 3.12.5).
+- New `render.yaml`: minimal backend-only Web Service blueprint.
+  - `type: web`, `env: python`, `rootDir: .`
+  - `buildCommand: pip install torch==2.6.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt && python scripts/download_checkpoint.py`
+    - Step 1 installs CPU-only PyTorch 2.6.0+cpu explicitly from the official PyTorch CPU index (`2.6.0+cpu` exists only there — never on PyPI — so pip cannot resolve a CUDA or other PyPI distribution; no `--extra-index-url` resolver ambiguity for other packages).
+    - Step 2 installs remaining requirements from PyPI (torch already satisfied; torchvision etc. from PyPI = CPU-only).
+    - Step 3 runs the existing `scripts/download_checkpoint.py` (sub-deliverable 2) to fetch the checkpoint from private R2 via `MODEL_CHECKPOINT_URL`; build fails if the checkpoint cannot be downloaded or verified; downloader logs scheme+host only (never the URL/query/credentials).
+  - `startCommand: uvicorn crack_detection.backend.main:app --host 0.0.0.0 --port $PORT` (`PYTHONPATH=src` declared as an env var so `crack_detection.backend.main:app` imports — verified import path).
+  - `healthCheckPath: /live` (`/live` and `/ready` routes present in `routers/health.py`).
+  - Secret env vars declared with `sync: false` (MODEL_CHECKPOINT_URL, MODEL_CHECKPOINT_SHA256, SECRET_KEY, DATABASE_URL, Clerk vars, R2 vars, ALLOWED_ORIGINS); values supplied via the Render dashboard, never in the file.
+  - Non-secret vars: PYTHONPATH=src, DEBUG=false, INFERENCE_CHECKPOINT_PATH=<verified path>.
+- CPU-only PyTorch: local torch verified as `2.6.0+cpu`, CUDA unavailable; strategy keeps that exact build.
+- No requirements.txt changes (torch left as `torch>=2.3.0,<2.7.0`; exact CPU build pinned in the build command). No model, checkpoint, preprocessing, or inference changes.
+- Verification: render.yaml parses as valid YAML; `/live` route present; import path `crack_detection.backend.main:app` valid with PYTHONPATH=src; downloader tests 19/19; inference tests unchanged. Live deployment NOT performed (deployment-time).
+- Dependencies unavailable locally (fastapi/uvicorn not installed per AGENTS.md); backend tests skipped — not a regression.
+
+### Backend — Milestone 12 sub-deliverable 4: Neon PostgreSQL configuration (2026-11-09)
+- `config.py`: Added `database_url` field validator `_validate_database_url_sslmode` that fails fast if `DATABASE_URL` does not include `sslmode=require` (Neon requires TLS; psycopg2 would otherwise fall back to plaintext).
+- `database.py`: No changes needed — `psycopg2.connect(settings.database_url)` works with both Neon direct and pooled connection strings.
+- Neon endpoint strategy: **pooled endpoint recommended**. The app opens short-lived per-operation connections and closes them immediately (`get_db_connection`), uses no prepared statements/LISTEN/NOTIFY/advisory locks/temp tables — the textbook use case for Neon's pooled endpoint (PgBouncer transaction mode). Direct endpoint also works if a specific feature requires it.
+- `render.yaml`: `DATABASE_URL` declared as `sync: false` secret (already present); comments added documenting pooled vs direct and sslmode=require.
+- `.env.example`: `DATABASE_URL` already includes `sslmode=require`; comments added with pooled vs direct guidance.
+- Tests: 3 new tests in `TestSettings` — missing DATABASE_URL raises validation error, DATABASE_URL without sslmode=require raises validation error, DATABASE_URL with sslmode=require is accepted.
+- Live Neon connectivity NOT verified (deployment-time; free-tier limitations per AGENTS.md).
+
+### Backend — Milestone 12 sub-deliverable 5: Cloudflare R2 configuration (2026-11-09)
+- `storage.py`: No changes needed — existing `R2Storage` class wraps boto3 S3-compatible client for private R2 bucket; all settings already wired via `get_settings()`.
+- `config.py`: Added `r2_endpoint` field validator `_validate_r2_endpoint` (must be HTTPS URL) and `r2_bucket_name` field validator `_validate_r2_bucket_name` (must be non-empty) — fail fast on malformed R2 settings.
+- `render.yaml`: R2 env vars (`R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_ENDPOINT`) declared as `sync: false` secrets; comments added documenting bucket creation, API token setup (Object Read & Write), and endpoint format.
+- `.env.example`: R2 section updated with setup instructions (create private bucket, create API token with Object Read & Write, endpoint format); placeholders only, no real credentials.
+- No `requirements.txt` changes — `boto3>=1.28.0,<1.35.0` already declared.
+- Tests: 3 new tests in `TestSettings` — R2 endpoint without https:// raises error, R2 endpoint with https:// accepted, empty R2 bucket name raises error.
+- Live R2 connectivity NOT verified (deployment-time; free-tier limitations per AGENTS.md).
+- Bucket remains private; objects accessed server-side only; backend enforces ownership checks on all read/write operations.
+
+### Backend — Milestone 12 sub-deliverable 6: Backend smoke testing (2026-11-09)
+- New `scripts/smoke_test_backend.py`: standalone, stdlib-only (urllib) smoke-test script for a deployed Render Web Service. Takes `--base-url` or `SMOKE_TEST_BASE_URL` env var. Performs non-mutating GET checks on `/live` (expects HTTP 200 + `status: "alive"`) and `/ready` (expects HTTP 200; logs checks dict, does not fail on `not_ready` since deps may not be provisioned). Validates status codes and response structure; logs scheme+host only (never secrets/query params); reasonable timeouts; exits 0 on pass, 1 on failure, 2 on missing URL.
+- Tests: 6 new tests in `TestHealthEndpoints` in `tests/unit/test_backend.py` — `/live` returns 200 + `status: "alive"`, `/live` response structure, `/ready` returns 200, `/ready` configured when env vars set, `/ready` not_configured when unset/CHANGE_ME, both endpoints require no auth.
+- Live deployment smoke testing NOT performed (deployment-time; free-tier limitations per AGENTS.md).
+- No model, checkpoint, preprocessing, inference, CORS, Neon, or R2 changes.
+
+### Backend — Milestone 12 sub-deliverable 7: Frontend deployment on Render (2026-11-09)
+- Frontend is a standalone React + TypeScript + Vite app under `frontend/`, already compatible with Render Static Site hosting:
+  - Build command: `npm ci && npm run build` (already in `package.json`)
+  - Publish directory: `dist` (Vite default, gitignored)
+  - Root directory: `frontend`
+  - Environment variables: `VITE_API_URL`, `VITE_CLERK_PUBLISHABLE_KEY` (placeholders in `.env.example`, no real secrets)
+  - SPA rewrite `/*` → `/index.html` documented for Render dashboard (required for `BrowserRouter` client-side routes)
+- Local verification (actual):
+  - `npm run build`: built successfully in 2.67s, `dist/` produced with `index.html` + assets
+  - `npm run test` (vitest): 71 passed (8 test files)
+  - `npx tsc --noEmit`: clean
+  - `npm run lint` (oxlint): clean (warnings only, no errors)
+- Live deployment NOT performed (deployment-time; free-tier limitations per AGENTS.md)
+- No changes to frontend source code needed — already deployment-ready
+- Backend `ALLOWED_ORIGINS` must be set to the deployed frontend origin in Render dashboard (sub-deliverable 1 already implemented the config)
+
+### Backend — Milestone 12 sub-deliverable 8: Clerk configuration (2026-11-09)
+- config.py: Added clerk_jwt_issuer field validator _validate_clerk_jwt_issuer that fails fast if CLERK_JWT_ISSUER is not a valid HTTPS URL; clerk_jwks_url derived from issuer when not explicitly set (_derive_jwks_url).
+- Clerk JWT verification middleware (middleware.py): verifies RS256 signature against Clerk JWKS with kid lookup, validates issuer and expiration (aud intentionally not verified), caches JWKS keys with 1-hour TTL; fails closed on any verification error.
+- clerk_publishable_key, clerk_secret_key, clerk_jwt_issuer, clerk_jwks_url all declared as required fields in config.py (except jwks_url which is optional); all declared as sync: false secrets in render.yaml; values supplied via Render dashboard, never in the file.
+- clerk_secret_key remains backend-only; frontend only uses VITE_CLERK_PUBLISHABLE_KEY (safe to expose in browser bundle).
+- Email claim required for user identity synchronisation (ensure_registered_user in database.py): fail closed when missing email claim or no existing local record.
+- Tests: 2 new tests in TestSettings — CLERK_JWT_ISSUER without https:// raises error, CLERK_JWT_ISSUER with https:// accepted.
+- Live Clerk authentication NOT verified (deployment-time; free-tier limitations per AGENTS.md).
+- No changes to authentication behavior, database schema, or frontend Clerk SDK integration.
+
+
+- Deployment-readiness audit (2026-11-08, chat report) identified two Render blockers and both are fixed:
+  1. `allow_origins=["*"] if settings.debug else []` (empty list in production) — replaced by `ALLOWED_ORIGINS` env (`config.py: allowed_origins`): comma-separated, trimmed, de-duplicated, trailing slashes removed, wildcard entries stripped; `Settings.cors_allowed_origins` property: explicit list wins, `DEBUG=true` with no config permits the Vite dev-server origins (`http://localhost:5173`, `http://127.0.0.1:5173`), `DEBUG=false` with no config = fail-closed (no cross-origin, never a wildcard).
+  2. `ClerkAuthMiddleware` was outermost (added after CORSMiddleware) and rejected browser OPTIONS preflights (and emitted 401s without CORS headers). Empirically verified pin: Starlette 0.46.2 executes the most-recently added middleware first; fix registers ClerkAuthMiddleware FIRST, CORSMiddleware LAST so CORS is outermost. OPTIONS preflights never reach Clerk auth; non-OPTIONS requests still pass through Clerk authentication unchanged; 401 responses for allowed origins now carry `Access-Control-Allow-Origin` (so browsers can read authentication errors). With `allow_methods=*`/`allow_headers=*`, `acc-control-allow-headers` mirrors requested headers; disallowed origins get 400 + `Vary: Origin` with no ACAO.
+  3. `main.py` no longer instantiates `settings` at module import; `create_app()` calls `get_settings()` itself (env-driven CORS/debug/title must reflect the active environment at app build, not an import snapshot — discovered empirically via a stale-settings probe and initially masked by pytest runs that imported the module under prior tests' env).
+- Tests: 13-test `TestCorsAndPreflight` in `tests/unit/test_backend.py` (real middleware stack via `create_app()` + TestClient under per-test env: allowed-origin preflight 200 + ACAO; methods/headers/credentials advertised; unconfigured origin 400 + `Vary` + no ACAO; protected GET without JWT still 401 AND with ACAO for allowed origin; production-only-configured-origins; production-unset blocks all cross-origin while no-Origin requests work; public guest preflight; debug defaults; debug + explicit config; parsing/suffix/dedupe/wildcard-strip; wildcard-only collapses to empty). Env/cache isolation enforced in `_build_app` (env set BEFORE importing `main`, since `routers/auth.py:24` instantiates Settings at module import; `get_settings.cache_clear()` before/after).
+- Verified: focused class 13 passed; full `tests/unit/test_backend.py` **213 passed, 0 errors** (was 200). Not verified: live production CORS against a deployed Render service (deployment-time).
+- Docs: `.env.example` (new `ALLOWED_ORIGINS` section with format + example), `ROADMAP.md` Milestone 12 deployment sub-deliverables list (deliverable 1 marked COMPLETE with this evidence).
+
 ### Backend — Milestone 11: database integration-suite repair (2026-11-08)
 - `tests/unit/test_database_integration.py` no longer hangs. Root cause: the session-scoped `db_conn` never ended transactions (idle-in-transaction) while `init_schema()` requested DDL locks — decisively when the guarded `fk_reports_inspection` cascade swap needed locks held by the shared connection's uncommitted transaction. The FK is now CASCADE in `xportra_test` (migrated by an earlier run), and a causality probe (open uncommitted txn + `init_schema()` completing instantly) confirmed which statement historically blocked.
 - Fixture: session-scoped `db_conn` retained, wrapped by a new autouse per-test rollback fixture (`rollback_db_transaction` — rollback before and after every test: no lingering/aborted transactions, no DDL wait, no test-row persistence). Guest-session helper rows get targeted per-test cleanup (`_delete_test_guest_session`); CRUD ids uuid-suffixed for rerun idempotency.
@@ -211,9 +288,9 @@ The guest analysis workflow is functionally complete and connected to real backe
 
 - Inference checkpoint must be supplied to a deployment environment; it must not be committed.
 - Inference hosting remains unresolved and requires CPU benchmarking before selection.
-- Backend upload file-size/dimension limits still need a configured source of truth; the prototype's 10 MB cap is only a local UX example.
+- Backend upload file-size/dimension limits still need a configured source of truth; the prototype's 10 MB cap is only a local UX example. Note: `MAX_IMAGE_DIMENSION` (`config.py`) is currently **declared but never enforced by any code** (flagged by the 2026-11-08 deployment-readiness audit — separate deployment sub-deliverable).
 - External Neon, R2, and Clerk integrations are not configured for production validation.
-- Backend integration tests have previously timed out when run together due to a shared session-scoped database connection; see prior task history.
+- External CORS origins must be configured at deployment (`ALLOWED_ORIGINS`); unset in production = cross-origin refused by design (fail closed).
 
 ## Project Constraints
 

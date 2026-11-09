@@ -1,3 +1,277 @@
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 8): Clerk configuration
+
+**Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
+
+**Task:** Configure the existing FastAPI backend for Cloudflare R2 object storage (private bucket + Object Read & Write token). Do not deploy; do not create R2 resources; do not run live integration tests against R2 (free-tier limitations).
+
+**Root causes (established before changing):**
+1. `config.py` had `r2_endpoint` and `r2_bucket_name` as required fields but no validation of URL format or non-empty bucket name — a malformed endpoint would only fail at the first storage operation.
+2. No documentation existed for R2 bucket creation, API token setup, or endpoint format.
+3. `render.yaml` and `.env.example` declared R2 vars but without setup guidance.
+
+**Changes:**
+- `src/crack_detection/backend/config.py`: Added `r2_endpoint` field validator `_validate_r2_endpoint` (must be HTTPS URL) and `r2_bucket_name` field validator `_validate_r2_bucket_name` (must be non-empty).
+- `tests/unit/test_backend.py`: 3 new tests in `TestSettings` — `R2_ENDPOINT` without `https://` raises error, `R2_ENDPOINT` with `https://` accepted, empty `R2_BUCKET_NAME` raises error.
+- `render.yaml`: R2 env vars declared as `sync: false` secrets; comments documenting bucket creation, API token setup (Object Read & Write), and endpoint format.
+- `.env.example`: R2 section updated with setup instructions; placeholders only, no real credentials.
+- No changes to `storage.py` — existing `R2Storage` class already works with validated settings.
+- No `requirements.txt` changes — `boto3>=1.28.0,<1.35.0` already declared.
+
+**R2 configuration decision:**
+- Bucket must remain private — objects accessed server-side only, never exposed publicly.
+- Backend enforces ownership checks on all read/write operations.
+- Credentials supplied via Render environment secrets (`sync: false`).
+
+**Verification (actual):**
+- `pytest tests/unit/test_backend.py -k TestSettings`: 12 passed (9 existing + 3 R2 tests).
+- Config validator verified: `R2_ENDPOINT` without `https://` → ValueError; `R2_ENDPOINT` with `https://` → accepted; empty `R2_BUCKET_NAME` → ValueError.
+- render.yaml: parses as valid YAML; R2 vars declared `sync: false`.
+- Live R2 connectivity NOT performed (credentials unconfigured; free-tier limitations per AGENTS.md).
+- Git: nothing staged or committed; all pre-existing changes preserved (`main` @ e4ede49).
+
+**Model integrity:** model architecture, weights, preprocessing, inference algorithms unchanged.
+
+---
+
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 7): Frontend deployment on Render
+
+**Root causes (established before changing):**
+1. No Render Static Site configuration existed for the frontend.
+2. The frontend uses `BrowserRouter` (client-side routing), requiring an SPA rewrite rule on Render for direct page refreshes.
+3. Environment variables `VITE_API_URL` and `VITE_CLERK_PUBLISHABLE_KEY` needed to be identified and documented.
+4. Backend `ALLOWED_ORIGINS` needs the deployed frontend URL for CORS to work in production.
+
+**Changes:**
+- No frontend source code changes needed — the Vite + React app is already deployment-ready:
+  - Build command `npm ci && npm run build` already in `package.json`
+  - Publish directory `dist` is Vite default and gitignored
+  - Environment variables `VITE_API_URL` and `VITE_CLERK_PUBLISHABLE_KEY` already in `.env.example` with placeholders
+  - `vite.config.ts` already configured correctly (no `base` needed for root deployment)
+- Documentation:
+  - `ROADMAP.md`: sub-deliverable 7 marked COMPLETE with exact Render Static Site settings
+  - `agent_context/CURRENT_STATE.md`: sub-deliverable 7 section added with local verification results
+  - `agent_context/ACTIVE_TASK.md`: updated to mark sub-deliverable 7 complete
+  - `agent_context/HANDOFF.md`: sub-deliverable 7 section added
+  - `agent_context/TASK_HISTORY.md`: this completion record
+
+**Render Static Site configuration (documented, not deployed):**
+- Service type: Static Site
+- Root directory: `frontend`
+- Build command: `npm ci && npm run build`
+- Publish directory: `dist`
+- Environment variables: `VITE_API_URL`, `VITE_CLERK_PUBLISHABLE_KEY` (secrets in Render dashboard)
+- SPA rewrite: `/*` → `/index.html` (200 rewrite for client-side routing)
+
+**Backend CORS dependency:**
+- `ALLOWED_ORIGINS` must be set in Render backend dashboard to include the deployed frontend URL (sub-deliverable 1 already implemented the config; production default is fail-closed deny)
+
+**Clerk configuration:**
+- Production Clerk instance configuration is sub-deliverable 8, not part of this task.
+- Frontend already uses `VITE_CLERK_PUBLISHABLE_KEY` via `import.meta.env` in `Providers.tsx`.
+- Clerk sign-in redirect URLs will need the production frontend URL configured in Clerk dashboard (sub-deliverable 8).
+
+**Verification (actual):**
+- `npm run build`: built successfully in 2.67s, `dist/` produced with `index.html` + assets
+- `npm run test` (vitest): 71 passed (8 test files)
+- `npx tsc --noEmit`: clean
+- `npm run lint` (oxlint): clean (warnings only, no errors)
+- Live deployment NOT performed (deployment-time; free-tier limitations per AGENTS.md)
+- Git: nothing staged or committed; all pre-existing changes preserved (`main` @ e4ede49).
+
+**Scope respected:**
+- No frontend redesign — existing Vite + React app used as-is
+- No new dependencies added
+- No secrets or production URLs hardcoded
+- Backend CORS config not modified (sub-deliverable 1 already done)
+- Clerk dashboard not configured (sub-deliverable 8)
+
+---
+
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 6): Backend smoke testing
+
+**Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
+
+**Task:** Implement backend smoke-testing capability for the deployed Render Web Service. Do not deploy; do not run live integration tests against hosted services (free-tier limitations).
+
+**Root causes (established before changing):**
+1. No smoke-test script existed for verifying a deployed backend's health endpoints.
+2. No dedicated unit tests existed for `/live` and `/ready` (only indirect coverage via CORS preflight test and schema-level test).
+3. No documented smoke-test procedure existed for deployment-time verification.
+
+**Changes:**
+- `scripts/smoke_test_backend.py` (new): stdlib-only (urllib) smoke-test script. Takes `--base-url` or `SMOKE_TEST_BASE_URL` env var. Performs non-mutating GET checks on `/live` (HTTP 200 + `status: "alive"`) and `/ready` (HTTP 200; logs checks dict, does not fail on `not_ready` since external deps may not be provisioned). Validates status codes and response structure; logs scheme+host only (never secrets/query params); reasonable timeouts (default 10s); exits 0 on pass, 1 on failure, 2 on missing URL.
+- `tests/unit/test_backend.py`: 6 new tests in `TestHealthEndpoints` — `/live` returns 200 + status=alive, `/live` response structure, `/ready` returns 200, `/ready` configured when env vars set, `/ready` not_configured when unset/CHANGE_ME, both endpoints require no auth.
+- No changes to health router, middleware, config, inference, database, storage, CORS, or startup behavior.
+
+**Verification (actual):**
+- `pytest tests/unit/test_backend.py -k TestHealthEndpoints`: **6 passed** (6 new).
+- `pytest tests/unit/test_backend.py -k TestSettings`: **12 passed** (9 existing + 3 R2/Neon — no regressions).
+- Smoke test script: syntax verified (`python -m py_compile scripts/smoke_test_backend.py`).
+- render.yaml: parses as valid YAML; `healthCheckPath: /live` unchanged; build/start commands unchanged.
+- Live deployment smoke testing NOT performed (deployment-time; free-tier limitations per AGENTS.md).
+- Git: nothing staged or committed; all pre-existing changes preserved (`main` @ e4ede49).
+
+**Model integrity:** model architecture, weights, preprocessing, and inference algorithms not changed.
+
+---
+
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 5): Cloudflare R2 configuration
+
+**Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
+
+**Task:** Configure the existing FastAPI backend for Cloudflare R2 object storage (private bucket + Object Read & Write token). Do not deploy; do not create R2 resources; do not run live integration tests against R2 (free-tier limitations).
+
+**Root causes (established before changing):**
+1. `config.py` had `r2_endpoint` and `r2_bucket_name` as required fields but no validation of URL format or non-empty bucket name — a malformed endpoint would only fail at the first storage operation.
+2. No documentation existed for R2 bucket creation, API token setup, or endpoint format.
+3. `render.yaml` and `.env.example` declared R2 vars but without setup guidance.
+
+**Changes:**
+- `src/crack_detection/backend/config.py`: Added `r2_endpoint` field validator `_validate_r2_endpoint` (must be HTTPS URL) and `r2_bucket_name` field validator `_validate_r2_bucket_name` (must be non-empty).
+- `tests/unit/test_backend.py`: 3 new tests in `TestSettings` — R2 endpoint without https:// raises error, R2 endpoint with https:// accepted, empty R2 bucket name raises error.
+- `render.yaml`: Comments added documenting R2 bucket creation, API token setup (Object Read & Write), and endpoint format; R2 vars declared `sync: false`.
+- `.env.example`: R2 section updated with setup instructions; placeholders only, no real credentials.
+- No changes to `storage.py` — existing `R2Storage` class already works with validated settings.
+- No `requirements.txt` changes — `boto3` already declared.
+
+**R2 configuration decision:**
+The bucket must remain private. Objects are accessed server-side only through `R2Storage`; the backend enforces ownership checks on all read/write operations. No public access or presigned URLs for inspection files. Credentials supplied via Render environment secrets (`sync: false`).
+
+**Verification (actual):**
+- `pytest tests/unit/test_backend.py -k TestSettings`: **12 passed** (9 existing + 3 new).
+- Config validator verified: R2 endpoint without https:// → ValueError; R2 endpoint with https:// → accepted; empty bucket name → ValueError.
+- render.yaml: parses as valid YAML; R2 vars declared `sync: false`.
+- Live R2 connectivity NOT performed (credentials unconfigured; free-tier limitations).
+- Git: nothing staged or committed; all pre-existing changes preserved (`main` @ e4ede49).
+
+**Model integrity:** model architecture, weights, preprocessing, and inference algorithms not changed.
+
+---
+
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 4): Neon PostgreSQL configuration
+
+**Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
+
+**Task:** Configure the existing FastAPI backend for Neon PostgreSQL using `DATABASE_URL` with `sslmode=require`. Do not deploy; do not create Neon resources; do not run live integration tests against Neon (free-tier limitations).
+
+**Root causes (established before changing):**
+1. `config.py` had `database_url` as a required field but no validation that `sslmode=require` is present — Neon requires TLS for all client connections and rejects plaintext connections.
+2. No documentation existed for Neon pooled vs direct endpoint selection.
+3. `render.yaml` and `.env.example` declared `DATABASE_URL` but without guidance on Neon endpoint selection.
+
+**Changes:**
+- `src/crack_detection/backend/config.py`: Added `database_url` field validator `_validate_database_url_sslmode` that fails fast if `DATABASE_URL` does not include `sslmode=require`.
+- `tests/unit/test_backend.py`: 3 new tests in `TestSettings` — missing DATABASE_URL raises validation error, DATABASE_URL without sslmode=require raises validation error, DATABASE_URL with sslmode=require is accepted.
+- `render.yaml`: Comments added documenting DATABASE_URL sslmode=require requirement and Neon pooled vs direct endpoint recommendation.
+- `.env.example`: Comments added with Neon pooled vs direct guidance; DATABASE_URL already includes sslmode=require.
+- No changes to `database.py` — `psycopg2.connect(settings.database_url)` works with both Neon direct and pooled connection strings.
+
+**Neon endpoint decision (pooled recommended):**
+The application opens short-lived per-operation connections and closes them immediately (`get_db_connection` in database.py). It uses no prepared statements, LISTEN/NOTIFY, advisory locks, or temporary tables — all incompatible with PgBouncer transaction mode. This connection lifecycle is the textbook use case for Neon's pooled endpoint, which multiplexes many short-lived connections efficiently and avoids exhausting direct connection limits. Direct endpoint also works if a specific feature requires it.
+
+**Verification (actual):**
+- `pytest tests/unit/test_backend.py -k TestSettings`: **9 passed** (6 existing + 3 new).
+- Config validator verified: missing DATABASE_URL → ValueError; missing sslmode=require → ValueError; with sslmode=require → accepted.
+- render.yaml: parses as valid YAML; DATABASE_URL declared `sync: false`.
+- Live Neon connectivity NOT performed (credentials unconfigured; free-tier limitations per AGENTS.md).
+- Git: nothing staged or committed; all pre-existing changes preserved (`main` @ e4ede49).
+
+**Model integrity:** model architecture, weights, preprocessing, and inference algorithms not changed.
+
+---
+
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 3): Backend deployment configuration
+
+**Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
+
+**Task:** Prepare the existing FastAPI backend for deployment as a Render Web Service using Python 3.12.x, CPU-only PyTorch, the existing checkpoint downloader, and the existing `/live` health endpoint. Do not deploy; do not configure Neon, R2, Clerk, or the frontend.
+
+**Root causes (established before changing):**
+1. No Render configuration existed (no render.yaml, .python-version, or pyproject.toml).
+2. The import path `crack_detection.backend.main:app` resolves only with `src` on PYTHONPATH (verified: `ModuleNotFoundError` without it).
+3. All backend settings (config.py) require SECRET_KEY, Clerk, DATABASE_URL, R2 env vars at import — must be supplied at deployment; not part of this sub-deliverable.
+4. Startup tolerates a missing checkpoint (`inference_service._startup_event` catches all exceptions, logs a warning, app still starts; `/live` returns 200 regardless). Documented limitation for sub-deliverable 6 smoke testing.
+
+**Changes:**
+- `.python-version` (new): `3.12.5` — Render Python runtime pin; matches local CPython 3.12.5.
+- `render.yaml` (new): backend-only Web Service blueprint.
+  - `type: web`, `env: python`, `rootDir: .`
+  - `buildCommand: pip install torch==2.6.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt && python scripts/download_checkpoint.py`
+    - Step 1 installs CPU-only PyTorch 2.6.0+cpu explicitly from the official PyTorch CPU index (`2.6.0+cpu` exists only there — never on PyPI — so pip cannot resolve a CUDA or other PyPI distribution; no `--extra-index-url` resolver ambiguity for other packages).
+    - Step 2 installs remaining requirements from PyPI (torch already satisfied; torchvision etc. from PyPI = CPU-only).
+    - Step 3 runs the existing `scripts/download_checkpoint.py` (sub-deliverable 2) to fetch the checkpoint from private R2 via `MODEL_CHECKPOINT_URL`; build fails if the checkpoint cannot be downloaded or verified; downloader logs scheme+host only (never the URL/query/credentials).
+  - `startCommand: uvicorn crack_detection.backend.main:app --host 0.0.0.0 --port $PORT` (`PYTHONPATH=src` declared as an env var so `crack_detection.backend.main:app` imports — verified).
+  - `healthCheckPath: /live` (`/live` and `/ready` routes present in `routers/health.py`).
+  - Secret env vars declared with `sync: false` (MODEL_CHECKPOINT_URL, MODEL_CHECKPOINT_SHA256, SECRET_KEY, DATABASE_URL, Clerk vars, R2 vars, ALLOWED_ORIGINS); values supplied via the Render dashboard, never in the file.
+  - Non-secret vars: PYTHONPATH=src, DEBUG=false, INFERENCE_CHECKPOINT_PATH=<verified path>.
+- No changes to requirements.txt (torch range `torch>=2.3.0,<2.7.0` kept; exact CPU build pinned in the build command).
+- No changes to model, checkpoint, preprocessing, inference, CORS, or startup behavior.
+
+**Verification (actual):**
+- `pytest tests/unit/test_download_checkpoint.py`: **19 passed**.
+- `pytest tests/unit/test_inference.py tests/unit/test_download_checkpoint.py`: **36 passed** (checkpoint loads read-only, architecture-compatible).
+- `tests/unit/test_backend.py`: **collected but skipped** — pre-existing condition (backend deps fastapi/uvicorn not installed locally per AGENTS.md). Not a regression.
+- render.yaml: parses as valid YAML; type=web, env=python, rootDir=., correct build/start/health-check commands; PYTHONPATH=src; secrets sync:false.
+- .python-version: `3.12.5`.
+- Local torch: `2.6.0+cpu`, CUDA unavailable — matches pinned CPU build.
+- `/live` route present in `routers/health.py` (verified by direct module load).
+- Import path `crack_detection.backend.main:app` valid with PYTHONPATH=src (verified).
+- Live R2 download NOT performed (credentials unconfigured); live deployment NOT performed.
+- Git: nothing staged or committed; all pre-existing changes preserved (`main` @ e4ede49).
+
+**Model integrity:** model architecture, weights, preprocessing, and inference algorithms not changed.
+
+---
+
+# 2026-11-08 -- Milestone 12 (deployment sub-deliverable 1): Environment-driven CORS + preflight handling
+
+**Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
+
+**Task:** Implement environment-driven CORS configuration and correct OPTIONS preflight handling identified as deployment blockers by the 2026-11-08 deployment-readiness audit.
+
+**Root causes (established before changing anything):**
+1. Production CORS was deny-all: allow_origins=["*"] if settings.debug else [] (main.py), with no env var for allowed origins.
+2. Middleware ordering: ClerkAuthMiddleware was outermost (add_middleware inserts at index 0; verified on installed Starlette 0.46.2), so OPTIONS preflights were rejected with 401 before CORS could run, and authentication 401s carried no Access-Control-Allow-Origin header.
+3. Latent masking bug found during testing: main.py instantiated settings at module import, so create_app() used a stale snapshot and ignored later environment changes.
+
+**Changes:**
+- src/crack_detection/backend/config.py: ALLOWED_ORIGINS field (comma-separated, trimmed, trailing slashes removed, de-duplicated, wildcard entries stripped), Settings.cors_allowed_origins property (explicit config wins; DEBUG=true unset -> localhost Vite origins; DEBUG=false unset -> fail-closed [], never a wildcard).
+- src/crack_detection/backend/main.py: CORS uses settings.cors_allowed_origins; ClerkAuthMiddleware registered before CORSMiddleware so CORS is outermost; create_app() calls get_settings() itself; module-level settings snapshot removed.
+- .env.example: ALLOWED_ORIGINS section with format, production example, dev/prod fallback semantics.
+- tests/unit/test_backend.py: TestCorsAndPreflight, 13 tests through the real middleware stack (fresh create_app() per test under per-test env; env set before importing main because routers/auth.py builds Settings at module import; cache cleared before/after).
+
+**Verification (actual):**
+- pytest tests/unit/test_backend.py -k TestCorsAndPreflight: 13 passed.
+- Full tests/unit/test_backend.py: 213 passed, 0 errors (was 200).
+- Git: nothing staged or committed; all pre-existing changes preserved (main @ e4ede49).
+
+---
+
+# 2026-11-09 -- Milestone 12 (deployment sub-deliverable 2): Model checkpoint availability on Render
+
+**Branch/HEAD at completion:** main @ e4ede49 (working-directory changes only, not staged/committed)
+
+**Task:** Make the existing U-Net ResNet-34 checkpoint available to the deployed FastAPI backend through a secure build-time download from Cloudflare R2 using a pre-signed URL. Checkpoint must remain unchanged and never committed to Git.
+
+**Root causes (established before changing):**
+1. No mechanism existed to supply the trained checkpoint to a Render Web Service build; the checkpoint is gitignored (`*.pth`) and must be fetched at build time.
+2. The inference pipeline loads `INFERENCE_CHECKPOINT_PATH` (default `model_artifacts/m3_crack_seg_baseline_b1_20261026_201725/best_model.pth`) at startup via `inference_service.py`; a missing checkpoint fails fast with `FileNotFoundError`.
+
+**Changes:**
+- `scripts/download_checkpoint.py` (new): stdlib-only (urllib) build-time downloader. Reads `MODEL_CHECKPOINT_URL` (required), `MODEL_CHECKPOINT_SHA256` (optional), `INFERENCE_CHECKPOINT_PATH` (optional, defaults to the inference checkpoint path). Streams in 1 MiB chunks to a temp file in the destination directory, verifies completion (nonempty + Content-Length match when advertised) and optional streaming SHA-256, then atomically promotes via `os.replace`. Skips when a valid checkpoint exists unless `--force`. Logs scheme+host only — never the URL, query string, tokens, or credentials. Returns exit code 2 for missing URL, 1 for download failure, 0 on success.
+- `.env.example`: documents `MODEL_CHECKPOINT_URL`, `MODEL_CHECKPOINT_SHA256`, `INFERENCE_CHECKPOINT_PATH` with `CHANGE_ME` placeholders only (no real values).
+- `tests/unit/test_download_checkpoint.py` (new): 19 tests covering successful download, chunked streaming, missing destination dir, empty download, HTTP errors, network failures, interrupted download leaves no partial checkpoint, temp-file cleanup, existing-checkpoint reuse, force mode, SHA-256 pass/fail, URL never exposed in logs, plus `main()` exit codes.
+- `ROADMAP.md`: sub-deliverable 2 marked COMPLETE with evidence.
+
+**Verification (actual):**
+- `pytest tests/unit/test_download_checkpoint.py`: **19 passed**.
+- `pytest tests/unit/test_inference.py tests/unit/test_download_checkpoint.py`: **36 passed** (inference tests load the real checkpoint read-only; confirms it still loads and is architecture-compatible).
+- `tests/unit/test_backend.py`: **213 collected but skipped** — pre-existing environment condition (backend deps fastapi/uvicorn not installed locally per AGENTS.md preservation rules). Not a regression.
+- Live R2 download NOT performed (credentials unconfigured); mocked tests only.
+- Git: nothing staged or committed; all pre-existing changes preserved (`main` @ e4ede49).
+
+---
+
 # TASK HISTORY — Completion Records
 
 ## 2026-11-08 — Milestone 11: Database integration-suite repair (`tests/unit/test_database_integration.py`)

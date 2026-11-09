@@ -1,0 +1,123 @@
+# Render Blueprint — CrackSight AI backend (Milestone 12, sub-deliverable 3).
+#
+# Defines ONLY the backend Web Service. No frontend, database, or storage
+# services are declared here (those are separate sub-deliverables).
+#
+# The Python runtime version is pinned in .python-version (3.12.5).
+# Do not declare PYTHON_VERSION here to avoid a conflicting declaration.
+#
+# Secret environment variables are declared with `sync: false`: their values
+# are NOT stored in this file and MUST be supplied through the Render
+# dashboard (Environment > Environment Variables) as secrets.
+#
+# The pre-signed checkpoint URL (MODEL_CHECKPOINT_URL) must be entered as a
+# secret and refreshed whenever it expires; it is never logged or committed.
+
+services:
+  - type: web
+    name: cracksight-backend
+    env: python
+    rootDir: .
+    # 1. Install CPU-only PyTorch explicitly from the official PyTorch CPU
+    #    index (verified build: torch 2.6.0+cpu). `2.6.0+cpu` only exists on
+    #    the CPU index (never on PyPI), so pip cannot resolve a CUDA or other
+    #    PyPI distribution for it. No ambiguity, no `--extra-index-url`
+    #    resolver risk for other packages.
+    # 2. Install the remaining application dependencies from requirements.txt
+    #    (torch is already satisfied by step 1; torchvision etc. come from PyPI).
+    # 3. Download the inference checkpoint at build time via the existing
+    #    scripts/download_checkpoint.py (sub-deliverable 2). The build fails
+    #    if the checkpoint cannot be downloaded or verified. The downloader
+    #    logs scheme+host only -- never the URL, query string, or credentials.
+    buildCommand: "pip install torch==2.6.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt && python scripts/download_checkpoint.py"
+    startCommand: "uvicorn crack_detection.backend.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /live
+    env:
+      # Make the `src` package importable by uvicorn (`crack_detection` lives
+      # under src/). Required for `uvicorn crack_detection.backend.main:app`.
+      - key: PYTHONPATH
+        value: src
+      # ------------------------------------------------------------------
+      # Build-time (sub-deliverable 2): model checkpoint download.
+      # ------------------------------------------------------------------
+      # Pre-signed R2 download URL for the trained checkpoint. REQUIRED to
+      # build. Set as a secret in the Render dashboard; expires and must be
+      # refreshed for future builds. Never committed or logged.
+      - key: MODEL_CHECKPOINT_URL
+        sync: false
+      # Optional SHA-256 digest of the checkpoint; build verifies and fails on
+      # mismatch. Set as a secret in the Render dashboard when available.
+      - key: MODEL_CHECKPOINT_SHA256
+        sync: false
+      # Destination path for the downloaded checkpoint. Matches the inference
+      # pipeline's INFERENCE_CHECKPOINT_PATH default.
+      - key: INFERENCE_CHECKPOINT_PATH
+        value: model_artifacts/m3_crack_seg_baseline_b1_20261026_201725/best_model.pth
+      # ------------------------------------------------------------------
+      # Runtime secrets — supplied via the Render dashboard. The backend
+      # settings (config.py) require all of these to start.
+      #
+      # DATABASE_URL must be the full Neon PostgreSQL connection string and
+      # MUST include sslmode=require (e.g.
+      # postgresql://user:pass@host.neon.tech/dbname?sslmode=require). The
+      # application validates this at startup and fails fast if missing.
+      #
+      # Neon pooled vs direct endpoint: the application opens short-lived
+      # connections per operation and closes them immediately
+      # (get_db_connection in database.py). It uses no prepared statements,
+      # LISTEN/NOTIFY, advisory locks, or temporary tables. This connection
+      # lifecycle is the textbook use case for Neon's pooled endpoint
+      # (PgBouncer transaction mode), which multiplexes many short-lived
+      # connections efficiently and avoids exhausting direct connection
+      # limits. Either endpoint works with psycopg2; the pooled endpoint is
+      # recommended for this workload. Use the direct endpoint only if a
+      # specific feature requires it.
+      # ------------------------------------------------------------------
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_JWT_ISSUER
+        sync: false
+      - key: CLERK_JWKS_URL
+        sync: false
+      # ------------------------------------------------------------------
+      # Object storage — Cloudflare R2 (sub-deliverable 5).
+      #
+      # These must be supplied as secrets in the Render dashboard. The bucket
+      # must remain private; the application accesses objects server-side only
+      # and enforces ownership checks on all read/write operations.
+      #
+      # Setup steps (Cloudflare dashboard):
+      # 1. Create an R2 bucket (e.g. "cracksight-storage") — keep it private.
+      # 2. Create an R2 API token with "Object Read & Write" permissions,
+      #    scoped to this bucket where possible.
+      # 3. Enter the values below as Render environment secrets:
+      #    - R2_ACCOUNT_ID: your Cloudflare account ID
+      #    - R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY: from the API token
+      #    - R2_BUCKET_NAME: the bucket you created
+      #    - R2_ENDPOINT: https://<account_id>.r2.cloudflarestorage.com
+      # ------------------------------------------------------------------
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        sync: false
+      - key: R2_ENDPOINT
+        sync: false
+      # ------------------------------------------------------------------
+      # Runtime configuration (non-secret).
+      # ------------------------------------------------------------------
+      - key: DEBUG
+        value: "false"
+      # CORS allowed origins. Must contain the deployed frontend origin in
+      # production; unset = fail-closed (no cross-origin access).
+      - key: ALLOWED_ORIGINS
+        sync: false
